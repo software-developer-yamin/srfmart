@@ -1,26 +1,26 @@
 installation:
   version: 6.6.0
   installDate: 2026-05-11T17:44:05.851Z
-  lastUpdated: 2026-05-11T18:33:18.638Z
+  lastUpdated: 2026-05-11T18:34:56.286Z
 modules:
   - name: core
     version: 6.6.0
     installDate: 2026-05-11T17:44:03.340Z
-    lastUpdated: 2026-05-11T18:33:18.479Z
+    lastUpdated: 2026-05-11T18:34:56.113Z
     source: built-in
     npmPackage: null
     repoUrl: null
   - name: bmm
     version: 6.6.0
     installDate: 2026-05-11T17:44:03.332Z
-    lastUpdated: 2026-05-11T18:33:18.480Z
+    lastUpdated: 2026-05-11T18:34:56.113Z
     source: built-in
     npmPackage: null
     repoUrl: null
   - name: tea
     version: main
     installDate: 2026-05-11T17:44:03.535Z
-    lastUpdated: 2026-05-11T18:33:18.533Z
+    lastUpdated: 2026-05-11T18:34:56.168Z
     source: external
     npmPackage: bmad-method-test-architecture-enterprise
     repoUrl: https://github.com/bmad-code-org/bmad-method-test-architecture-enterprise
@@ -29,7 +29,7 @@ modules:
   - name: wds
     version: main
     installDate: 2026-05-11T17:44:03.586Z
-    lastUpdated: 2026-05-11T18:33:18.638Z
+    lastUpdated: 2026-05-11T18:34:56.286Z
     source: community
     npmPackage: bmad-method-wds-expansion
     repoUrl: https://github.com/bmad-code-org/bmad-method-wds-expansion
