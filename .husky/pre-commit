@@ -1,7 +1,5 @@
-pnpm test
-
-# ultracite
 #!/bin/sh
+# ultracite
 # Exit on any error
 set -e
 
