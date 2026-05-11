@@ -106,7 +106,7 @@ Srfmart uniquely defends against reward platform fraud through a strict referral
 
 ### Journey 2: Kamal attempts an unauthorized transfer (Primary User - Edge Case / Security)
 - **Opening Scene**: Kamal’s friend, Jamal, asks to borrow 100 points. Kamal agrees and opens the Srfmart app to transfer the points.
-- **Rising Action**: Kamal navigates to the "Transfer" section. He tries to search for Jamal's username or phone number but gets no results.
+- **Rising Action**: Kamal navigates to the "Transfer" section. He tries to search for Jamal's username or email address but gets no results.
 - **Climax**: He reads a system tooltip explaining that points can only be transferred upward to his referring Moderator or Admin. The system strictly blocks Peer-to-Peer (P2P) transfers.
 - **Resolution**: Kamal cannot send the points to Jamal. While slightly inconvenient for Kamal, this architectural constraint successfully prevents a potential point-laundering scenario, preserving the system's economic integrity.
 
@@ -129,7 +129,7 @@ Srfmart uniquely defends against reward platform fraud through a strict referral
 ### Compliance & Regulatory
 - **Bangladesh Bank Guidelines**: The system must operate within the legal frameworks governing digital rewards and MFS transactions in Bangladesh, avoiding classification as an unlicensed banking entity.
 - **AML/CFT Monitoring**: Anti-Money Laundering (AML) heuristics must be applied to withdrawal requests, flagging high-velocity or unusually large point movements.
-- **Data Privacy & Residency**: User data (especially phone numbers and transaction histories) must comply with local data protection regulations, ideally storing data on domestic or compliant cloud infrastructure.
+- **Data Privacy & Residency**: User data (especially email addresses and transaction histories) must comply with local data protection regulations, ideally storing data on domestic or compliant cloud infrastructure.
 
 ### Technical Architecture & Novel Patterns
 - **Trust-Graph Topology Enforcement**: While most reward platforms suffer from Sybil attacks due to open registration, Srfmart prevents them by mirroring real-world community trust hierarchies (Admin -> Moderator -> User). You have to be explicitly vouched for to participate.
@@ -141,15 +141,15 @@ Srfmart uniquely defends against reward platform fraud through a strict referral
 - **Frontend Framework**: Srfmart operates as a mobile-first web application using Next.js. It utilizes Server Components for optimized initial load speeds and secure data fetching.
 - **State & Caching**: Aggressive caching of read models (balances/history) via tools like React Query, with strict invalidation hooks tied to write operations.
 - **Webhook Reliability (Phase 2)**: Implementation of a robust, queue-based webhook receiver to handle asynchronous status updates from MFS (bKash/Nagad) APIs, ensuring no payment status events are dropped during traffic spikes.
-- **Authentication**: Gated authentication flow requiring cryptographically signed referral links or OTPs, utilizing device fingerprinting to detect Sybil attacks.
+- **Authentication**: Gated authentication flow requiring cryptographically signed referral links or email OTPs, utilizing device fingerprinting to detect Sybil attacks.
 
 ## Functional Requirements
 
 ### Authentication & User Management
-- FR1: Users can register an account using a valid phone number, OTP validation, and a mandatory referral code.
+- FR1: Users can register an account using a valid email address, email OTP validation, and a mandatory referral code.
 - FR2: System strictly blocks any registration attempt that lacks a valid referral code.
 - FR3: Moderators can generate and distribute unique referral codes to invite new users.
-- FR4: Admins can search for any user in the system using their phone number.
+- FR4: Admins can search for any user in the system using their email address.
 - FR5: Admins can assign or revoke the "Moderator" role for any existing user.
 
 ### Point Ledger & Transfers
@@ -157,7 +157,7 @@ Srfmart uniquely defends against reward platform fraud through a strict referral
 - FR7: Users can transfer points upwards to a designated Admin or Moderator.
 - FR8: System automatically blocks any peer-to-peer point transfer attempts between standard Users.
 - FR9: Admins can mint (create) new points into the administrative wallet pool.
-- FR10: Admins and Moderators can view a ledger history of all points received, explicitly showing the sender's phone number.
+- FR10: Admins and Moderators can view a ledger history of all points received, explicitly showing the sender's email address.
 
 ### Global Point Distribution
 - FR11: Admins can execute a "Global Distribution" action to divide a specific amount of points equally among all active users.
@@ -172,7 +172,7 @@ Srfmart uniquely defends against reward platform fraud through a strict referral
 
 ### Security & System Integrity
 - FR18: System validates unique idempotency keys on all point transfers and withdrawals to absolutely prevent double-spending during network retries.
-- FR19: System securely validates OTPs on the server-side to prevent client-side bypass attacks.
+- FR19: System securely validates email OTPs on the server-side to prevent client-side bypass attacks.
 - FR20: System captures device fingerprints during authentication to detect and flag Sybil attacks (one user managing multiple accounts).
 
 ## Non-Functional Requirements
@@ -180,7 +180,7 @@ Srfmart uniquely defends against reward platform fraud through a strict referral
 ### Security & Data Integrity
 - **NFR-SEC-1 (ACID Compliance)**: All point-altering operations (minting, transferring, withdrawing) must be executed as atomic database transactions. The system must guarantee zero point-duplication under concurrent request load (race conditions).
 - **NFR-SEC-2 (Idempotency)**: The system must reject duplicate transaction requests containing the same idempotency key within a 24-hour window.
-- **NFR-SEC-3 (OTP Security)**: Authentication OTPs must expire exactly 5 minutes after generation and enforce a hard lockout (15-minute cooldown) after 3 consecutive failed attempts.
+- **NFR-SEC-3 (OTP Security)**: Authentication email OTPs must expire exactly 5 minutes after generation and enforce a hard lockout (15-minute cooldown) after 3 consecutive failed attempts.
 - **NFR-SEC-4 (Encryption)**: All client-to-server and server-to-server communication must be encrypted using TLS 1.3 or higher.
 
 ### Performance
