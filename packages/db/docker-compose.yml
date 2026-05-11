@@ -1,0 +1,23 @@
+name: srfmart
+
+services:
+  mongodb:
+    image: mongo
+    container_name: srfmart-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: srfmart
+    ports:
+      - "27017:27017"
+    volumes:
+      - srfmart_mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  srfmart_mongodb_data:

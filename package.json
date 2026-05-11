@@ -1,0 +1,38 @@
+{
+  "name": "srfmart",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "dev:web": "turbo -F web dev",
+    "dev:server": "turbo -F server dev",
+    "db:start": "turbo -F @srfmart/db db:start",
+    "db:watch": "turbo -F @srfmart/db db:watch",
+    "db:stop": "turbo -F @srfmart/db db:stop",
+    "db:down": "turbo -F @srfmart/db db:down",
+    "check": "ultracite check",
+    "fix": "ultracite fix",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "@srfmart/env": "workspace:*",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.15",
+    "@srfmart/config": "workspace:*",
+    "@types/node": "^22.13.14",
+    "husky": "latest",
+    "turbo": "^2.8.12",
+    "typescript": "catalog:",
+    "ultracite": "7.7.0"
+  },
+  "packageManager": "pnpm@10.9.0"
+}

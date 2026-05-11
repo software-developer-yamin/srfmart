@@ -1,0 +1,24 @@
+{
+  "name": "@srfmart/auth",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "scripts": {},
+  "dependencies": {
+    "@srfmart/db": "workspace:*",
+    "@srfmart/env": "workspace:*",
+    "better-auth": "catalog:",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@srfmart/config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}
