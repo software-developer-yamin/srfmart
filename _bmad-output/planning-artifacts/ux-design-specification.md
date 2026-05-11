@@ -1,5 +1,6 @@
 ---
-stepsCompleted: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+stepsCompleted: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+lastStep: 14
 inputDocuments:
   - _bmad-output/planning-artifacts/prd.md
   - _bmad-output/planning-artifacts/product-brief-srfmart.md
@@ -385,3 +386,79 @@ While Shadcn provides the primitives, the unique financial constraints of Srfmar
 **Phase 3 - Admin Oversight (Sprint 3):**
 - Implement Shadcn Data Tables with filtering logic.
 - Build the Escrow Status Indicators and async approval buttons.
+
+## UX Consistency Patterns
+
+### Button Hierarchy
+
+To prevent accidental taps and reduce cognitive load, we will enforce a strict button hierarchy across the platform:
+
+- **Primary Actions (e.g., "Transfer", "Next"):** Use the primary brand color (Trust Slate). On mobile, these must be full-width, fixed to the bottom of the viewport (above the keyboard) to ensure they are easily reachable with a thumb.
+- **Secondary Actions (e.g., "Cancel", "View History"):** Use outline or ghost variants. They should never compete visually with the primary financial action on the screen.
+- **Destructive Actions (e.g., "Ban User", "Reject Transfer"):** Use the semantic Alert Red. Destructive actions *must* require a secondary confirmation step (Dialog or PIN).
+
+### Feedback Patterns
+
+Financial applications cannot afford ambiguous feedback. 
+
+- **Macro-Success:** Any movement of points (Transfer, Withdrawal) results in a full-screen, dedicated "Receipt" page with a clear timestamp, Transaction ID, and a green success checkmark.
+- **Micro-Success:** Non-financial updates (e.g., "Profile Updated") use subtle, auto-dismissing Toast notifications.
+- **Error States:** Errors should be caught *inline* before submission (e.g., turning the amount input text red if it exceeds the balance). If a PIN fails, the bottom sheet should perform a subtle horizontal "shake" animation and clear the input field.
+
+### Form Patterns
+
+Forms in Srfmart are highly constrained to prevent user error:
+
+- **Numeric Superiority:** Whenever an amount is required, the system must trigger the native numeric keypad (`inputmode="decimal"`), never the full QWERTY keyboard.
+- **Pre-Validation:** The primary "Submit/Next" button remains in a visually disabled state until all inputs satisfy basic validation (e.g., Amount > 0 and Amount <= Available Balance).
+- **Locked Inputs:** For routing points, we explicitly *do not* use standard text inputs. We use the custom "Locked Recipient Card" pattern defined earlier to visually enforce that routing cannot be altered.
+
+### Navigation Patterns
+
+- **Mobile (Standard Users):** A standard Native-style Bottom Navigation Bar consisting of exactly three destinations: `Home` (Dashboard), `Ledger` (History), and `Profile` (Settings).
+- **Desktop (Admins/Moderators):** A collapsible Left Sidebar. This provides the horizontal space necessary for the massive data tables required for ledger auditing.
+
+### Loading & Pending States
+
+- **Skeletons over Spinners:** During initial page loads, use Skeleton UI components that mimic the shape of the data cards rather than generic spinning circles, reducing perceived load times.
+- **The Escrow Rule:** When points are pending Admin approval for withdrawal, they must not disappear. They are moved to a distinct "Escrow" visual state on the dashboard (Amber badge, locked icon) so the user knows the system is processing their request.
+
+## Responsive Design & Accessibility
+
+### Responsive Strategy
+
+Srfmart employs a **Role-Driven Responsive Strategy** rather than a purely screen-size-driven one:
+
+- **Mobile-First for End Users:** Standard Users and Agents will interact with the platform almost exclusively via smartphones (often low-to-mid-tier Android devices). Their interfaces prioritize large touch targets, vertical scrolling, and bottom-anchored primary actions.
+- **Desktop-First for Admins/Moderators:** The "Executive Desktop" view assumes a minimum of a tablet landscape or laptop screen. It utilizes multi-column layouts, persistent sidebars, and high-density data tables that would be impossible to navigate on mobile.
+
+### Breakpoint Strategy
+
+We will utilize Tailwind CSS's default breakpoints, but with strict rules on component rendering:
+
+- **Mobile (`< 768px`):** The default view. Emphasizes the "Upward Transfer" flow. Complex data tables are hidden or collapsed into summary cards.
+- **Tablet (`md: 768px - 1023px`):** Transition zone. Bottom navigation swaps to a collapsed side navigation.
+- **Desktop (`lg: 1024px+`):** Full "Executive Desktop" view active. Data tables expand to full width with all columns visible.
+
+### Accessibility Strategy
+
+Given the financial nature of the application, we target **WCAG 2.1 Level AA** compliance to ensure no user is blocked from accessing their funds.
+
+**Key Accessibility Priorities:**
+1. **Touch Targets:** All interactive elements on mobile (especially the Secure Numeric Keypad) must have a minimum touch target size of 48x48px.
+2. **Color Contrast:** The "Trust Slate" brand color ensures high contrast (exceeding 4.5:1) against white backgrounds for all critical text and buttons. Alert colors (Red, Amber) will be paired with explicit icons, never relying on color alone to convey meaning.
+3. **Screen Reader Context:** Custom components must announce their state clearly. 
+   - The *Tap-to-Reveal Balance* must announce "Balance Hidden, double tap to reveal" and subsequently read the actual amount when revealed.
+   - The *Locked Recipient Card* must announce "Transferring points to [Name], [Role]. This cannot be changed."
+
+### Testing Strategy
+
+- **Device Emulation:** Heavy testing on lower-end Android device metrics (e.g., Moto G4 viewport sizes) to ensure performance and layout integrity without UI clipping.
+- **Accessibility Auditing:** Use tools like Lighthouse and Axe during development to catch missing ARIA labels and contrast failures.
+- **Keyboard Navigation:** The Admin Desktop view must be fully navigable via keyboard (`Tab`, `Enter`, `Space`) for rapid moderation workflows.
+
+### Implementation Guidelines
+
+- **Native Keyboards:** Always trigger the native numeric keypad (`inputmode="decimal"`) for amount inputs on mobile.
+- **Avoid Complex Gestures:** Do not use "swipe-to-delete" or "swipe-to-transfer" gestures. They are prone to accidental triggering and are undiscoverable for many users. Use explicit, visible button taps for all actions.
+- **Relative Sizing:** Use `rem` for typography to respect the user's OS-level text size preferences.
