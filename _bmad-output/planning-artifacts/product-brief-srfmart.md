@@ -19,7 +19,7 @@ Srfmart is a **referral-only, point-based digital wallet platform** built for th
 
 The core insight is simple: **trust scales through personal networks, not marketing campaigns.** By requiring a referral to join, Srfmart builds a verified, accountable user base from day one — eliminating the fake-account plague that cripples open-registration reward platforms. Every user traces back to a real person, creating a self-policing community where fraud is socially costly.
 
-This is not another MFS competitor. Srfmart operates *on top of* existing MFS rails (bKash/Nagad/Rocket for withdrawals), focusing exclusively on the points economy layer: distribution, accumulation, transfer, and withdrawal. The Admin-controlled distribution model with configurable daily caps creates a sustainable, predictable economy — while the referral-only growth model ensures organic, high-quality user acquisition at near-zero cost.
+This is not another MFS competitor. Srfmart operates *on top of* existing MFS rails (bKash/Nagad/Rocket for withdrawals), focusing exclusively on the points economy layer: distribution, accumulation, transfer, and withdrawal. The Admin-controlled distribution model with configurable daily caps creates a sustainable, predictable economy — while the referral-only growth model ensures organic, high-quality user acquisition at near-zero cost. The system is built on a robust MongoDB-based double-entry ledger to ensure ACID compliance and absolute transaction integrity.
 
 ## The Problem
 
@@ -79,7 +79,7 @@ Srfmart provides a complete points economy platform with three interfaces:
 - Withdrawal requests via bKash/Nagad/Rocket (moderator-approved)
 - Admin panel: user search, point flow history, moderator management
 - Moderator panel: withdrawal queue with approve/reject workflow
-- Core security: server-authoritative balances, idempotency keys, rate limiting, device fingerprinting
+- Core security: MongoDB atomic transactions, server-authoritative balances, idempotency keys, rate limiting, and device fingerprinting
 
 **Explicitly Out (v1.0):**
 - Peer-to-peer transfers

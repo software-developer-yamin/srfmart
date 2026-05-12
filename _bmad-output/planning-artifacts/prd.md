@@ -50,7 +50,7 @@ Srfmart uniquely defends against reward platform fraud through a strict referral
 - **Operational Efficiency:** Significantly reduce the administrative overhead required to manage, verify, and process user reward payouts.
 
 ### Technical Success
-- **Ledger Security:** Zero double-spending incidents, achieved through atomic PostgreSQL transactions and strict idempotency keys.
+- **Ledger Security:** Zero double-spending incidents, achieved through atomic MongoDB transactions and strict idempotency keys.
 - **System Resilience:** Platform remains highly responsive for read-heavy dashboard queries (utilizing CQRS) while maintaining absolute write-integrity on the ledger.
 - **Fraud Prevention:** Zero-trust architecture successfully blocks automated bot farms and Sybil attacks via referral-only constraints and device fingerprinting.
 
@@ -64,7 +64,7 @@ Srfmart uniquely defends against reward platform fraud through a strict referral
 
 ### MVP Strategy & Philosophy
 **MVP Approach**: Security & Trust MVP. The primary focus is establishing absolute integrity in the ledger mechanics and enforcing the structural point-flow constraints. We will intentionally accept manual operational overhead (e.g., manual withdrawal processing by Admins) to de-risk technical complexity and prevent automated loss events in Phase 1.
-**Resource Requirements**: A lean, highly-skilled full-stack team capable of writing strict PostgreSQL transactions and implementing a secure Next.js frontend (e.g., 1 Tech Lead/Backend, 1-2 Frontend Engineers).
+**Resource Requirements**: A lean, highly-skilled full-stack team capable of writing strict MongoDB transactions and implementing a secure Next.js frontend (e.g., 1 Tech Lead/Backend, 1-2 Frontend Engineers).
 
 ### MVP Feature Set (Phase 1)
 **Core User Journeys Supported**:
@@ -74,7 +74,7 @@ Srfmart uniquely defends against reward platform fraud through a strict referral
 - Security Edge-Case: Sybil/Double-Spend Blocking
 
 **Must-Have Capabilities**:
-- Atomic PostgreSQL Ledger (Mint, Transfer, Request Withdrawal).
+- Atomic MongoDB Ledger (Mint, Transfer, Request Withdrawal).
 - Strict idempotency key validation on all transaction write paths.
 - Next.js Web Application with distinct, secure routing for Admin, Moderator, and User roles.
 - Moderator-assisted manual registration flow (open signups completely disabled).
@@ -135,7 +135,7 @@ Srfmart uniquely defends against reward platform fraud through a strict referral
 - **Trust-Graph Topology Enforcement**: While most reward platforms suffer from Sybil attacks due to open registration, Srfmart prevents them by mirroring real-world community trust hierarchies (Admin -> Moderator -> User). You have to be explicitly vouched for to participate.
 - **Upward-Only Liquidity Constraints**: By completely disabling peer-to-peer (P2P) transfers, Srfmart eradicates the dark market for point laundering. Points can only be moved upward to trusted nodes for withdrawal, making the theft or farming of points fundamentally useless to attackers.
 - **Event-Driven CQRS**: The architecture separates write operations (point minting, transfers, withdrawals) from read operations (user balance dashboards). This ensures heavy dashboard queries do not lock the transaction ledger, maintaining performance under load.
-- **Atomic Ledger & Idempotency**: Core point transactions are executed using PostgreSQL with strict row-level locking, guaranteeing ACID compliance. Every transaction endpoint requires a unique client-generated idempotency key to completely eliminate double-spending from network retries.
+- **Atomic Ledger & Idempotency**: Core point transactions are executed using MongoDB with multi-document transactions, guaranteeing ACID compliance. Every transaction endpoint requires a unique client-generated idempotency key to completely eliminate double-spending from network retries.
 
 ### Web App Implementation
 - **Frontend Framework**: Srfmart operates as a mobile-first web application using Next.js. It utilizes Server Components for optimized initial load speeds and secure data fetching.

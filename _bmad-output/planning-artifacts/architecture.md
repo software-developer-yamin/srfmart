@@ -30,7 +30,7 @@ _This document builds collaboratively through step-by-step discovery. Sections a
 The system defines a hierarchical digital wallet (Admin -> Moderator -> User) with a primary focus on secure point distribution and managed withdrawals. Key features include upward-only transfers, global point distribution, and a withdrawal queue with an escrow mechanism. Architecturally, this requires a strictly enforced directed graph for transaction routing and a centralized authorization authority.
 
 **Non-Functional Requirements:**
-- **Security**: Must ensure 100% ledger integrity through atomic PostgreSQL transactions and idempotency keys to prevent double-spending or point duplication.
+- **Security**: Must ensure 100% ledger integrity through atomic MongoDB transactions and idempotency keys to prevent double-spending or point duplication.
 - **Performance**: Dashboards must load in < 2s, and point transfers must complete in < 1s.
 - **Scalability**: Must handle 500 concurrent transfers and process global distributions for 10,000 users in under 30 seconds without disrupting system availability.
 
@@ -44,7 +44,7 @@ The project is categorized as **High Complexity** due to its fintech nature, req
 ### Technical Constraints & Dependencies
 
 - **Platform**: Mobile-first Web App (Next.js).
-- **Database**: PostgreSQL with Row-Level Locking/ACID compliance.
+- **Database**: MongoDB with atomic transactions/ACID compliance.
 - **Infrastructure**: Compliance with Bangladesh data residency and financial regulations.
 - **Integrations**: Manual MFS processing (Phase 1) transitioning to automated bKash/Nagad API integrations (Phase 2).
 

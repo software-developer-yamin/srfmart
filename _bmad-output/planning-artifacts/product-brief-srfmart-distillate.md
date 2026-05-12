@@ -29,7 +29,7 @@ purpose: "Token-efficient context for downstream PRD creation"
 
 - Server-authoritative balances — client display is decorative, mismatch triggers auto-flag
 - Idempotency keys on all transaction endpoints — prevent API replay attacks
-- Database row-level locking for point transfers — prevent race condition double-spend
+- Database atomic transactions (MongoDB 4.0+) for point transfers — prevent race condition double-spend
 - Device fingerprinting + IP clustering — detect mass fake account creation
 - 7-day cooling period for new accounts before full feature access
 - Secondary PIN + 48-hour device-change lock — prevent SIM swap OTP hijack
@@ -43,9 +43,9 @@ purpose: "Token-efficient context for downstream PRD creation"
 
 ## Technical Context (from technical research)
 
-- **Recommended stack:** TypeScript/Next.js (API + dashboards), PostgreSQL (ledger with RLS), Redis (distributed locking + caching)
-- **Architecture pattern:** CQRS — separate write-heavy ledger from read-heavy transaction history
-- **Database:** ACID-compliant PostgreSQL for ledger; sharding by user_id for scale
+- **Recommended stack:** TypeScript/Next.js (API + dashboards), MongoDB/Mongoose (ledger with transactions), Redis (distributed locking + caching)
+- **Architecture pattern:** Event-sourced double-entry ledger — separate write-heavy ledger from read-heavy transaction history
+- **Database:** MongoDB with multi-document transactions for ledger integrity; horizontal scaling via sharding
 - **Caching:** Redis for session tokens, distributed locks (Redlock algorithm)
 - **Messaging:** Consider Kafka/RabbitMQ for event-driven notifications
 - **Auth:** OAuth 2.0 + JWT with short-lived tokens; consider FIDO2/WebAuthn for future biometric
