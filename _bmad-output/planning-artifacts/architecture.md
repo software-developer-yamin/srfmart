@@ -104,7 +104,7 @@ The system defines a hierarchical digital wallet (Admin -> Moderator -> User) wi
 **Context**: Users need `role`, `referredBy`, `availableBalance`, and `escrowBalance` fields.
 **Decision**: Extend Better Auth's user model using the `user.additionalFields` config option in `packages/auth/src/index.ts`. Add corresponding fields to the Mongoose schema in `packages/db/src/models/auth.model.ts`. Use Better Auth's `admin` plugin for role management.
 **Implementation**:
-- `packages/auth/src/index.ts`: Add `user.additionalFields` with `role`, `referredBy`, `referralCode`, `availableBalance`, `escrowBalance`.
+- `packages/auth/src/index.ts`: Add `user.additionalFields` with `role`, `referredBy`, `referralCode`, `phoneNumber`, `availableBalance`, `escrowBalance`.
 - `packages/db/src/models/auth.model.ts`: Add matching fields to `userSchema`.
 - `apps/web/src/lib/auth-client.ts`: Add matching client plugins.
 
@@ -115,7 +115,45 @@ The system defines a hierarchical digital wallet (Admin -> Moderator -> User) wi
 
 ---
 
-## Core System Patterns
+## Implementation Patterns & Consistency Rules
+
+### Naming Patterns
+
+- **Database (Mongoose)**: 
+    - **Collections**: Singular, lowercase (e.g., `user`, `transaction`, `withdrawal`).
+    - **Fields**: camelCase (e.g., `availableBalance`, `referredBy`).
+- **API (REST)**:
+    - **Endpoints**: Plural, kebab-case (e.g., `/api/transactions/transfer`, `/api/withdrawals/queue`).
+    - **Parameters**: camelCase (e.g., `senderId`, `amountPoints`).
+- **Code**:
+    - **Components**: PascalCase (e.g., `BalanceCard.tsx`).
+    - **Files**: kebab-case (e.g., `withdrawal-form.tsx`).
+    - **Functions/Variables**: camelCase (e.g., `handleTransfer`, `isLoading`).
+
+### Structure Patterns
+
+- **Frontend (Next.js)**: Feature-based organization within `apps/web/src/app/`. Shared UI components stay in `packages/ui`.
+- **Backend (Express)**: Route-based organization in `apps/server/src/routes/`. Middleware in `apps/server/src/middleware/`.
+- **Database**: All models must live in `packages/db/src/models/` and be exported from the package index.
+
+### Format Patterns
+
+- **API Response Wrapper**:
+    ```json
+    { "success": true, "data": { ... } }
+    { "success": false, "error": { "message": "Description", "code": "ERR_CODE" } }
+    ```
+- **Dates**: ISO 8601 strings for all API and storage communication.
+
+### Communication & Process Patterns
+
+- **State Management**: Use **React Server Components** for fetching; **TanStack Form** for local mutation state.
+- **Error Handling**: Use early returns for validation. Log every API failure via `req.log.error` (evlog).
+- **Loading States**: Use **Shadcn Skeletons** for skeleton screens and **Sonner** for action feedback.
+
+---
+
+## Core System Patterns (Model Details)
 
 ### Database Schema Design
 
@@ -128,6 +166,7 @@ Add to existing `userSchema`:
 role: { type: String, enum: ['user', 'moderator', 'admin'], default: 'user' }
 referredBy: { type: String, ref: 'User', default: null }
 referralCode: { type: String, unique: true, sparse: true }
+phoneNumber: { type: String, unique: true, sparse: true }
 availableBalance: { type: Number, default: 0, min: 0 }
 escrowBalance: { type: Number, default: 0, min: 0 }
 dailyPointLimit: { type: Number, default: null }
@@ -143,7 +182,7 @@ receiverId: String, ref: 'User', required
 amount: Number, required, min: 1
 idempotencyKey: String, unique, sparse
 status: String, enum: ['COMPLETED', 'FAILED'], default: 'COMPLETED'
-metadata: Mixed (optional context)
+metadata: Mixed (optional context, e.g., "spillback_from_distribution")
 createdAt: Date
 ```
 Collection: `transaction`. Index on `[senderId, createdAt]`, `[receiverId, createdAt]`, `[idempotencyKey]` (unique).
@@ -177,9 +216,76 @@ createdAt: Date (TTL index: expires after 86400 seconds)
 ```
 Collection: `idempotencyKey`.
 
+### AD7: Global Distribution Spillback Logic
+
+**Context**: When Admin distributes points globally with a `dailyPointLimit`, some users may reach their limit while points remain.
+**Decision**: The distribution logic in `apps/server/src/routes/transactions.ts` calculates the total points that *can* be distributed. Any remainder from the "Points to Distribute" pool that cannot be allocated due to user limits is automatically returned to the Admin's `availableBalance` via a `BURN` (from pool) and `MINT` (to admin) or a direct `TRANSFER` from a system account.
+**Implementation**: Atomic transaction block handles the loop and final spillback.
+
 ### API & Security Patterns
 
-#### Server Route Structure (`apps/server/src/`)
+---
+
+## Project Structure & Boundaries
+
+### Complete Project Directory Structure
+
+```text
+srfmart/
+├── apps/
+│   ├── server/                 # Express 5 API
+│   │   ├── src/
+│   │   │   ├── index.ts        # Entry point & Route mounting
+│   │   │   ├── routes/         # Feature-based routes
+│   │   │   │   ├── transactions.ts  # Mint, Transfer, Distribute
+│   │   │   │   ├── withdrawals.ts   # Queue, Approve, Reject
+│   │   │   │   └── users.ts         # Profile, Search, Role management
+│   │   │   ├── middleware/
+│   │   │   │   ├── idempotency.ts   # AD4 implementation
+│   │   │   │   └── auth.ts          # Better Auth session check
+│   │   │   └── lib/
+│   │   │       └── require-role.ts  # RBAC middleware
+│   ├── web/                    # Next.js 16 Frontend
+│   │   ├── src/app/
+│   │   │   ├── dashboard/      # User/Mod Wallet view
+│   │   │   ├── admin/          # Admin-only (Distribution, Users)
+│   │   │   ├── moderator/      # Mod-only (Withdrawal Queue)
+│   │   │   └── login/          # Auth entry
+│   │   ├── src/components/
+│   │   │   ├── wallet/         # BalanceCard, TransferForm
+│   │   │   └── admin/          # DistributionForm, UserTable
+├── packages/
+│   ├── db/                     # Mongoose Models & Connection
+│   │   ├── src/models/
+│   │   │   ├── auth.model.ts   # User, Session (Extended)
+│   │   │   ├── transaction.model.ts # AD1 & AD7
+│   │   │   ├── withdrawal.model.ts  # AD3
+│   │   │   └── idempotency.model.ts # AD4
+│   ├── auth/                   # Better Auth Shared Config
+│   ├── ui/                     # Shadcn / Tailwind 4 Components
+│   └── env/                    # Shared Environment Validation
+```
+
+### Architectural Boundaries
+
+**API Boundaries:**
+All point-mutating operations MUST go through `apps/server/src/routes/transactions.ts` to ensure atomic session handling and idempotency.
+
+**Component Boundaries:**
+Frontend components in `apps/web` communicate with the backend via the `auth-client` and standard `fetch` calls. Shared UI components stay in `packages/ui` and are stateless where possible.
+
+**Data Boundaries:**
+`packages/db` is the single source of truth for Mongoose models. Application code must not define ad-hoc schemas for core ledger entities.
+
+### Requirements to Structure Mapping
+
+**Feature/Epic Mapping:**
+- **Point Wallet**: `apps/web/src/components/wallet/`, `packages/db/src/models/transaction.model.ts`
+- **Admin Distribution**: `apps/web/src/app/admin/distribute/`, `apps/server/src/routes/transactions.ts`
+- **Withdrawal Queue**: `apps/web/src/app/moderator/withdrawals/`, `packages/db/src/models/withdrawal.model.ts`
+- **Referral System**: `packages/auth/src/index.ts` (hooks), `apps/web/src/app/login/`
+
+---
 
 ```
 apps/server/src/
@@ -267,7 +373,7 @@ apps/web/src/app/
 
 | Method | Path | Auth | Role | Description |
 |---|---|---|---|---|
-| GET | `/api/users/search` | ✅ | admin | Search users by email |
+| GET | `/api/users/search` | ✅ | admin | Search users by phoneNumber/email |
 | POST | `/api/users/:id/role` | ✅ | admin | Assign/revoke moderator |
 | GET | `/api/users/me/wallet` | ✅ | all | Get own balance info |
 
@@ -305,7 +411,59 @@ export { IdempotencyKey } from './models/idempotency.model'
 
 ---
 
-## Validation & Readiness
+## Architecture Validation Results
+
+### Coherence Validation ✅
+
+**Decision Compatibility:**
+All decisions (AD1-AD7) are technologically compatible. The ledger integrity logic works in concert with the hierarchical topology to ensure a secure, fraud-resistant system.
+
+**Pattern Consistency:**
+Naming and structure patterns are consistent across the monorepo, ensuring AI agents implement compatible code.
+
+**Structure Alignment:**
+The Turborepo structure supports all defined architectural boundaries and integration points.
+
+### Requirements Coverage Validation ✅
+
+**Feature Coverage:**
+- **Point Wallet**: Fully supported by AD1, AD3, and AD5.
+- **Admin Actions**: Fully supported by AD1 and AD7.
+- **Security/Referral**: Fully supported by AD2 and AD5 hooks.
+
+**Functional Requirements Coverage:**
+All functional categories from the Bengali spec (Transfer, Withdraw, Search, Distribute) are mapped to specific ADs.
+
+**Non-Functional Requirements Coverage:**
+Security (transactions), performance (indexing), and scalability (monorepo) are addressed.
+
+### Implementation Readiness Validation ✅
+
+**Decision Completeness:** All 7 core decisions are documented with implementation details.
+**Structure Completeness:** Complete project tree provided for immediate scaffold execution.
+**Pattern Completeness:** Naming, structure, and communication patterns are finalized.
+
+### Architecture Readiness Assessment
+
+**Overall Status:** **READY FOR IMPLEMENTATION**
+**Confidence Level:** **High**
+
+**Key Strengths:**
+- Atomic ledger integrity.
+- Inherent fraud prevention via topology.
+- Clear feature-to-directory mapping.
+
+### Implementation Handoff
+
+**AI Agent Guidelines:**
+- Follow all architectural decisions exactly as documented.
+- Use implementation patterns consistently.
+- Respect project structure and boundaries.
+
+**First Implementation Priority:**
+Proceed to **Epic & Story creation** to break down these decisions into actionable development tasks.
+
+---
 
 ### Codebase Alignment Checklist
 
