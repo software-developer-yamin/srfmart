@@ -207,17 +207,25 @@
     "mtime": 1778536478.3578997,
     "hash": "0af12b7084864e15b8bdaa5c19597d36"
   },
-  "/home/yamin/Documents/smartechedge/srfmart/_bmad-output/planning-artifacts/architecture.md": {
-    "mtime": 1778574521.8048778,
-    "hash": "b51387016e55d7be4bf49db98a2be1e2"
-  },
-  "/home/yamin/Documents/smartechedge/srfmart/_bmad-output/planning-artifacts/prd.md": {
-    "mtime": 1778574510.5823967,
-    "hash": "1de0659c5a58c81f738353f825416f96"
-  },
   "/home/yamin/Documents/smartechedge/srfmart/_bmad-output/planning-artifacts/prfaq-srfmart.md": {
     "mtime": 1778579748.3358307,
     "hash": "9f2fbe9015dca4eb180585666f2101e1"
+  },
+  "/home/yamin/Documents/smartechedge/srfmart/_bmad-output/planning-artifacts/prd.md": {
+    "mtime": 1778584193.179733,
+    "hash": "7e5daca2b366c9018092edfeacf1472f"
+  },
+  "/home/yamin/Documents/smartechedge/srfmart/_bmad-output/planning-artifacts/architecture.md": {
+    "mtime": 1778587796.1427393,
+    "hash": "094c10eb4f1f8b495ec4a9ad599798fa"
+  },
+  "/home/yamin/Documents/smartechedge/srfmart/_bmad-output/planning-artifacts/epics.md": {
+    "mtime": 1778588791.3584409,
+    "hash": "0177288bae6be4cdb373edd5f831cbc0"
+  },
+  "/home/yamin/Documents/smartechedge/srfmart/_bmad-output/planning-artifacts/implementation-readiness-report-2026-05-12.md": {
+    "mtime": 1778589214.2905927,
+    "hash": "1c504ab590d4ac468d7be3f9244b9ec5"
   },
   "/home/yamin/Documents/smartechedge/srfmart/_bmad-output/planning-artifacts/research/market-srfmart-point-wallet-research-2026-05-12.md": {
     "mtime": 1778569254.4213877,
