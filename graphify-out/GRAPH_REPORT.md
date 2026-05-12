@@ -1,16 +1,16 @@
 # Graph Report - srfmart  (2026-05-12)
 
 ## Corpus Check
-- 42 files · ~7,611 words
+- 53 files · ~22,076 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 201 nodes · 257 edges · 29 communities (16 shown, 13 thin omitted)
-- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 5 edges (avg confidence: 0.85)
+- 427 nodes · 472 edges · 50 communities (37 shown, 13 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 5 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `36d7d23c`
+- Built from commit: `02a0b4d3`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -34,24 +34,44 @@
 - [[_COMMUNITY_Home Page|Home Page]]
 - [[_COMMUNITY_DB Entry Points|DB Entry Points]]
 - [[_COMMUNITY_Global Layout & Logging|Global Layout & Logging]]
+- [[_COMMUNITY_Guidelines & README|Guidelines & README]]
 - [[_COMMUNITY_Tsdown Config|Tsdown Config]]
 - [[_COMMUNITY_Next Env Types|Next Env Types]]
 - [[_COMMUNITY_PostCSS Config (UI)|PostCSS Config (UI)]]
 - [[_COMMUNITY_Dashboard View|Dashboard View]]
+- [[_COMMUNITY_UI Button Component|UI Button Component]]
+- [[_COMMUNITY_Community 25|Community 25]]
+- [[_COMMUNITY_Community 26|Community 26]]
 - [[_COMMUNITY_Community 27|Community 27]]
 - [[_COMMUNITY_Community 28|Community 28]]
+- [[_COMMUNITY_Community 29|Community 29]]
+- [[_COMMUNITY_Community 30|Community 30]]
+- [[_COMMUNITY_Community 31|Community 31]]
+- [[_COMMUNITY_Community 32|Community 32]]
+- [[_COMMUNITY_Community 33|Community 33]]
+- [[_COMMUNITY_Community 34|Community 34]]
+- [[_COMMUNITY_Community 35|Community 35]]
+- [[_COMMUNITY_Community 36|Community 36]]
+- [[_COMMUNITY_Community 37|Community 37]]
+- [[_COMMUNITY_Community 38|Community 38]]
+- [[_COMMUNITY_Community 40|Community 40]]
+- [[_COMMUNITY_Community 41|Community 41]]
+- [[_COMMUNITY_Community 42|Community 42]]
+- [[_COMMUNITY_Community 43|Community 43]]
+- [[_COMMUNITY_Community 48|Community 48]]
+- [[_COMMUNITY_Community 49|Community 49]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `cn()` - 29 edges
-2. `Core Principles` - 10 edges
-3. `Core Principles` - 10 edges
-4. `TEA Workflow Step Files` - 10 edges
-5. `srfmart` - 8 edges
-6. `Button()` - 7 edges
-7. `authClient` - 6 edges
-8. `Ultracite Code Standards` - 6 edges
-9. `_merge_arrays()` - 5 edges
-10. `main()` - 5 edges
+2. `UX Design Specification srfmart` - 12 edges
+3. `Srfmart Point Wallet — Detail Pack` - 11 edges
+4. `Core Principles` - 10 edges
+5. `Core Principles` - 10 edges
+6. `TEA Workflow Step Files` - 10 edges
+7. `Design System Foundation` - 10 edges
+8. `Srfmart Point System Product Requirements Document` - 10 edges
+9. `Brainstorming Session: Srfmart Point System` - 10 edges
+10. `Product Brief: Srfmart Point Wallet` - 9 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Hono Server Instance` --references--> `Better Auth Server Config`  [INFERRED]
@@ -68,75 +88,155 @@
 ## Hyperedges (group relationships)
 - **BMAD Ecosystem** — bmad_manifest, tea_config, wds_config [INFERRED 0.95]
 
-## Communities (29 total, 13 thin omitted)
+## Communities (50 total, 13 thin omitted)
 
 ### Community 0 - "UI Layout & Header Components"
-Cohesion: 0.12
-Nodes (24): Button(), buttonVariants, Card(), CardAction(), CardContent(), CardDescription(), CardFooter(), CardHeader() (+16 more)
+Cohesion: 0.11
+Nodes (25): Button(), buttonVariants, Card(), CardAction(), CardContent(), CardDescription(), CardFooter(), CardHeader() (+17 more)
 
 ### Community 1 - "Auth Forms & Dashboard Pages"
+Cohesion: 0.06
+Nodes (35): Authentication & User Management, Business Success, Compliance & Regulatory, Document Information, Executive Summary, Functional Requirements, Global Point Distribution, Integration & Reliability (Preparation for Phase 2) (+27 more)
+
+### Community 2 - "UI Core Utilities (Card, Checkbox, Label, Utils)"
+Cohesion: 0.06
+Nodes (35): A — Adapt, Account Fraud, Action Planning, Bonus: Domain Pivot Ideas, Brainstorming Session: Srfmart Point System, Business/Monetization, C — Combine, Context Guidance (+27 more)
+
+### Community 3 - "BMAD Customization Scripts"
 Cohesion: 0.2
 Nodes (3): Input(), Label(), authClient
 
-### Community 2 - "UI Core Utilities (Card, Checkbox, Label, Utils)"
+### Community 4 - "Theme & Global Providers"
+Cohesion: 0.12
+Nodes (16): Community members can now earn, track, and securely convert loyalty points into real MFS value with a referral-only concierge wallet., Customer FAQ, Getting Started, How It Works, Internal FAQ, Q: How do I know my points are safe from hackers?, Q: How do we handle the "Scale Bottleneck" of manual withdrawals?, Q: How do we mitigate regulatory risk in Bangladesh? (+8 more)
+
+### Community 5 - "Database Models (Auth)"
 Cohesion: 0.12
 Nodes (15): Add app-specific blocks, Add more shared components, Available Scripts, code:bash (pnpm install), code:bash (pnpm run dev), code:bash (npx shadcn@latest add accordion dialog popover sheet table -), code:tsx (import { Button } from "@srfmart/ui/components/button";), code:block5 (srfmart/) (+7 more)
 
-### Community 3 - "BMAD Customization Scripts"
+### Community 6 - "BMAD Config Scripts"
 Cohesion: 0.12
 Nodes (15): Async & Promises, Code Organization, Core Principles, Error Handling & Debugging, Framework-Specific Guidance, graphify, Modern JavaScript/TypeScript, Performance (+7 more)
 
-### Community 4 - "Theme & Global Providers"
+### Community 7 - "Core Application Architecture (Hono, Auth Client, Mongoose)"
 Cohesion: 0.13
 Nodes (14): Async & Promises, Code Organization, Core Principles, Error Handling & Debugging, Framework-Specific Guidance, Modern JavaScript/TypeScript, Performance, Quick Reference (+6 more)
 
-### Community 5 - "Database Models (Auth)"
-Cohesion: 0.16
-Nodes (6): geistMono, geistSans, metadata, ModeToggle(), Toaster(), ThemeProvider()
+### Community 8 - "BMAD Documentation & Config"
+Cohesion: 0.15
+Nodes (12): 1. The Active Participant (End-User), 2. The Group Manager (Moderator), 3. The Platform Controller (Admin), Adoption Drivers, Customer Insights & Behavior Analysis, Interaction Patterns: The "Agent" Mental Model, Market Landscape: Community-Driven Economies, Market Research Scope Confirmation (+4 more)
 
-### Community 6 - "BMAD Config Scripts"
+### Community 9 - "Server Entry Points"
+Cohesion: 0.15
+Nodes (12): Concurrency & Idempotency, Data Validation for Bangladeshi MFS, Database: MongoDB & Mongoose, Double-Entry Ledger Implementation, Implementation Approaches & Ledger Integrity, Integration Patterns & Withdrawal Management, Maker-Checker Workflow (Security), Manual Withdrawal Processing Queue (+4 more)
+
+### Community 10 - "Proxy Logic"
 Cohesion: 0.27
 Nodes (11): deep_merge(), _detect_keyed_merge_field(), extract_key(), find_project_root(), load_toml(), main(), _merge_arrays(), _merge_by_key() (+3 more)
 
-### Community 7 - "Core Application Architecture (Hono, Auth Client, Mongoose)"
+### Community 11 - "Logging (Evlog)"
 Cohesion: 0.17
 Nodes (11): code:block1 (<workflow>/), Execution Rules (Summary), Modes, Notes, References, Standard Layout (per workflow), Step Naming Conventions, TEA Workflow Step Files (+3 more)
 
-### Community 8 - "BMAD Documentation & Config"
+### Community 12 - "Auth Core (Packages)"
+Cohesion: 0.17
+Nodes (11): Competitive Intelligence, High-Priority Brainstorming Ideas for PRD Consideration, Open Questions, Regulatory Considerations, Rejected/Deferred Ideas (with rationale), Requirements Hints (from user specification), Scope Signals from User, Security Requirements (from brainstorming + technical research) (+3 more)
+
+### Community 13 - "Next.js Config"
+Cohesion: 0.22
+Nodes (5): geistMono, geistSans, metadata, Toaster(), ThemeProvider()
+
+### Community 14 - "PostCSS Config (Web)"
+Cohesion: 0.2
+Nodes (9): Executive Summary, Product Brief: Srfmart Point Wallet, Scope, Success Criteria, The Problem, The Solution, Vision, What Makes This Different (+1 more)
+
+### Community 15 - "Instrumentation"
+Cohesion: 0.2
+Nodes (10): 1.1 Design System Choice, 2.1 Defining Experience, 2.2 User Mental Model, 2.3 Success Criteria, 2.4 Novel UX Patterns, 2.5 Experience Mechanics, Customization Strategy, Design System Foundation (+2 more)
+
+### Community 16 - "Home Page"
 Cohesion: 0.22
 Nodes (8): Account, accountSchema, Session, sessionSchema, User, userSchema, Verification, verificationSchema
 
-### Community 9 - "Server Entry Points"
+### Community 17 - "DB Entry Points"
+Cohesion: 0.22
+Nodes (9): 1. The "Tap-to-Reveal" Balance Card, 2. The Locked Recipient Card, 3. Secure Numeric Keypad, 4. Escrow Status Indicator, Component Implementation Strategy, Component Strategy, Custom Components, Design System Components (Shadcn UI) (+1 more)
+
+### Community 18 - "Global Layout & Logging"
+Cohesion: 0.22
+Nodes (8): Anti-Fraud & Security Standards, Domain Overview: Digital Wallets in Bangladesh, Domain Research Scope Confirmation, Industry Analysis: Referral & Reward Economics, Point Economy Mechanics, Referral-Based Security & Trust, Research Report: domain, The MFS Landscape
+
+### Community 19 - "Guidelines & README"
 Cohesion: 0.46
 Nodes (7): deep_merge(), _detect_keyed_merge_field(), extract_key(), load_toml(), main(), _merge_arrays(), _merge_by_key()
 
-### Community 10 - "Proxy Logic"
+### Community 20 - "Tsdown Config"
+Cohesion: 0.25
+Nodes (8): 1. The Gated Onboarding Flow, 2. The Upward Transfer Flow (Core Experience), 3. The Withdrawal & Escrow Flow, code:mermaid (graph TD), code:mermaid (graph TD), code:mermaid (graph TD), Journey Patterns, User Journey Flows
+
+### Community 21 - "Next Env Types"
 Cohesion: 0.25
 Nodes (8): Better Auth Server Config, Auth Data Models, Better Auth Client, Mongoose Connection, Hono Server Instance, Home Page, Sign In Form, Sign Up Form
 
-### Community 11 - "Logging (Evlog)"
+### Community 22 - "PostCSS Config (UI)"
+Cohesion: 0.29
+Nodes (6): Accessibility Considerations, Color System, Spacing & Layout Foundation, Typography System, UX Design Specification srfmart, Visual Design Foundation
+
+### Community 23 - "Dashboard View"
+Cohesion: 0.33
+Nodes (6): Core User Experience, Critical Success Moments, Defining Experience, Effortless Interactions, Experience Principles, Platform Strategy
+
+### Community 24 - "UI Button Component"
+Cohesion: 0.33
+Nodes (6): Button Hierarchy, Feedback Patterns, Form Patterns, Loading & Pending States, Navigation Patterns, UX Consistency Patterns
+
+### Community 25 - "Community 25"
+Cohesion: 0.33
+Nodes (6): Accessibility Strategy, Breakpoint Strategy, Implementation Guidelines, Responsive Design & Accessibility, Responsive Strategy, Testing Strategy
+
+### Community 26 - "Community 26"
+Cohesion: 0.33
+Nodes (6): Design Implications, Desired Emotional Response, Emotional Design Principles, Emotional Journey Mapping, Micro-Emotions, Primary Emotional Goals
+
+### Community 27 - "Community 27"
+Cohesion: 0.33
+Nodes (5): Architecture Decision Document, Cross-Cutting Concerns Identified, Project Context Analysis, Requirements Overview, Technical Constraints & Dependencies
+
+### Community 28 - "Community 28"
+Cohesion: 0.4
+Nodes (5): Design Opportunities, Executive Summary, Key Design Challenges, Project Vision, Target Users
+
+### Community 29 - "Community 29"
+Cohesion: 0.4
+Nodes (5): Anti-Patterns to Avoid, Design Inspiration Strategy, Inspiring Products Analysis, Transferable UX Patterns, UX Pattern Analysis & Inspiration
+
+### Community 30 - "Community 30"
+Cohesion: 0.4
+Nodes (5): Chosen Direction, Design Direction Decision, Design Directions Explored, Design Rationale, Implementation Approach
+
+### Community 31 - "Community 31"
 Cohesion: 0.5
 Nodes (4): BMAD Manifest, TEA Module Config, TEA Workflow README, WDS Module Config
 
 ## Knowledge Gaps
-- **81 isolated node(s):** `identifyUser`, `app`, `nextConfig`, `config`, `{ register, onRequestError }` (+76 more)
+- **245 isolated node(s):** `identifyUser`, `app`, `nextConfig`, `config`, `{ register, onRequestError }` (+240 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **13 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `cn()` connect `UI Layout & Header Components` to `Auth Forms & Dashboard Pages`?**
-  _High betweenness centrality (0.041) - this node is a cross-community bridge._
-- **Why does `Button()` connect `UI Layout & Header Components` to `Auth Forms & Dashboard Pages`?**
+- **Why does `UX Design Specification srfmart` connect `PostCSS Config (UI)` to `Instrumentation`, `DB Entry Points`, `Tsdown Config`, `Dashboard View`, `UI Button Component`, `Community 25`, `Community 26`, `Community 28`, `Community 29`, `Community 30`?**
+  _High betweenness centrality (0.026) - this node is a cross-community bridge._
+- **Why does `cn()` connect `UI Layout & Header Components` to `BMAD Customization Scripts`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
-- **Why does `authClient` connect `Auth Forms & Dashboard Pages` to `UI Layout & Header Components`?**
-  _High betweenness centrality (0.008) - this node is a cross-community bridge._
+- **Why does `Design System Foundation` connect `Instrumentation` to `PostCSS Config (UI)`?**
+  _High betweenness centrality (0.007) - this node is a cross-community bridge._
 - **What connects `identifyUser`, `app`, `nextConfig` to the rest of the system?**
-  _81 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _245 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `UI Layout & Header Components` be split into smaller, more focused modules?**
-  _Cohesion score 0.12 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.11 - nodes in this community are weakly interconnected._
+- **Should `Auth Forms & Dashboard Pages` be split into smaller, more focused modules?**
+  _Cohesion score 0.06 - nodes in this community are weakly interconnected._
 - **Should `UI Core Utilities (Card, Checkbox, Label, Utils)` be split into smaller, more focused modules?**
-  _Cohesion score 0.12 - nodes in this community are weakly interconnected._
-- **Should `BMAD Customization Scripts` be split into smaller, more focused modules?**
-  _Cohesion score 0.12 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06 - nodes in this community are weakly interconnected._

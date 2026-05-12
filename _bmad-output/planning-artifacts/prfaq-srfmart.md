@@ -45,37 +45,48 @@ Access to the Srfmart Point Wallet is currently by invitation only. Prospective 
 ## Customer FAQ
 
 ### Q: How do I know my points are safe from hackers?
-
-A: Srfmart uses a server-authoritative ledger system. This means your balance isn't just a number on your screen—it's backed by a cryptographically secure history of every point ever granted or moved. Even if someone tried to "spoof" their app, the server would instantly detect the mismatch and flag the account. Combined with mandatory OTP for registration and human-verified payouts, your value is protected by multiple layers of defense.
+A: Srfmart uses a server-authoritative ledger system. This means your balance isn't just a number on your screen—it's backed by a cryptographically secure history of every point ever granted or moved. Combined with mandatory OTP for registration and human-verified payouts, your value is protected by multiple layers of defense.
 
 ### Q: Why do I need a referral to join?
-
-A: Srfmart is a high-trust community. By requiring a referral, we ensure that every member is connected to the network through a real relationship. This drastically reduces spam, fake accounts, and fraudulent activity, making the ecosystem more stable and valuable for everyone.
+A: Srfmart is a high-trust community. By requiring a referral, we ensure that every member is connected through a real relationship. This drastically reduces spam and fraud, making the ecosystem more stable for everyone.
 
 ### Q: How long does a withdrawal take?
+A: To maintain maximum security, every request is manually reviewed. This "concierge" approach typically takes 2 to 24 hours. We prioritize security to keep the system fraud-free.
 
-A: To maintain the highest level of security, every withdrawal request is manually reviewed by a moderator. This "concierge" approach typically takes between 2 to 24 hours. While we prioritize speed, we will never sacrifice the human-in-the-loop verification that keeps the system fraud-free.
+### Q: What if I send points to the wrong moderator number?
+A: Our UI prevents manual entry of moderator numbers—you select from a list of verified officials. If a mistake occurs, our admin team can verify the transaction on the immutable ledger and perform a manual adjustment.
+
+### Q: Why use Srfmart instead of just using bKash directly?
+A: bKash is for money; Srfmart is for *community value*. Srfmart allows community leaders to reward loyalty and participation in ways a standard bank can't. We act as the "Rewards Layer" that turns your community activity into tangible value in your bKash wallet.
 
 ---
 
 ## Internal FAQ
 
-### Q: How do we prevent "Double Spending" or race conditions in point transfers?
+### Q: How do we prevent "Double Spending" or race conditions?
+A: We implement MongoDB multi-document transactions. Every point transfer is an atomic operation: the user's balance is deducted and the recipient's balance is increased in a single, unbreakable transaction. If any part fails, the entire process rolls back.
 
-A: We implement MongoDB multi-document transactions at the database level. Every point transfer is an atomic operation: the user's balance is deducted and the recipient's balance is increased in a single, unbreakable transaction. If any part of the process fails, the entire transaction is rolled back, ensuring the ledger always balances to zero.
+### Q: How do we handle the "Scale Bottleneck" of manual withdrawals?
+A: In the MVP phase (target 100-200 users), one moderator can handle the daily volume. As we scale, we will implement "Auto-Approve" thresholds for small, low-risk amounts and use AI-driven fraud detection to assist moderators.
 
-### Q: What prevents a user from creating 100 accounts to bypass the daily point cap?
+### Q: How do we mitigate regulatory risk in Bangladesh?
+A: We position Srfmart as a "Community Reward Point" platform, not a financial service. Points are rewards for community participation, not e-money. Payouts are processed through existing licensed MFS (bKash/Nagad), ensuring we stay on the "Rewards Layer" rather than the "Banking Layer."
 
-A: Our security suite includes device fingerprinting and IP clustering detection. If multiple registrations originate from the same device or network within a short window, they are flagged for admin review. Furthermore, the referral requirement acts as a natural "Proof of Humanity"—if one user refers 100 bots, the entire chain is easily identified and pruned.
+### Q: What prevents "Point Inflation" if we run out of BDT reserves?
+A: The Admin dashboard includes a "Liquidity Planner." Before distributing points, the admin sees a "Potential Payout" forecast. This ensures that the points created are always aligned with the available BDT reserves in the community trust account.
 
 ---
 
 ## The Verdict
 
-{Concept strength assessment — what's forged in steel, what needs more heat, what has cracks in the foundation.}
+**Concept Strength: STRONG**
+
+*   **Forged in Steel**: The referral-only access and atomic ledger provide a rock-solid security foundation. The focus on bKash/Nagad/Rocket as exit points matches the local market perfectly.
+*   **Needs More Heat**: The UI must include a "Withdrawal Status Timeline" to manage user expectations during the manual review period.
+*   **Cracks in Foundation**: The long-term point-to-BDT conversion sustainability must be clearly documented in the community guidelines to avoid "bank run" scenarios.
 
 <!-- coaching-notes-stage-1 -->
 - **Concept Type**: Community Reward Ecosystem (High-Trust).
-- **Assumptions**: Users value security and trust over instant automated payouts; Referral-only model will maintain quality without stifling growth.
-- **Key Findings**: MongoDB transactions and Event-Sourced ledger are the non-negotiable tech foundations.
-- **User Context**: Focus on bKash/Nagad/Rocket as primary "exit" points for digital value.
+- **Assumptions**: Users value security/trust over instant payouts; Referral-only model will maintain quality.
+- **Key Findings**: MongoDB transactions and Event-Sourced ledger are the non-negotiable foundations.
+- **User Context**: Focus on bKash/Nagad/Rocket as primary exit points.

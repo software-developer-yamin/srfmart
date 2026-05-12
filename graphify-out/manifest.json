@@ -194,5 +194,49 @@
   "/home/yamin/Documents/smartechedge/srfmart/_bmad/wds/config.yaml": {
     "mtime": 1778524496.0842335,
     "hash": "4ab3c59ce055c3c999678ac188bac5b0"
+  },
+  "/home/yamin/Documents/smartechedge/srfmart/_bmad-output/planning-artifacts/product-brief-srfmart.md": {
+    "mtime": 1778574482.679201,
+    "hash": "2b931a80e3150498fc19f44bfccd90a2"
+  },
+  "/home/yamin/Documents/smartechedge/srfmart/_bmad-output/planning-artifacts/product-brief-srfmart-distillate.md": {
+    "mtime": 1778574496.355787,
+    "hash": "79481924f824f332fc9d9c59d2345a14"
+  },
+  "/home/yamin/Documents/smartechedge/srfmart/_bmad-output/planning-artifacts/ux-design-specification.md": {
+    "mtime": 1778536478.3578997,
+    "hash": "0af12b7084864e15b8bdaa5c19597d36"
+  },
+  "/home/yamin/Documents/smartechedge/srfmart/_bmad-output/planning-artifacts/architecture.md": {
+    "mtime": 1778574521.8048778,
+    "hash": "b51387016e55d7be4bf49db98a2be1e2"
+  },
+  "/home/yamin/Documents/smartechedge/srfmart/_bmad-output/planning-artifacts/prd.md": {
+    "mtime": 1778574510.5823967,
+    "hash": "1de0659c5a58c81f738353f825416f96"
+  },
+  "/home/yamin/Documents/smartechedge/srfmart/_bmad-output/planning-artifacts/prfaq-srfmart.md": {
+    "mtime": 1778579748.3358307,
+    "hash": "9f2fbe9015dca4eb180585666f2101e1"
+  },
+  "/home/yamin/Documents/smartechedge/srfmart/_bmad-output/planning-artifacts/research/market-srfmart-point-wallet-research-2026-05-12.md": {
+    "mtime": 1778569254.4213877,
+    "hash": "2373d956a5bdb47120f30ff1b80cabb8"
+  },
+  "/home/yamin/Documents/smartechedge/srfmart/_bmad-output/planning-artifacts/research/domain-srfmart-point-wallet-research-2026-05-12.md": {
+    "mtime": 1778569244.2609494,
+    "hash": "fbc7ba04742ac3dcaa2fc6f07256be0b"
+  },
+  "/home/yamin/Documents/smartechedge/srfmart/_bmad-output/planning-artifacts/research/technical-srfmart-point-wallet-research-2026-05-12.md": {
+    "mtime": 1778569233.9415042,
+    "hash": "1cdb4ab9a47549ea6cd51c6e13b07367"
+  },
+  "/home/yamin/Documents/smartechedge/srfmart/_bmad-output/brainstorming/brainstorming-session-2026-05-12-0220.md": {
+    "mtime": 1778564043.9717276,
+    "hash": "e8aa50613c39f68494a314fb7f6e0dd8"
+  },
+  "/home/yamin/Documents/smartechedge/srfmart/docs/Srfmart_Point_system.md": {
+    "mtime": 1778525060.7356915,
+    "hash": "2770e1db0d1019874196b8c41f851e49"
   }
 }
