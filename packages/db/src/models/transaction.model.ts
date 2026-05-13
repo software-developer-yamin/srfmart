@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 const { Schema, model } = mongoose;
 
 interface ITransaction {
-	amount: number;
-	idempotencyKey?: string;
+	amount: number; // Stored as integer (cents/units)
+	idempotencyKey: string;
 	metadata?: Record<string, unknown>;
 	receiverId?: string;
 	senderId?: string;
@@ -29,14 +29,18 @@ const transactionSchema = new Schema<ITransaction>(
 		senderId: {
 			type: String,
 			ref: "User",
-			required() {
-				return this.type !== "MINT";
+			required(this: ITransaction) {
+				return (
+					this.type !== "MINT" &&
+					this.type !== "DISTRIBUTE" &&
+					this.type !== "REFUND"
+				);
 			},
 		},
 		receiverId: {
 			type: String,
 			ref: "User",
-			required() {
+			required(this: ITransaction) {
 				return this.type !== "BURN";
 			},
 		},
@@ -48,12 +52,13 @@ const transactionSchema = new Schema<ITransaction>(
 		status: {
 			type: String,
 			enum: ["PENDING", "COMPLETED", "FAILED"],
-			default: "COMPLETED",
+			default: "PENDING",
 		},
 		idempotencyKey: {
 			type: String,
 			unique: true,
 			sparse: true,
+			required: true,
 		},
 		metadata: {
 			type: Schema.Types.Mixed,

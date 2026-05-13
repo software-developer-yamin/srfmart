@@ -10,8 +10,9 @@ export function createAuth() {
 		user: {
 			additionalFields: {
 				role: {
-					type: "string",
+					type: ["user", "moderator", "admin"],
 					defaultValue: "user",
+					input: false, // Prevent user from setting their own role
 				},
 				referredBy: {
 					type: "string",

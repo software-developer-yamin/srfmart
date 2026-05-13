@@ -5,8 +5,9 @@ await mongoose.connect(env.DATABASE_URL).catch((error) => {
 	console.log("Error connecting to database:", error);
 });
 
-const client = mongoose.connection.getClient().db("myDB");
+const client = mongoose.connection.getClient().db();
 
-export { Account, Session, User, Verification } from "./models/auth.model.js";
-export { Transaction } from "./models/transaction.model.js";
+// biome-ignore lint/performance/noBarrelFile: Exporting models for internal package use
+export { Account, Session, User, Verification } from "./models/auth.model";
+export { Transaction } from "./models/transaction.model";
 export { client };

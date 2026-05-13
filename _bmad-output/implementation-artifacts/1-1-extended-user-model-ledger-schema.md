@@ -1,6 +1,6 @@
 # Story: 1.1 Extended User Model & Ledger Schema
 
-## Status: review
+## Status: done
 
 ## Summary
 Implement the foundational data structures for the srfmart point-wallet system by extending the Better Auth user model/schema and creating the Point Ledger schema.
@@ -23,6 +23,22 @@ So that the system can store roles, referral codes, and point balances required 
 - [x] `Transaction` model created in `packages/db/src/models/transaction.model.ts` with required fields (type, senderId, receiverId, amount, status, idempotencyKey).
 - [x] `packages/db/src/index.ts` exports the new `Transaction` model.
 
+### Review Findings
+
+#### Decision Needed
+- [x] [Review][Decision] Amount Precision Strategy — The `User` balances and `Transaction` amounts use the `Number` type in Mongoose/MongoDB. This poses a risk for rounding errors in financial logic. Should we switch to `Decimal128` (precise but slower) or store values as `Number` integers (cents)? [Decision: Store as Integers]
+
+#### Patches
+- [x] [Review][Patch] Role Validation Missing in Auth Config [packages/auth/src/index.ts:12]
+- [x] [Review][Patch] Idempotency Key Requirement [packages/db/src/models/transaction.model.ts:53]
+- [x] [Review][Patch] Insecure Default Transaction Status [packages/db/src/models/transaction.model.ts:49]
+- [x] [Review][Patch] Hardcoded Database Name [packages/db/src/index.ts:7]
+- [x] [Review][Patch] Invalid Relative Export Extensions [packages/db/src/index.ts:9]
+- [x] [Review][Patch] System Sender Logic for Transactions [packages/db/src/models/transaction.model.ts:32]
+
+#### Deferred
+- [x] [Review][Defer] Indentation Inconsistency [global] — deferred, pre-existing (handled by project-wide lint fix)
+
 ## Tasks/Subtasks
 - [x] **Task 1: Extend User Schema**
     - [x] Create failing test to verify user schema extensions
@@ -36,6 +52,13 @@ So that the system can store roles, referral codes, and point balances required 
     - [x] Create `packages/db/src/models/transaction.model.ts`
     - [x] Export from `packages/db/src/index.ts`
     - [x] Verify tests pass
+
+### Review Findings
+- [ ] [Review][Patch] Transaction Status Default [transaction.model.ts:51]
+- [ ] [Review][Patch] Balance Default Sync [auth/src/index.ts:35-42]
+- [ ] [Review][Patch] dailyPointLimit Default [auth/src/index.ts:43-46]
+- [ ] [Review][Patch] Receiver validation for MINT [transaction.model.ts:38-41]
+- [x] [Review][Defer] Idempotency Key Usage [transaction.model.ts:54-58] — deferred, pre-existing
 
 ## Developer Context
 ### Project Context Reference
