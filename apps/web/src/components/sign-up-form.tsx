@@ -1,7 +1,7 @@
 import { Button } from "@srfmart/ui/components/button";
 import { Input } from "@srfmart/ui/components/input";
 import { Label } from "@srfmart/ui/components/label";
-import { type ErrorComponentProps, useForm } from "@tanstack/react-form";
+import { useForm } from "@tanstack/react-form";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -96,14 +96,21 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 		}
 	};
 
-	const FieldError = ({ children }: ErrorComponentProps) => {
-		if (!children) {
+	const FieldError = ({ errors }: { errors: unknown[] }) => {
+		if (!errors.length) {
 			return null;
 		}
 		return (
-			<p className="font-medium text-destructive text-sm">
-				{children.toString()}
-			</p>
+			<div className="space-y-1">
+				{errors.map((error, i) => (
+					<p
+						className="font-medium text-destructive text-sm"
+						key={`${i}-${error?.toString()}`}
+					>
+						{error?.toString()}
+					</p>
+				))}
+			</div>
 		);
 	};
 
@@ -203,7 +210,7 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 									placeholder="John Doe"
 									value={field.state.value}
 								/>
-								<FieldError>{field.state.meta.errors}</FieldError>
+								<FieldError errors={field.state.meta.errors} />
 							</div>
 						)}
 					</form.Field>
@@ -223,7 +230,7 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 									type="email"
 									value={field.state.value}
 								/>
-								<FieldError>{field.state.meta.errors}</FieldError>
+								<FieldError errors={field.state.meta.errors} />
 							</div>
 						)}
 					</form.Field>
@@ -243,7 +250,7 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 									type="password"
 									value={field.state.value}
 								/>
-								<FieldError>{field.state.meta.errors}</FieldError>
+								<FieldError errors={field.state.meta.errors} />
 							</div>
 						)}
 					</form.Field>
@@ -262,7 +269,7 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 									placeholder="Enter your referral code"
 									value={field.state.value}
 								/>
-								<FieldError>{field.state.meta.errors}</FieldError>
+								<FieldError errors={field.state.meta.errors} />
 							</div>
 						)}
 					</form.Field>
