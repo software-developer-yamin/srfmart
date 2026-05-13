@@ -1,9 +1,9 @@
 import { Button } from "@srfmart/ui/components/button";
 import { Input } from "@srfmart/ui/components/input";
 import { Label } from "@srfmart/ui/components/label";
-import { useForm } from "@tanstack/react-form";
+import { type ErrorComponentProps, useForm } from "@tanstack/react-form";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { authClient } from "@/lib/auth-client";
@@ -69,7 +69,7 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 		},
 	});
 
-	const handleVerifyOtp = async (e: React.FormEvent) => {
+	const handleVerifyOtp = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setIsVerifying(true);
 
@@ -96,16 +96,30 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 		}
 	};
 
+	const FieldError = ({ children }: ErrorComponentProps) => {
+		if (!children) {
+			return null;
+		}
+		return (
+			<p className="font-medium text-destructive text-sm">
+				{children.toString()}
+			</p>
+		);
+	};
+
 	if (isPending) {
 		return <Loader />;
 	}
 
 	if (step === "otp") {
 		return (
-			<div className="mx-auto mt-10 w-full max-w-md p-6">
-				<h1 className="mb-2 text-center font-bold text-3xl">Verify Email</h1>
-				<p className="mb-6 text-center text-gray-600">
-					Enter the 6-digit code sent to {email}
+			<div className="mx-auto mt-10 w-full max-w-md rounded-lg border bg-card p-6 shadow-sm">
+				<h1 className="mb-2 text-center font-bold text-3xl tracking-tight">
+					Verify Email
+				</h1>
+				<p className="mb-6 text-center text-muted-foreground">
+					Enter the 6-digit code sent to{" "}
+					<span className="font-semibold text-foreground">{email}</span>
 				</p>
 
 				<form className="space-y-4" onSubmit={handleVerifyOtp}>
@@ -125,9 +139,9 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 						{isVerifying ? "Verifying..." : "Verify"}
 					</Button>
 
-					<div className="text-center">
+					<div className="flex flex-col gap-2 pt-2 text-center">
 						<Button
-							className="text-gray-500"
+							className="text-muted-foreground transition-colors hover:text-primary"
 							disabled={resendCooldown > 0}
 							onClick={async () => {
 								await authClient.emailOtp.sendVerificationOtp({
@@ -144,10 +158,8 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 								? `Resend in ${resendCooldown}s`
 								: "Resend Code"}
 						</Button>
-					</div>
-					<div className="text-center">
 						<Button
-							className="text-gray-400 text-xs"
+							className="text-muted-foreground/60 text-xs transition-colors hover:text-muted-foreground"
 							onClick={() => {
 								localStorage.removeItem("pending_verification_email");
 								localStorage.removeItem("pending_verification_referral");
@@ -165,8 +177,10 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 	}
 
 	return (
-		<div className="mx-auto mt-10 w-full max-w-md p-6">
-			<h1 className="mb-6 text-center font-bold text-3xl">Create Account</h1>
+		<div className="mx-auto mt-10 w-full max-w-md rounded-lg border bg-card p-6 shadow-sm">
+			<h1 className="mb-6 text-center font-bold text-3xl tracking-tight">
+				Create Account
+			</h1>
 
 			<form
 				className="space-y-4"
@@ -186,13 +200,10 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 									name={field.name}
 									onBlur={field.handleBlur}
 									onChange={(e) => field.handleChange(e.target.value)}
+									placeholder="John Doe"
 									value={field.state.value}
 								/>
-								{field.state.meta.errors.map((error) => (
-									<p className="text-red-500" key={error?.toString()}>
-										{error?.toString()}
-									</p>
-								))}
+								<FieldError>{field.state.meta.errors}</FieldError>
 							</div>
 						)}
 					</form.Field>
@@ -208,14 +219,11 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 									name={field.name}
 									onBlur={field.handleBlur}
 									onChange={(e) => field.handleChange(e.target.value)}
+									placeholder="name@example.com"
 									type="email"
 									value={field.state.value}
 								/>
-								{field.state.meta.errors.map((error) => (
-									<p className="text-red-500" key={error?.toString()}>
-										{error?.toString()}
-									</p>
-								))}
+								<FieldError>{field.state.meta.errors}</FieldError>
 							</div>
 						)}
 					</form.Field>
@@ -231,14 +239,11 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 									name={field.name}
 									onBlur={field.handleBlur}
 									onChange={(e) => field.handleChange(e.target.value)}
+									placeholder="••••••••"
 									type="password"
 									value={field.state.value}
 								/>
-								{field.state.meta.errors.map((error) => (
-									<p className="text-red-500" key={error?.toString()}>
-										{error?.toString()}
-									</p>
-								))}
+								<FieldError>{field.state.meta.errors}</FieldError>
 							</div>
 						)}
 					</form.Field>
@@ -257,11 +262,7 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 									placeholder="Enter your referral code"
 									value={field.state.value}
 								/>
-								{field.state.meta.errors.map((error) => (
-									<p className="text-red-500" key={error?.toString()}>
-										{error?.toString()}
-									</p>
-								))}
+								<FieldError>{field.state.meta.errors}</FieldError>
 							</div>
 						)}
 					</form.Field>
@@ -287,7 +288,7 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 
 			<div className="mt-4 text-center">
 				<Button
-					className="text-indigo-600 hover:text-indigo-800"
+					className="text-primary underline-offset-4 hover:underline"
 					onClick={onSwitchToSignIn}
 					variant="link"
 				>

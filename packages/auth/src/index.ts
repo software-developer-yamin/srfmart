@@ -11,6 +11,11 @@ interface ReferralUser {
 	email?: string;
 }
 
+interface UserCreateData {
+	email: string;
+	referralCode?: string;
+}
+
 export function createAuth() {
 	const authInstance = betterAuth({
 		database: mongodbAdapter(client),
@@ -31,7 +36,8 @@ export function createAuth() {
 			user: {
 				create: {
 					before: async (user) => {
-						const referralCode = (user as Record<string, unknown>).referralCode;
+						const input = user as UserCreateData;
+						const referralCode = input.referralCode;
 
 						if (!referralCode || typeof referralCode !== "string") {
 							throw new APIError("UNPROCESSABLE_ENTITY", {
@@ -47,7 +53,7 @@ export function createAuth() {
 
 						const cleanCode = referralCode.trim().toUpperCase();
 
-						if (!user.email) {
+						if (!input.email) {
 							throw new APIError("UNPROCESSABLE_ENTITY", {
 								message: "Email is required for sign up.",
 							});
@@ -67,8 +73,8 @@ export function createAuth() {
 
 						if (
 							referrer.email &&
-							user.email &&
-							referrer.email.toLowerCase() === user.email.toLowerCase()
+							input.email &&
+							referrer.email.toLowerCase() === input.email.toLowerCase()
 						) {
 							throw new APIError("UNPROCESSABLE_ENTITY", {
 								message: "Self-referral is not allowed.",
@@ -123,6 +129,13 @@ export function createAuth() {
 		},
 		secret: env.BETTER_AUTH_SECRET,
 		baseURL: env.BETTER_AUTH_URL,
+		advanced: {
+			cookie: {
+				sameSite: "none",
+				secure: true,
+				httpOnly: true,
+			},
+		},
 	});
 
 	return authInstance;
