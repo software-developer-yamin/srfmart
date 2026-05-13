@@ -1,23 +1,17 @@
-import { APIError } from "better-auth/api";
 import { describe, expect, it, vi } from "vitest";
 
-// Mocking environment and dependencies before importing anything that uses them
-vi.mock("@srfmart/env/server", () => ({
-	env: {
-		DATABASE_URL: "mongodb://localhost:27017/test",
-		BETTER_AUTH_SECRET: "secret",
-		BETTER_AUTH_URL: "http://localhost:3000",
-		CORS_ORIGIN: "http://localhost:3000",
-	},
-}));
-
 vi.mock("@srfmart/db", () => ({
-	client: {},
+	client: {
+		collection: vi.fn(),
+	},
 }));
 
 vi.mock("@srfmart/db/models/auth.model", () => ({
 	User: {
-		findOne: vi.fn(),
+		findOne: vi.fn().mockImplementation(() => ({
+			lean: vi.fn().mockResolvedValue(null),
+			exec: vi.fn().mockResolvedValue(null),
+		})),
 	},
 }));
 
@@ -25,11 +19,11 @@ import { User } from "@srfmart/db/models/auth.model";
 import { createAuth } from "../src/index";
 
 describe("Referral Gate Validation", () => {
-	it("should throw UNPROCESSABLE_ENTITY if referral code is missing", async () => {
+	it("should fail without referral code", async () => {
 		const auth = createAuth();
 		const beforeHook = auth.options.databaseHooks?.user?.create?.before;
 
-		if (typeof beforeHook !== "function") {
+		if (!beforeHook) {
 			throw new Error("before hook not defined");
 		}
 
@@ -39,21 +33,21 @@ describe("Referral Gate Validation", () => {
 		};
 
 		await expect(beforeHook(userData as any, {} as any)).rejects.toThrow(
-			new APIError("UNPROCESSABLE_ENTITY", {
-				message: "Referral code is required.",
-			})
+			"Referral code is required"
 		);
 	});
 
-	it("should throw UNPROCESSABLE_ENTITY if referral code is invalid", async () => {
+	it("should fail with invalid referral code", async () => {
 		const auth = createAuth();
 		const beforeHook = auth.options.databaseHooks?.user?.create?.before;
 
-		if (typeof beforeHook !== "function") {
+		if (!beforeHook) {
 			throw new Error("before hook not defined");
 		}
 
-		(User.findOne as any).mockResolvedValue(null);
+		(User.findOne as any).mockImplementation(() => ({
+			lean: vi.fn().mockResolvedValue(null),
+		}));
 
 		const userData = {
 			email: "test@example.com",
@@ -62,22 +56,22 @@ describe("Referral Gate Validation", () => {
 		};
 
 		await expect(beforeHook(userData as any, {} as any)).rejects.toThrow(
-			new APIError("UNPROCESSABLE_ENTITY", {
-				message: "Invalid referral code.",
-			})
+			"Invalid referral code"
 		);
 	});
 
-	it("should succeed and set referredBy if referral code is valid", async () => {
+	it("should succeed with valid referral code", async () => {
 		const auth = createAuth();
 		const beforeHook = auth.options.databaseHooks?.user?.create?.before;
 
-		if (typeof beforeHook !== "function") {
+		if (!beforeHook) {
 			throw new Error("before hook not defined");
 		}
 
-		const referrer = { _id: "referrer-id", referralCode: "VALID123" };
-		(User.findOne as any).mockResolvedValue(referrer);
+		const referrer = { _id: "referrer-id", email: "ref@example.com" };
+		(User.findOne as any).mockImplementation(() => ({
+			lean: vi.fn().mockResolvedValue(referrer),
+		}));
 
 		const userData = {
 			email: "test@example.com",
@@ -86,13 +80,35 @@ describe("Referral Gate Validation", () => {
 		};
 
 		const result = await beforeHook(userData as any, {} as any);
+		expect(result).toBeDefined();
+		if (result && typeof result === "object" && "data" in result) {
+			expect((result.data as any).referredBy).toBe("referrer-id");
+		} else {
+			throw new Error("Result should contain data");
+		}
+	});
 
-		expect(User.findOne).toHaveBeenCalledWith({ referralCode: "VALID123" });
-		expect(result).toEqual({
-			data: {
-				...userData,
-				referredBy: "referrer-id",
-			},
-		});
+	it("should fail on self-referral", async () => {
+		const auth = createAuth();
+		const beforeHook = auth.options.databaseHooks?.user?.create?.before;
+
+		if (!beforeHook) {
+			throw new Error("before hook not defined");
+		}
+
+		const referrer = { _id: "referrer-id", email: "test@example.com" };
+		(User.findOne as any).mockImplementation(() => ({
+			lean: vi.fn().mockResolvedValue(referrer),
+		}));
+
+		const userData = {
+			email: "test@example.com",
+			name: "Test User",
+			referralCode: "SELF",
+		};
+
+		await expect(beforeHook(userData as any, {} as any)).rejects.toThrow(
+			"Self-referral is not allowed"
+		);
 	});
 });

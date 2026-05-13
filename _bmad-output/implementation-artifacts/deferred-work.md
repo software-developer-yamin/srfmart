@@ -1,4 +1,7 @@
-## Deferred from: code review (2026-05-13) (1-1-extended-user-model-ledger-schema.md)
+## Deferred from: code review of 1-3-secure-email-otp-device-fingerprinting.md (2026-05-13)
+
+- Hardcoded Plugin Config [packages/auth/src/index.ts]: OTP limits and expiry are hardcoded. Should be moved to environment variables.
+ (1-1-extended-user-model-ledger-schema.md)
 - **Idempotency Key Usage**: While the field exists, the system context for how it's generated/used is missing in this diff.
 - **Indentation Inconsistency**: Mass shift from spaces to tabs; deferred to project-wide lint fix to avoid noisy diffs.
 

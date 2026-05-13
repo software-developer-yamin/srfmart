@@ -4,27 +4,34 @@ import { env } from "@srfmart/env/server";
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { APIError } from "better-auth/api";
+import { emailOTP } from "better-auth/plugins";
 
 export function createAuth() {
 	return betterAuth({
 		database: mongodbAdapter(client),
 		trustedOrigins: [env.CORS_ORIGIN],
+		plugins: [
+			emailOTP({
+				expiresIn: 300,
+				allowedAttempts: 3,
+				sendVerificationOTP: async ({ email, otp, type }) => {
+					await Promise.resolve(); // satisfy linter for now
+					console.log(`[AUTH] Sending ${type} OTP to ${email}: ${otp}`);
+					// Implementation for real email service would go here
+				},
+			}),
+		],
 		databaseHooks: {
 			user: {
 				create: {
 					before: async (user) => {
 						const untypedUser = user as {
+							email: string;
 							referralCode?: string;
-							accounts?: unknown[];
 						};
 						let referralCode = untypedUser.referralCode;
 
 						if (!referralCode) {
-							// Skip check for social signups
-							if (untypedUser.accounts && untypedUser.accounts.length > 0) {
-								return;
-							}
-
 							throw new APIError("UNPROCESSABLE_ENTITY", {
 								message: "Referral code is required.",
 							});
@@ -92,7 +99,7 @@ export function createAuth() {
 		user: {
 			additionalFields: {
 				role: {
-					type: ["user", "moderator", "admin"],
+					type: "string",
 					defaultValue: "user",
 					input: false, // Prevent user from setting their own role
 				},
@@ -127,13 +134,6 @@ export function createAuth() {
 		},
 		secret: env.BETTER_AUTH_SECRET,
 		baseURL: env.BETTER_AUTH_URL,
-		advanced: {
-			cookie: {
-				sameSite: "none",
-				secure: true,
-				httpOnly: true,
-			},
-		},
 	});
 }
 

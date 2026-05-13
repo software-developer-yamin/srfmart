@@ -3,70 +3,156 @@ import { Input } from "@srfmart/ui/components/input";
 import { Label } from "@srfmart/ui/components/label";
 import { useForm } from "@tanstack/react-form";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import z from "zod";
 
 import { authClient } from "@/lib/auth-client";
 
 import Loader from "./loader";
 
-const REFERRAL_CODE_REGEX = /^[A-Z0-9]+$/;
-
-export default function SignUpForm({
-	onSwitchToSignIn,
-}: {
+interface SignUpFormProps {
+	authClient: typeof authClient;
+	Button: typeof Button;
+	Loader: typeof Loader;
 	onSwitchToSignIn: () => void;
-}) {
+}
+
+export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 	const router = useRouter();
 	const { isPending } = authClient.useSession();
+	const [step, setStep] = useState<"details" | "otp">("details");
+	const [email, setEmail] = useState("");
+	const [otp, setOtp] = useState("");
+	const [isVerifying, setIsVerifying] = useState(false);
+	const [resendCooldown, setResendCooldown] = useState(0);
+
+	useEffect(() => {
+		const pendingEmail = localStorage.getItem("pending_verification_email");
+		if (pendingEmail) {
+			setEmail(pendingEmail);
+			setStep("otp");
+		}
+	}, []);
+
+	useEffect(() => {
+		if (resendCooldown > 0) {
+			const timer = setTimeout(
+				() => setResendCooldown(resendCooldown - 1),
+				1000
+			);
+			return () => clearTimeout(timer);
+		}
+	}, [resendCooldown]);
 
 	const form = useForm({
 		defaultValues: {
+			name: "",
 			email: "",
 			password: "",
-			name: "",
 			referralCode: "",
 		},
 		onSubmit: async ({ value }) => {
-			await authClient.signUp.email(
-				{
-					email: value.email,
-					password: value.password,
-					name: value.name,
-					referralCode: value.referralCode,
-				},
-				{
-					onSuccess: () => {
-						router.push("/dashboard");
-						toast.success("Sign up successful");
-					},
-					onError: (error) => {
-						toast.error(error.error.message || error.error.statusText);
-					},
-				}
-			);
-		},
-		validators: {
-			onSubmit: z.object({
-				name: z.string().min(2, "Name must be at least 2 characters"),
-				email: z.string().trim().toLowerCase().email("Invalid email address"),
-				password: z.string().min(8, "Password must be at least 8 characters"),
-				referralCode: z
-					.string()
-					.min(3, "Referral code must be at least 3 characters")
-					.max(20, "Referral code is too long")
-					.transform((v) => v.toUpperCase())
-					.pipe(
-						z
-							.string()
-							.regex(REFERRAL_CODE_REGEX, "Referral code must be alphanumeric")
-					),
-			}),
+			setEmail(value.email);
+			const { error } = await authClient.emailOtp.sendVerificationOtp({
+				email: value.email,
+				type: "sign-in",
+			});
+
+			if (error) {
+				toast.error(error.message || "Failed to send verification code");
+			} else {
+				setStep("otp");
+				localStorage.setItem("pending_verification_email", value.email);
+				toast.success("Verification code sent to your email");
+			}
 		},
 	});
 
+	const handleVerifyOtp = async (e: React.FormEvent) => {
+		e.preventDefault();
+		setIsVerifying(true);
+		const { error } = await authClient.signIn.emailOtp({
+			email,
+			otp,
+			name: form.getFieldValue("name"),
+			referralCode: form.getFieldValue("referralCode"),
+		});
+
+		if (error) {
+			toast.error(error.message || "Invalid or expired code");
+			setIsVerifying(false);
+		} else {
+			localStorage.removeItem("pending_verification_email");
+			toast.success("Account created successfully");
+			router.push("/dashboard");
+		}
+	};
+
 	if (isPending) {
 		return <Loader />;
+	}
+
+	if (step === "otp") {
+		return (
+			<div className="mx-auto mt-10 w-full max-w-md p-6">
+				<h1 className="mb-2 text-center font-bold text-3xl">Verify Email</h1>
+				<p className="mb-6 text-center text-gray-600">
+					Enter the 6-digit code sent to {email}
+				</p>
+
+				<form className="space-y-4" onSubmit={handleVerifyOtp}>
+					<div className="space-y-2">
+						<Label htmlFor="otp">Verification Code</Label>
+						<Input
+							id="otp"
+							maxLength={6}
+							onChange={(e) => setOtp(e.target.value)}
+							placeholder="000000"
+							required
+							value={otp}
+						/>
+					</div>
+
+					<Button className="w-full" disabled={isVerifying} type="submit">
+						{isVerifying ? "Verifying..." : "Verify"}
+					</Button>
+
+					<div className="text-center">
+						<Button
+							className="text-gray-500"
+							disabled={resendCooldown > 0}
+							onClick={async () => {
+								await authClient.emailOtp.sendVerificationOtp({
+									email,
+									type: "sign-in",
+								});
+								setResendCooldown(60);
+								toast.success("Code resent");
+							}}
+							type="button"
+							variant="link"
+						>
+							{resendCooldown > 0
+								? `Resend in ${resendCooldown}s`
+								: "Resend Code"}
+						</Button>
+					</div>
+					<div className="text-center">
+						<Button
+							className="text-gray-400 text-xs"
+							onClick={() => {
+								localStorage.removeItem("pending_verification_email");
+								setStep("details");
+							}}
+							type="button"
+							variant="link"
+						>
+							Back to Sign Up
+						</Button>
+					</div>
+				</form>
+			</div>
+		);
 	}
 
 	return (
@@ -94,8 +180,8 @@ export default function SignUpForm({
 									value={field.state.value}
 								/>
 								{field.state.meta.errors.map((error) => (
-									<p className="text-red-500" key={error?.message}>
-										{error?.message}
+									<p className="text-red-500" key={error?.toString()}>
+										{error?.toString()}
 									</p>
 								))}
 							</div>
@@ -117,8 +203,8 @@ export default function SignUpForm({
 									value={field.state.value}
 								/>
 								{field.state.meta.errors.map((error) => (
-									<p className="text-red-500" key={error?.message}>
-										{error?.message}
+									<p className="text-red-500" key={error?.toString()}>
+										{error?.toString()}
 									</p>
 								))}
 							</div>
@@ -140,8 +226,8 @@ export default function SignUpForm({
 									value={field.state.value}
 								/>
 								{field.state.meta.errors.map((error) => (
-									<p className="text-red-500" key={error?.message}>
-										{error?.message}
+									<p className="text-red-500" key={error?.toString()}>
+										{error?.toString()}
 									</p>
 								))}
 							</div>
@@ -163,8 +249,8 @@ export default function SignUpForm({
 									value={field.state.value}
 								/>
 								{field.state.meta.errors.map((error) => (
-									<p className="text-red-500" key={error?.message}>
-										{error?.message}
+									<p className="text-red-500" key={error?.toString()}>
+										{error?.toString()}
 									</p>
 								))}
 							</div>
