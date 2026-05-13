@@ -1,6 +1,6 @@
 import { auth } from "@srfmart/auth";
 import { env } from "@srfmart/env/server";
-import { toNodeHandler } from "better-auth/node";
+import { fromNodeHeaders, toNodeHandler } from "better-auth/node";
 import cors from "cors";
 import { initLogger } from "evlog";
 import {
@@ -9,6 +9,7 @@ import {
 } from "evlog/better-auth";
 import { evlog } from "evlog/express";
 import express from "express";
+import { requireRole } from "./lib/require-role";
 
 initLogger({
 	env: { service: "srfmart-server" },
@@ -23,6 +24,14 @@ const app = express();
 
 app.use(evlog());
 app.use(async (req, _res, next) => {
+	const session = await auth.getSession({
+		headers: fromNodeHeaders(req.headers),
+	});
+	Object.assign(req, {
+		auth: {
+			getSession: async () => session,
+		},
+	});
 	await identifyUser(req.log, req.headers, req.path);
 	next();
 });
@@ -40,10 +49,24 @@ app.all("/api/auth{/*path}", toNodeHandler(auth));
 
 app.use(express.json());
 
+// Placeholder for protected routes to test RBAC
+app.get("/api/admin/test", requireRole(["admin"]), (_req, res) => {
+	res.status(200).json({ success: true, message: "Welcome Admin" });
+});
+
+app.get(
+	"/api/moderator/test",
+	requireRole(["admin", "moderator"]),
+	(_req, res) => {
+		res.status(200).json({ success: true, message: "Welcome Moderator/Admin" });
+	}
+);
+
 app.get("/", (_req, res) => {
 	res.status(200).send("OK");
 });
 
-app.listen(3000, () => {
-	console.log("Server is running on http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+	console.log(`Server is running on http://localhost:${PORT}`);
 });

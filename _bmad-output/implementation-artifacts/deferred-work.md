@@ -8,3 +8,6 @@
 ## Deferred from: code review of 1-2-referral-gated-user-registration (2026-05-13)
 - Inactive Referrer Check [packages/auth/src/index.ts:25]: The system validates code existence but not referrer status (active/deleted), as account status logic is not yet fully implemented.
 - Points Initialization [packages/auth/src/index.ts:18]: Registration logic sets the referral link but does not yet initialize points balances or transactions, as this is scoped to Epic 2.
+## Deferred from: code review of 1-4-role-based-navigation-api-access-control.md (2026-05-13)
+- Magic Strings: Role names like "admin" and "moderator" are raw strings across multiple files.
+- Type Casting: Use of (req as any) in the middleware bypasses TypeScript safety.

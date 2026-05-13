@@ -4,7 +4,7 @@ import { env } from "@srfmart/env/server";
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { APIError } from "better-auth/api";
-import { emailOTP } from "better-auth/plugins";
+import { admin, emailOTP } from "better-auth/plugins";
 
 interface ReferralUser {
 	_id: { toString: () => string };
@@ -21,6 +21,7 @@ export function createAuth() {
 		database: mongodbAdapter(client),
 		trustedOrigins: [env.CORS_ORIGIN],
 		plugins: [
+			admin(),
 			emailOTP({
 				expiresIn: 300,
 				allowedAttempts: 3,
