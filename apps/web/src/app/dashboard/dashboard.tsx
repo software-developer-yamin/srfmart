@@ -2,9 +2,10 @@
 import type { authClient } from "@/lib/auth-client";
 
 export default function Dashboard({
-	_session,
+	session,
 }: {
-	_session: typeof authClient.$Infer.Session;
+	session: typeof authClient.$Infer.Session;
 }) {
+	console.log(session);
 	return null;
 }

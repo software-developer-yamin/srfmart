@@ -10,6 +10,8 @@ import { authClient } from "@/lib/auth-client";
 
 import Loader from "./loader";
 
+const REFERRAL_CODE_REGEX = /^[A-Z0-9]+$/;
+
 export default function SignUpForm({
 	onSwitchToSignIn,
 }: {
@@ -23,6 +25,7 @@ export default function SignUpForm({
 			email: "",
 			password: "",
 			name: "",
+			referralCode: "",
 		},
 		onSubmit: async ({ value }) => {
 			await authClient.signUp.email(
@@ -30,6 +33,7 @@ export default function SignUpForm({
 					email: value.email,
 					password: value.password,
 					name: value.name,
+					referralCode: value.referralCode,
 				},
 				{
 					onSuccess: () => {
@@ -45,8 +49,18 @@ export default function SignUpForm({
 		validators: {
 			onSubmit: z.object({
 				name: z.string().min(2, "Name must be at least 2 characters"),
-				email: z.email("Invalid email address"),
+				email: z.string().trim().toLowerCase().email("Invalid email address"),
 				password: z.string().min(8, "Password must be at least 8 characters"),
+				referralCode: z
+					.string()
+					.min(3, "Referral code must be at least 3 characters")
+					.max(20, "Referral code is too long")
+					.transform((v) => v.toUpperCase())
+					.pipe(
+						z
+							.string()
+							.regex(REFERRAL_CODE_REGEX, "Referral code must be alphanumeric")
+					),
 			}),
 		},
 	});
@@ -123,6 +137,29 @@ export default function SignUpForm({
 									onBlur={field.handleBlur}
 									onChange={(e) => field.handleChange(e.target.value)}
 									type="password"
+									value={field.state.value}
+								/>
+								{field.state.meta.errors.map((error) => (
+									<p className="text-red-500" key={error?.message}>
+										{error?.message}
+									</p>
+								))}
+							</div>
+						)}
+					</form.Field>
+				</div>
+
+				<div>
+					<form.Field name="referralCode">
+						{(field) => (
+							<div className="space-y-2">
+								<Label htmlFor={field.name}>Referral Code</Label>
+								<Input
+									id={field.name}
+									name={field.name}
+									onBlur={field.handleBlur}
+									onChange={(e) => field.handleChange(e.target.value)}
+									placeholder="Enter your referral code"
 									value={field.state.value}
 								/>
 								{field.state.meta.errors.map((error) => (
