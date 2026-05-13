@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@srfmart/auth": "workspace:*",
     "@srfmart/env": "workspace:*",
     "@srfmart/ui": "workspace:*",
     "@tanstack/react-form": "^1.28.0",

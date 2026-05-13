@@ -24,21 +24,17 @@ export default function SignInForm({
 			password: "",
 		},
 		onSubmit: async ({ value }) => {
-			await authClient.signIn.email(
-				{
-					email: value.email,
-					password: value.password,
-				},
-				{
-					onSuccess: () => {
-						router.push("/dashboard");
-						toast.success("Sign in successful");
-					},
-					onError: (error) => {
-						toast.error(error.error.message || error.error.statusText);
-					},
-				}
-			);
+			const { error } = await authClient.signIn.email({
+				email: value.email,
+				password: value.password,
+			});
+
+			if (error) {
+				toast.error(error.message || error.statusText);
+			} else {
+				router.push("/dashboard");
+				toast.success("Sign in successful");
+			}
 		},
 		validators: {
 			onSubmit: z.object({

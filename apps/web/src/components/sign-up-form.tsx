@@ -3,8 +3,10 @@ import { Input } from "@srfmart/ui/components/input";
 import { Label } from "@srfmart/ui/components/label";
 import { useForm } from "@tanstack/react-form";
 import { useRouter } from "next/navigation";
-import { type FormEvent, useEffect, useState } from "react";
+import type React from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import z from "zod";
 
 import { authClient } from "@/lib/auth-client";
 
@@ -48,11 +50,22 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 			password: "",
 			referralCode: "",
 		},
+		validators: {
+			onChange: z.object({
+				name: z.string().min(2, "Name must be at least 2 characters"),
+				email: z.string().trim().toLowerCase().email("Invalid email address"),
+				password: z.string().min(8, "Password must be at least 8 characters"),
+				referralCode: z
+					.string()
+					.min(3, "Referral code must be at least 3 characters")
+					.max(20, "Referral code is too long"),
+			}),
+		},
 		onSubmit: async ({ value }) => {
 			setEmail(value.email);
 			const { error } = await authClient.emailOtp.sendVerificationOtp({
 				email: value.email,
-				type: "sign-in",
+				type: "email-verification",
 			});
 
 			if (error) {
@@ -60,28 +73,24 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 			} else {
 				setStep("otp");
 				localStorage.setItem("pending_verification_email", value.email);
-				localStorage.setItem(
-					"pending_verification_referral",
-					value.referralCode
-				);
 				toast.success("Verification code sent to your email");
 			}
 		},
 	});
 
-	const handleVerifyOtp = async (e: FormEvent<HTMLFormElement>) => {
+	const handleVerifyOtp = async (e: React.SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setIsVerifying(true);
 
-		const referralCode =
-			form.getFieldValue("referralCode") ||
-			localStorage.getItem("pending_verification_referral") ||
-			"";
+		const referralCode = form.getFieldValue("referralCode") || "";
+		const name = form.getFieldValue("name");
+		const password = form.getFieldValue("password");
 
 		const { error } = await authClient.signIn.emailOtp({
 			email,
 			otp,
-			name: form.getFieldValue("name"),
+			name,
+			password,
 			referralCode,
 		});
 
@@ -90,7 +99,6 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 			setIsVerifying(false);
 		} else {
 			localStorage.removeItem("pending_verification_email");
-			localStorage.removeItem("pending_verification_referral");
 			toast.success("Account created successfully");
 			router.push("/dashboard");
 		}

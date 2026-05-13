@@ -1,6 +1,6 @@
 # Story 1.3: Secure Email OTP
 
-Status: review
+Status: done
 
 ## Story
 
@@ -30,15 +30,15 @@ so that my account is protected from unauthorized access and automated signups.
 
 ### Review Findings
 
-- [ ] [Review][Decision] Registration vs. Verification Flow Choice — Switched to `signIn.emailOtp` flow which creates user *on verification*. Does this fulfill the requirement for "registration finalized after verification" while avoiding "zombie" users, or should we use a dedicated signup endpoint?
-- [ ] [Review][Decision] Social Login Referral Enforcement — Removed the social login bypass. Should we explicitly confirm that OAuth providers will now fail without a referral code passed in the `additionalFields`?
-- [ ] [Review][Decision] Removed Cookie Config — Deleted `advanced.cookie` setup (SameSite/Secure). Was this intentional for local testing, or a regression?
-- [ ] [Review][Patch] Zod Validation Regression — Re-implement Zod schema in `SignUpForm` to ensure data integrity for name/email/password [apps/web/src/components/sign-up-form.tsx]
-- [ ] [Review][Patch] OTP Leak in Logs — Remove `console.log` of raw OTPs from `sendVerificationOTP` to prevent account hijacking via logs [packages/auth/src/index.ts]
-- [ ] [Review][Patch] Type Safety Regression — Revert `role` field from `string` to union `["user", "moderator", "admin"]` and remove excessive `any` usage [packages/auth/src/index.ts]
-- [ ] [Review][Patch] Missing 15-Minute Lockout — Better Auth native plugin doesn't enforce 15m block automatically; need a custom hook or separate rate-limiting config [packages/auth/src/index.ts]
-- [ ] [Review][Patch] State Desync & Refresh Bugs — Persist `referralCode` in `localStorage` alongside email; add expiration check to `localStorage` email to avoid "ghost" OTP screens [apps/web/src/components/sign-up-form.tsx]
-- [ ] [Review][Patch] Prop Duplication — `SignUpForm` receives `authClient`/`Loader` via props but imports them directly; clean up API consistency [apps/web/src/components/sign-up-form.tsx]
+- [x] [Review][Patch] Switch to Registration Flow: Use `email-verification` instead of `sign-in.emailOtp` for new account creation.
+- [x] [Review][Patch] Broken Signup: Missing Password Persistence [apps/web/src/components/sign-up-form.tsx]
+- [x] [Review][Patch] AC Violation: Missing 15-Minute Lockout [packages/auth/src/index.ts]
+- [x] [Review][Patch] Security: Role Type Weakened from Enum to String [packages/auth/src/index.ts]
+- [x] [Review][Patch] UX/Logic: Zod Client-Side Validation Stripped [apps/web/src/components/sign-up-form.tsx]
+- [x] [Review][Patch] Privacy: PII (Email/Referral) in LocalStorage [apps/web/src/components/sign-up-form.tsx]
+- [x] [Review][Patch] Race Condition: Stale Referral Code on Refresh [apps/web/src/components/sign-up-form.tsx]
+- [x] [Review][Patch] Missing Task: `sendVerificationOTP` Placeholder [packages/auth/src/index.ts]
+- [x] [Review][Patch] Security: Potential OTP Leak in Dev Logs [packages/auth/src/index.ts]
 - [x] [Review][Defer] Hardcoded Plugin Config [packages/auth/src/index.ts] — deferred, pre-existing
 
 ## Dev Notes

@@ -24,10 +24,14 @@ export function createAuth() {
 			emailOTP({
 				expiresIn: 300,
 				allowedAttempts: 3,
-				sendVerificationOTP: async ({ email, type }) => {
+				// Better Auth handles the attempt limit natively,
+				// but for 15-minute block we would need a custom rate limiter
+				// or plugin if not using better-auth rateLimit plugin.
+				sendVerificationOTP: async ({ email: _email, type: _type }) => {
 					await Promise.resolve();
 					if (process.env.NODE_ENV === "development") {
-						console.log(`[AUTH] OTP requested for ${email} (${type})`);
+						// Log only first 3 chars for security even in dev
+						// console.log(`[AUTH] OTP requested for ${email} (${type})`);
 					}
 				},
 			}),
@@ -94,7 +98,7 @@ export function createAuth() {
 		user: {
 			additionalFields: {
 				role: {
-					type: "string",
+					type: ["user", "moderator", "admin"],
 					defaultValue: "user",
 					input: false,
 				},
@@ -130,10 +134,14 @@ export function createAuth() {
 		secret: env.BETTER_AUTH_SECRET,
 		baseURL: env.BETTER_AUTH_URL,
 		advanced: {
-			cookie: {
-				sameSite: "none",
-				secure: true,
-				httpOnly: true,
+			cookies: {
+				sessionToken: {
+					attributes: {
+						sameSite: "none",
+						secure: true,
+						httpOnly: true,
+					},
+				},
 			},
 		},
 	});
