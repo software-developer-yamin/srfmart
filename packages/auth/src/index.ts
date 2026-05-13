@@ -1,23 +1,29 @@
 import { client } from "@srfmart/db";
-import { User } from "@srfmart/db/models/auth.model";
+import { User as UserModel } from "@srfmart/db/models/auth.model";
 import { env } from "@srfmart/env/server";
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { APIError } from "better-auth/api";
 import { emailOTP } from "better-auth/plugins";
 
+interface ReferralUser {
+	_id: { toString: () => string };
+	email?: string;
+}
+
 export function createAuth() {
-	return betterAuth({
+	const authInstance = betterAuth({
 		database: mongodbAdapter(client),
 		trustedOrigins: [env.CORS_ORIGIN],
 		plugins: [
 			emailOTP({
 				expiresIn: 300,
 				allowedAttempts: 3,
-				sendVerificationOTP: async ({ email, otp, type }) => {
-					await Promise.resolve(); // satisfy linter for now
-					console.log(`[AUTH] Sending ${type} OTP to ${email}: ${otp}`);
-					// Implementation for real email service would go here
+				sendVerificationOTP: async ({ email, type }) => {
+					await Promise.resolve();
+					if (process.env.NODE_ENV === "development") {
+						console.log(`[AUTH] OTP requested for ${email} (${type})`);
+					}
 				},
 			}),
 		],
@@ -25,25 +31,21 @@ export function createAuth() {
 			user: {
 				create: {
 					before: async (user) => {
-						const untypedUser = user as {
-							email: string;
-							referralCode?: string;
-						};
-						let referralCode = untypedUser.referralCode;
+						const referralCode = (user as Record<string, unknown>).referralCode;
 
-						if (!referralCode) {
+						if (!referralCode || typeof referralCode !== "string") {
 							throw new APIError("UNPROCESSABLE_ENTITY", {
 								message: "Referral code is required.",
 							});
 						}
 
-						if (typeof referralCode !== "string" || referralCode.length > 20) {
+						if (referralCode.length > 20) {
 							throw new APIError("UNPROCESSABLE_ENTITY", {
 								message: "Invalid referral code format.",
 							});
 						}
 
-						referralCode = referralCode.trim().toUpperCase();
+						const cleanCode = referralCode.trim().toUpperCase();
 
 						if (!user.email) {
 							throw new APIError("UNPROCESSABLE_ENTITY", {
@@ -51,30 +53,17 @@ export function createAuth() {
 							});
 						}
 
-						let referrer: {
-							_id: { toString: () => string };
-							email?: string;
-						} | null;
-						try {
-							const doc = await User.findOne({ referralCode }).lean();
-							referrer = doc
-								? (doc as unknown as {
-										_id: { toString: () => string };
-										email?: string;
-									})
-								: null;
-						} catch (error) {
-							console.error("Referral DB Error:", error);
-							throw new APIError("INTERNAL_SERVER_ERROR", {
-								message: "Database error during referral validation.",
-							});
-						}
+						const referrerDoc = await UserModel.findOne({
+							referralCode: cleanCode,
+						}).lean();
 
-						if (!referrer) {
+						if (!referrerDoc) {
 							throw new APIError("UNPROCESSABLE_ENTITY", {
 								message: "Invalid referral code.",
 							});
 						}
+
+						const referrer = referrerDoc as unknown as ReferralUser;
 
 						if (
 							referrer.email &&
@@ -101,7 +90,7 @@ export function createAuth() {
 				role: {
 					type: "string",
 					defaultValue: "user",
-					input: false, // Prevent user from setting their own role
+					input: false,
 				},
 				referredBy: {
 					type: "string",
@@ -135,6 +124,8 @@ export function createAuth() {
 		secret: env.BETTER_AUTH_SECRET,
 		baseURL: env.BETTER_AUTH_URL,
 	});
+
+	return authInstance;
 }
 
 export const auth = createAuth();
