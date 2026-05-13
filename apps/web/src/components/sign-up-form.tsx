@@ -11,9 +11,6 @@ import { authClient } from "@/lib/auth-client";
 import Loader from "./loader";
 
 interface SignUpFormProps {
-	authClient: typeof authClient;
-	Button: typeof Button;
-	Loader: typeof Loader;
 	onSwitchToSignIn: () => void;
 }
 
@@ -63,6 +60,10 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 			} else {
 				setStep("otp");
 				localStorage.setItem("pending_verification_email", value.email);
+				localStorage.setItem(
+					"pending_verification_referral",
+					value.referralCode
+				);
 				toast.success("Verification code sent to your email");
 			}
 		},
@@ -71,11 +72,17 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 	const handleVerifyOtp = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setIsVerifying(true);
+
+		const referralCode =
+			form.getFieldValue("referralCode") ||
+			localStorage.getItem("pending_verification_referral") ||
+			"";
+
 		const { error } = await authClient.signIn.emailOtp({
 			email,
 			otp,
 			name: form.getFieldValue("name"),
-			referralCode: form.getFieldValue("referralCode"),
+			referralCode,
 		});
 
 		if (error) {
@@ -83,6 +90,7 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 			setIsVerifying(false);
 		} else {
 			localStorage.removeItem("pending_verification_email");
+			localStorage.removeItem("pending_verification_referral");
 			toast.success("Account created successfully");
 			router.push("/dashboard");
 		}
@@ -142,6 +150,7 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 							className="text-gray-400 text-xs"
 							onClick={() => {
 								localStorage.removeItem("pending_verification_email");
+								localStorage.removeItem("pending_verification_referral");
 								setStep("details");
 							}}
 							type="button"
