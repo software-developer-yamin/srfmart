@@ -1,23 +1,32 @@
+import type { NextFunction, Request, Response } from "express";
 import { describe, expect, it, vi } from "vitest";
 import { requireRole } from "../src/lib/require-role";
 
 describe("RBAC Middleware", () => {
-	it("should return 401 if no session is found", async () => {
-		const middleware = requireRole(["admin"]);
-		const req = {
+	const createMockReq = (sessionValue: unknown) =>
+		({
 			headers: {},
 			log: { error: vi.fn() },
 			auth: {
-				getSession: vi.fn().mockResolvedValue(null),
+				getSession: vi.fn().mockResolvedValue(sessionValue),
 			},
-		};
+		}) as unknown as Request;
+
+	const createMockRes = () => {
 		const res = {
 			status: vi.fn().mockReturnThis(),
-			json: vi.fn(),
-		};
-		const next = vi.fn();
+			json: vi.fn().mockReturnThis(),
+		} as unknown as Response;
+		return res;
+	};
 
-		await middleware(req as any, res as any, next);
+	it("should return 401 if no session is found", async () => {
+		const middleware = requireRole(["admin"]);
+		const req = createMockReq(null);
+		const res = createMockRes();
+		const next = vi.fn() as NextFunction;
+
+		await middleware(req, res, next);
 
 		expect(res.status).toHaveBeenCalledWith(401);
 		expect(res.json).toHaveBeenCalledWith(
@@ -31,22 +40,13 @@ describe("RBAC Middleware", () => {
 
 	it("should return 403 if user role is not allowed", async () => {
 		const middleware = requireRole(["admin"]);
-		const req = {
-			headers: {},
-			log: { error: vi.fn() },
-			auth: {
-				getSession: vi.fn().mockResolvedValue({
-					user: { role: "user" },
-				}),
-			},
-		};
-		const res = {
-			status: vi.fn().mockReturnThis(),
-			json: vi.fn(),
-		};
-		const next = vi.fn();
+		const req = createMockReq({
+			user: { role: "user" },
+		});
+		const res = createMockRes();
+		const next = vi.fn() as NextFunction;
 
-		await middleware(req as any, res as any, next);
+		await middleware(req, res, next);
 
 		expect(res.status).toHaveBeenCalledWith(403);
 		expect(res.json).toHaveBeenCalledWith(
@@ -60,22 +60,13 @@ describe("RBAC Middleware", () => {
 
 	it("should call next() if user role is allowed", async () => {
 		const middleware = requireRole(["admin"]);
-		const req = {
-			headers: {},
-			log: { error: vi.fn() },
-			auth: {
-				getSession: vi.fn().mockResolvedValue({
-					user: { role: "admin" },
-				}),
-			},
-		};
-		const res = {
-			status: vi.fn().mockReturnThis(),
-			json: vi.fn(),
-		};
-		const next = vi.fn();
+		const req = createMockReq({
+			user: { role: "admin" },
+		});
+		const res = createMockRes();
+		const next = vi.fn() as NextFunction;
 
-		await middleware(req as any, res as any, next);
+		await middleware(req, res, next);
 
 		expect(next).toHaveBeenCalled();
 		expect(res.status).not.toHaveBeenCalled();
@@ -83,22 +74,13 @@ describe("RBAC Middleware", () => {
 
 	it("should call next() if user has one of the allowed roles", async () => {
 		const middleware = requireRole(["admin", "moderator"]);
-		const req = {
-			headers: {},
-			log: { error: vi.fn() },
-			auth: {
-				getSession: vi.fn().mockResolvedValue({
-					user: { role: "moderator" },
-				}),
-			},
-		};
-		const res = {
-			status: vi.fn().mockReturnThis(),
-			json: vi.fn(),
-		};
-		const next = vi.fn();
+		const req = createMockReq({
+			user: { role: "moderator" },
+		});
+		const res = createMockRes();
+		const next = vi.fn() as NextFunction;
 
-		await middleware(req as any, res as any, next);
+		await middleware(req, res, next);
 
 		expect(next).toHaveBeenCalled();
 	});

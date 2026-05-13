@@ -16,7 +16,7 @@ describe("PointsService", () => {
 
 	it("should distribute points equally among users and return remainder to admin", async () => {
 		// Setup
-		const _admin = await User.create({
+		await User.create({
 			_id: "admin1",
 			name: "Admin",
 			email: "admin@srfmart.com",
@@ -74,7 +74,7 @@ describe("PointsService", () => {
 	});
 
 	it("should transfer points only to staff (admin/moderator)", async () => {
-		const _user = await User.create({
+		await User.create({
 			_id: "sender1",
 			name: "Sender",
 			email: "sender@test.com",
@@ -84,7 +84,7 @@ describe("PointsService", () => {
 			updatedAt: new Date(),
 		});
 
-		const _moderator = await User.create({
+		await User.create({
 			_id: "mod1",
 			name: "Moderator",
 			email: "mod@test.com",

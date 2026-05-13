@@ -26,8 +26,8 @@ describe("Email OTP Plugin Configuration", () => {
 	it("should have emailOTP plugin configured with correct limits", () => {
 		const auth = createAuth();
 		const emailOtpPlugin = auth.options.plugins?.find(
-			(p: any) => p.id === "email-otp"
-		);
+			(p) => (p as { id: string }).id === "email-otp"
+		) as { options: { expiresIn: number; allowedAttempts: number } };
 
 		expect(emailOtpPlugin).toBeDefined();
 		expect(emailOtpPlugin.options).toMatchObject({
@@ -39,8 +39,8 @@ describe("Email OTP Plugin Configuration", () => {
 	it("should have sendVerificationOTP implementation", () => {
 		const auth = createAuth();
 		const emailOtpPlugin = auth.options.plugins?.find(
-			(p: any) => p.id === "email-otp"
-		);
+			(p) => (p as { id: string }).id === "email-otp"
+		) as { options: { sendVerificationOTP: unknown } };
 
 		expect(emailOtpPlugin.options.sendVerificationOTP).toBeTypeOf("function");
 	});

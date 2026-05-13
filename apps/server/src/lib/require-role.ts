@@ -1,20 +1,10 @@
 import type { NextFunction, Request, Response } from "express";
 
-interface AuthRequest extends Request {
-	auth?: {
-		getSession: () => Promise<{
-			user: {
-				role: string;
-			};
-		} | null>;
-	};
-}
-
 export const requireRole =
 	(allowedRoles: string[]) =>
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			const session = await (req as AuthRequest).auth?.getSession();
+			const session = await req.auth?.getSession();
 
 			if (!session?.user) {
 				return res.status(401).json({

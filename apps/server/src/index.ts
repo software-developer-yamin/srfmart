@@ -3,10 +3,7 @@ import { env } from "@srfmart/env/server";
 import { fromNodeHeaders, toNodeHandler } from "better-auth/node";
 import cors from "cors";
 import { initLogger } from "evlog";
-import {
-	type BetterAuthInstance,
-	createAuthMiddleware,
-} from "evlog/better-auth";
+import { createAuthMiddleware } from "evlog/better-auth";
 import { evlog } from "evlog/express";
 import express from "express";
 import { requireRole } from "./lib/require-role";
@@ -15,7 +12,7 @@ initLogger({
 	env: { service: "srfmart-server" },
 });
 
-const identifyUser = createAuthMiddleware(auth as BetterAuthInstance, {
+const identifyUser = createAuthMiddleware(auth, {
 	exclude: ["/api/auth/**"],
 	maskEmail: true,
 });
@@ -24,14 +21,13 @@ const app = express();
 
 app.use(evlog());
 app.use(async (req, _res, next) => {
-	const session = await auth.getSession({
+	const session = await auth.api.getSession({
 		headers: fromNodeHeaders(req.headers),
 	});
-	Object.assign(req, {
-		auth: {
-			getSession: async () => session,
-		},
-	});
+
+	req.auth = {
+		getSession: async () => session,
+	};
 	await identifyUser(req.log, req.headers, req.path);
 	next();
 });

@@ -8,7 +8,7 @@ import { admin, emailOTP } from "better-auth/plugins";
 
 interface ReferralUser {
 	_id: { toString: () => string };
-	email?: string;
+	email: string;
 }
 
 interface UserCreateData {
@@ -41,6 +41,12 @@ export function createAuth() {
 			user: {
 				create: {
 					before: async (user) => {
+						if (!user || typeof user !== "object") {
+							throw new APIError("INTERNAL_SERVER_ERROR", {
+								message: "Invalid user data.",
+							});
+						}
+
 						const input = user as UserCreateData;
 						const referralCode = input.referralCode;
 
@@ -74,13 +80,19 @@ export function createAuth() {
 							});
 						}
 
-						const referrer = referrerDoc as unknown as ReferralUser;
+						// Type guard to ensure referrerDoc matches ReferralUser
+						if (!referrerDoc._id || typeof referrerDoc.email !== "string") {
+							throw new APIError("INTERNAL_SERVER_ERROR", {
+								message: "Referrer data is corrupted.",
+							});
+						}
 
-						if (
-							referrer.email &&
-							input.email &&
-							referrer.email.toLowerCase() === input.email.toLowerCase()
-						) {
+						const referrer: ReferralUser = {
+							_id: referrerDoc._id,
+							email: referrerDoc.email,
+						};
+
+						if (referrer.email.toLowerCase() === input.email.toLowerCase()) {
 							throw new APIError("UNPROCESSABLE_ENTITY", {
 								message: "Self-referral is not allowed.",
 							});

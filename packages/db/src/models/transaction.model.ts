@@ -5,7 +5,7 @@ const { Schema, model } = mongoose;
 interface ITransaction {
 	amount: number; // Stored as integer (cents/units)
 	idempotencyKey: string;
-	metadata?: Record<string, unknown>;
+	metadata?: Record<string, string | number | boolean | null | object>;
 	receiverId?: string;
 	senderId?: string;
 	status: string;

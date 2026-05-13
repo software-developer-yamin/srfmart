@@ -104,18 +104,25 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 		}
 	};
 
-	const FieldError = ({ errors }: { errors: unknown[] }) => {
-		if (!errors.length) {
+	const FieldError = ({
+		errors,
+	}: {
+		errors: (string | { message: string } | undefined)[];
+	}) => {
+		const filteredErrors = errors
+			.filter(Boolean)
+			.map((e) => (typeof e === "string" ? e : e?.message));
+		if (!filteredErrors.length) {
 			return null;
 		}
 		return (
 			<div className="space-y-1">
-				{errors.map((error, i) => (
+				{filteredErrors.map((error, i) => (
 					<p
 						className="font-medium text-destructive text-sm"
-						key={`${i}-${error?.toString()}`}
+						key={`${i}-${error}`}
 					>
-						{error?.toString()}
+						{error}
 					</p>
 				))}
 			</div>
@@ -218,7 +225,11 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 									placeholder="John Doe"
 									value={field.state.value}
 								/>
-								<FieldError errors={field.state.meta.errors} />
+								<FieldError
+									errors={
+										field.state.meta.isTouched ? field.state.meta.errors : []
+									}
+								/>
 							</div>
 						)}
 					</form.Field>
@@ -238,7 +249,11 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 									type="email"
 									value={field.state.value}
 								/>
-								<FieldError errors={field.state.meta.errors} />
+								<FieldError
+									errors={
+										field.state.meta.isTouched ? field.state.meta.errors : []
+									}
+								/>
 							</div>
 						)}
 					</form.Field>
@@ -258,7 +273,11 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 									type="password"
 									value={field.state.value}
 								/>
-								<FieldError errors={field.state.meta.errors} />
+								<FieldError
+									errors={
+										field.state.meta.isTouched ? field.state.meta.errors : []
+									}
+								/>
 							</div>
 						)}
 					</form.Field>
@@ -277,7 +296,11 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 									placeholder="Enter your referral code"
 									value={field.state.value}
 								/>
-								<FieldError errors={field.state.meta.errors} />
+								<FieldError
+									errors={
+										field.state.meta.isTouched ? field.state.meta.errors : []
+									}
+								/>
 							</div>
 						)}
 					</form.Field>

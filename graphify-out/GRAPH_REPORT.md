@@ -1,222 +1,441 @@
-# Graph Report - srfmart  (2026-05-12)
+# Graph Report - .  (2026-05-13)
 
 ## Corpus Check
-- 55 files · ~28,986 words
+- 127 files · ~50,024 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 553 nodes · 597 edges · 46 communities (33 shown, 13 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 5 edges (avg confidence: 0.85)
+- 841 nodes · 1220 edges · 117 communities (71 shown, 46 thin omitted)
+- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 4 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
-## Graph Freshness
-- Built from commit: `29967743`
-- Run `git rev-parse HEAD` and compare to check if the graph is stale.
-- Run `graphify update .` after code changes (no API cost).
-
 ## Community Hubs (Navigation)
-- [[_COMMUNITY_UI Layout & Header Components|UI Layout & Header Components]]
-- [[_COMMUNITY_Auth Forms & Dashboard Pages|Auth Forms & Dashboard Pages]]
-- [[_COMMUNITY_UI Core Utilities (Card, Checkbox, Label, Utils)|UI Core Utilities (Card, Checkbox, Label, Utils)]]
-- [[_COMMUNITY_BMAD Customization Scripts|BMAD Customization Scripts]]
-- [[_COMMUNITY_Theme & Global Providers|Theme & Global Providers]]
-- [[_COMMUNITY_Database Models (Auth)|Database Models (Auth)]]
-- [[_COMMUNITY_BMAD Config Scripts|BMAD Config Scripts]]
-- [[_COMMUNITY_Core Application Architecture (Hono, Auth Client, Mongoose)|Core Application Architecture (Hono, Auth Client, Mongoose)]]
-- [[_COMMUNITY_BMAD Documentation & Config|BMAD Documentation & Config]]
-- [[_COMMUNITY_Server Entry Points|Server Entry Points]]
-- [[_COMMUNITY_Proxy Logic|Proxy Logic]]
-- [[_COMMUNITY_Logging (Evlog)|Logging (Evlog)]]
-- [[_COMMUNITY_Auth Core (Packages)|Auth Core (Packages)]]
+- [[_COMMUNITY_Overlays & Tooltips|Overlays & Tooltips]]
+- [[_COMMUNITY_Navigation & Calendar|Navigation & Calendar]]
+- [[_COMMUNITY_Shared UI Primitives|Shared UI Primitives]]
+- [[_COMMUNITY_Avatar & Breadcrumbs|Avatar & Breadcrumbs]]
+- [[_COMMUNITY_App Dashboard & Authentication UI|App Dashboard & Authentication UI]]
+- [[_COMMUNITY_Web Auth Components|Web Auth Components]]
+- [[_COMMUNITY_BMAD Agent Framework|BMAD Agent Framework]]
+- [[_COMMUNITY_Command & Dialog Primitives|Command & Dialog Primitives]]
+- [[_COMMUNITY_Advanced UI Decoration|Advanced UI Decoration]]
+- [[_COMMUNITY_Form Field & Button Groups|Form Field & Button Groups]]
+- [[_COMMUNITY_Command Interface (Base)|Command Interface (Base)]]
+- [[_COMMUNITY_Context Menu Primitives|Context Menu Primitives]]
+- [[_COMMUNITY_Context Menu (Base)|Context Menu (Base)]]
+- [[_COMMUNITY_Menubar Components|Menubar Components]]
+- [[_COMMUNITY_Auth Logic & Referral Testing|Auth Logic & Referral Testing]]
+- [[_COMMUNITY_Carousel Interaction|Carousel Interaction]]
+- [[_COMMUNITY_Popover Primitives|Popover Primitives]]
+- [[_COMMUNITY_Alert Dialog Primitives|Alert Dialog Primitives]]
+- [[_COMMUNITY_Charting & Tooltip Config|Charting & Tooltip Config]]
+- [[_COMMUNITY_List Item Primitives|List Item Primitives]]
+- [[_COMMUNITY_Config Resolution Utilities|Config Resolution Utilities]]
+- [[_COMMUNITY_Sidebar & Mobile Utilities|Sidebar & Mobile Utilities]]
+- [[_COMMUNITY_Next.js Layout & Providers|Next.js Layout & Providers]]
+- [[_COMMUNITY_Tabs & List Primitives|Tabs & List Primitives]]
+- [[_COMMUNITY_Drawer & Dialog Primitives|Drawer & Dialog Primitives]]
+- [[_COMMUNITY_Input Group & Textarea|Input Group & Textarea]]
+- [[_COMMUNITY_Alert Dialog (Base)|Alert Dialog (Base)]]
+- [[_COMMUNITY_Navigation Menu Primitives|Navigation Menu Primitives]]
+- [[_COMMUNITY_Accordion Primitives|Accordion Primitives]]
+- [[_COMMUNITY_Database Schemas (Auth)|Database Schemas (Auth)]]
+- [[_COMMUNITY_Pagination Controls|Pagination Controls]]
+- [[_COMMUNITY_Toggle & Toggle Group|Toggle & Toggle Group]]
+- [[_COMMUNITY_Empty State Primitives|Empty State Primitives]]
+- [[_COMMUNITY_Card Primitives|Card Primitives]]
+- [[_COMMUNITY_Config Merge Logic|Config Merge Logic]]
+- [[_COMMUNITY_Server Services & RBAC|Server Services & RBAC]]
+- [[_COMMUNITY_Collapsible Components|Collapsible Components]]
+- [[_COMMUNITY_Avatar Components|Avatar Components]]
+- [[_COMMUNITY_Empty State (Base)|Empty State (Base)]]
+- [[_COMMUNITY_Chart Components|Chart Components]]
+- [[_COMMUNITY_Carousel (Base)|Carousel (Base)]]
+- [[_COMMUNITY_Progress Components|Progress Components]]
+- [[_COMMUNITY_Alert (Base)|Alert (Base)]]
+- [[_COMMUNITY_Progress (Base)|Progress (Base)]]
+- [[_COMMUNITY_Input Group Primitives|Input Group Primitives]]
+- [[_COMMUNITY_Select Primitives|Select Primitives]]
+- [[_COMMUNITY_Input OTP Primitives|Input OTP Primitives]]
+- [[_COMMUNITY_Native Select Primitives|Native Select Primitives]]
+- [[_COMMUNITY_Alert Components|Alert Components]]
+- [[_COMMUNITY_Transaction Database Schema|Transaction Database Schema]]
+- [[_COMMUNITY_Switch Component|Switch Component]]
+- [[_COMMUNITY_Resizable Layouts|Resizable Layouts]]
+- [[_COMMUNITY_Slider Component|Slider Component]]
+- [[_COMMUNITY_App Root UI|App Root UI]]
+- [[_COMMUNITY_Core Packages (AuthDB)|Core Packages (Auth/DB)]]
+- [[_COMMUNITY_Button Group Primitives|Button Group Primitives]]
+- [[_COMMUNITY_Input OTP (Base)|Input OTP (Base)]]
+- [[_COMMUNITY_Resizable (Base)|Resizable (Base)]]
+- [[_COMMUNITY_Hover Card Primitives|Hover Card Primitives]]
+- [[_COMMUNITY_Points Service Tests|Points Service Tests]]
+- [[_COMMUNITY_Proxy Configuration|Proxy Configuration]]
+- [[_COMMUNITY_Evlog Middleware|Evlog Middleware]]
+- [[_COMMUNITY_Calendar Primitives|Calendar Primitives]]
+- [[_COMMUNITY_Radio Group Primitives|Radio Group Primitives]]
+- [[_COMMUNITY_Breadcrumb Primitives|Breadcrumb Primitives]]
+- [[_COMMUNITY_Navigation Menu (Base)|Navigation Menu (Base)]]
+- [[_COMMUNITY_Drawer (Base)|Drawer (Base)]]
+- [[_COMMUNITY_Kbd Components|Kbd Components]]
+- [[_COMMUNITY_Direction Providers|Direction Providers]]
+- [[_COMMUNITY_Toggle Group Components|Toggle Group Components]]
+- [[_COMMUNITY_Express Type Augmentations|Express Type Augmentations]]
+- [[_COMMUNITY_Next.js Instrumentation|Next.js Instrumentation]]
 - [[_COMMUNITY_Next.js Config|Next.js Config]]
-- [[_COMMUNITY_PostCSS Config (Web)|PostCSS Config (Web)]]
-- [[_COMMUNITY_Instrumentation|Instrumentation]]
-- [[_COMMUNITY_Home Page|Home Page]]
-- [[_COMMUNITY_DB Entry Points|DB Entry Points]]
-- [[_COMMUNITY_Global Layout & Logging|Global Layout & Logging]]
-- [[_COMMUNITY_Guidelines & README|Guidelines & README]]
-- [[_COMMUNITY_Tsdown Config|Tsdown Config]]
-- [[_COMMUNITY_Next Env Types|Next Env Types]]
-- [[_COMMUNITY_PostCSS Config (UI)|PostCSS Config (UI)]]
-- [[_COMMUNITY_Dashboard View|Dashboard View]]
-- [[_COMMUNITY_UI Button Component|UI Button Component]]
-- [[_COMMUNITY_Community 25|Community 25]]
-- [[_COMMUNITY_Community 26|Community 26]]
-- [[_COMMUNITY_Community 27|Community 27]]
-- [[_COMMUNITY_Community 28|Community 28]]
-- [[_COMMUNITY_Community 29|Community 29]]
-- [[_COMMUNITY_Community 30|Community 30]]
-- [[_COMMUNITY_Community 31|Community 31]]
-- [[_COMMUNITY_Community 32|Community 32]]
-- [[_COMMUNITY_Community 33|Community 33]]
-- [[_COMMUNITY_Community 34|Community 34]]
-- [[_COMMUNITY_Community 36|Community 36]]
-- [[_COMMUNITY_Community 37|Community 37]]
-- [[_COMMUNITY_Community 38|Community 38]]
-- [[_COMMUNITY_Community 39|Community 39]]
-- [[_COMMUNITY_Community 44|Community 44]]
-- [[_COMMUNITY_Community 45|Community 45]]
+- [[_COMMUNITY_PostCSS Config|PostCSS Config]]
+- [[_COMMUNITY_Client Entry Points|Client Entry Points]]
+- [[_COMMUNITY_Theme Provider|Theme Provider]]
+- [[_COMMUNITY_Bottom Navigation|Bottom Navigation]]
+- [[_COMMUNITY_Config Package|Config Package]]
+- [[_COMMUNITY_Toast Notifications|Toast Notifications]]
+- [[_COMMUNITY_Dropdown Menu Components|Dropdown Menu Components]]
+- [[_COMMUNITY_Textarea Primitives|Textarea Primitives]]
+- [[_COMMUNITY_Native Select (Base)|Native Select (Base)]]
+- [[_COMMUNITY_Scroll Area Primitives|Scroll Area Primitives]]
+- [[_COMMUNITY_Spinner Component|Spinner Component]]
+- [[_COMMUNITY_Aspect Ratio Component|Aspect Ratio Component]]
+- [[_COMMUNITY_Shadcn Documentation|Shadcn Documentation]]
+- [[_COMMUNITY_Root Layout (Base)|Root Layout (Base)]]
+- [[_COMMUNITY_Home Page (Base)|Home Page (Base)]]
+- [[_COMMUNITY_Evlog Implementation|Evlog Implementation]]
+- [[_COMMUNITY_Project Documentation|Project Documentation]]
+- [[_COMMUNITY_Workflow Docs|Workflow Docs]]
+- [[_COMMUNITY_Build Config (Base)|Build Config (Base)]]
+- [[_COMMUNITY_Instrumentation Entry|Instrumentation Entry]]
+- [[_COMMUNITY_Next.js Meta|Next.js Meta]]
+- [[_COMMUNITY_Middleware Proxy|Middleware Proxy]]
+- [[_COMMUNITY_Login UI|Login UI]]
+- [[_COMMUNITY_Loader UI|Loader UI]]
+- [[_COMMUNITY_Env Config|Env Config]]
+- [[_COMMUNITY_UI Package Metadata|UI Package Metadata]]
+- [[_COMMUNITY_Shadcn Components JSON|Shadcn Components JSON]]
+- [[_COMMUNITY_Dropdown Trigger|Dropdown Trigger]]
+- [[_COMMUNITY_Button Variants|Button Variants]]
+- [[_COMMUNITY_Field Description|Field Description]]
+- [[_COMMUNITY_Field Error|Field Error]]
+- [[_COMMUNITY_Field Group (Base)|Field Group (Base)]]
+- [[_COMMUNITY_Input Group Text|Input Group Text]]
+- [[_COMMUNITY_Input OTP Separator|Input OTP Separator]]
+- [[_COMMUNITY_Logging Skills|Logging Skills]]
+- [[_COMMUNITY_Auth Best Practices|Auth Best Practices]]
+- [[_COMMUNITY_Sprint Status Logic|Sprint Status Logic]]
+- [[_COMMUNITY_Test Framework Skills|Test Framework Skills]]
+- [[_COMMUNITY_Tanstack Form Skills|Tanstack Form Skills]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `cn()` - 29 edges
-2. `UX Design Specification srfmart` - 12 edges
-3. `Srfmart Point Wallet — Detail Pack` - 11 edges
-4. `Core Principles` - 10 edges
-5. `Core Principles` - 10 edges
-6. `TEA Workflow Step Files` - 10 edges
-7. `Design System Foundation` - 10 edges
-8. `Srfmart Point System Product Requirements Document` - 10 edges
-9. `Architecture Validation Results` - 10 edges
-10. `Brainstorming Session: Srfmart Point System` - 10 edges
+1. `cn()` - 288 edges
+2. `Button()` - 15 edges
+3. `authClient` - 6 edges
+4. `Input()` - 6 edges
+5. `Separator()` - 6 edges
+6. `DropdownMenuContent()` - 5 edges
+7. `DropdownMenuItem()` - 5 edges
+8. `Label()` - 5 edges
+9. `useSidebar()` - 5 edges
+10. `useCarousel()` - 5 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `Hono Server Instance` --references--> `Better Auth Server Config`  [INFERRED]
-  apps/server/src/index.ts → packages/auth/src/index.ts
-- `Agent Guidelines` --conceptually_related_to--> `Project README`  [INFERRED]
-  AGENTS.md → README.md
 - `Card()` --calls--> `cn()`  [EXTRACTED]
   packages/ui/src/components/card.tsx → packages/ui/src/lib/utils.ts
 - `CardHeader()` --calls--> `cn()`  [EXTRACTED]
   packages/ui/src/components/card.tsx → packages/ui/src/lib/utils.ts
 - `CardTitle()` --calls--> `cn()`  [EXTRACTED]
   packages/ui/src/components/card.tsx → packages/ui/src/lib/utils.ts
+- `CardDescription()` --calls--> `cn()`  [EXTRACTED]
+  packages/ui/src/components/card.tsx → packages/ui/src/lib/utils.ts
+- `CardAction()` --calls--> `cn()`  [EXTRACTED]
+  packages/ui/src/components/card.tsx → packages/ui/src/lib/utils.ts
 
 ## Hyperedges (group relationships)
-- **BMAD Ecosystem** — bmad_manifest, tea_config, wds_config [INFERRED 0.95]
+- **Server Authentication & RBAC Flow** — index_app, require_role_requirerole, express_request_auth [INFERRED 0.95]
+- **Web Dashboard Data Flow** — page_dashboardpage, dashboard_dashboard [INFERRED 0.95]
 
-## Communities (46 total, 13 thin omitted)
+## Communities (117 total, 46 thin omitted)
 
-### Community 0 - "UI Layout & Header Components"
+### Community 0 - "Overlays & Tooltips"
+Cohesion: 0.05
+Nodes (43): tooltip.tsx, Tooltip, TooltipContent, TooltipTrigger, Sheet(), SheetContent(), SheetDescription(), SheetFooter() (+35 more)
+
+### Community 1 - "Navigation & Calendar"
 Cohesion: 0.08
-Nodes (28): Button(), buttonVariants, Card(), CardAction(), CardContent(), CardDescription(), CardFooter(), CardHeader() (+20 more)
+Nodes (31): Button(), buttonVariants, Calendar(), CalendarDayButton(), DropdownMenu(), DropdownMenuCheckboxItem(), DropdownMenuContent(), DropdownMenuGroup() (+23 more)
 
-### Community 1 - "Auth Forms & Dashboard Pages"
-Cohesion: 0.04
-Nodes (45): Accessibility Considerations, Accessibility Strategy, Anti-Patterns to Avoid, Breakpoint Strategy, Button Hierarchy, Chosen Direction, Color System, Core User Experience (+37 more)
-
-### Community 2 - "UI Core Utilities (Card, Checkbox, Label, Utils)"
+### Community 2 - "Shared UI Primitives"
 Cohesion: 0.05
-Nodes (41): AD1: Double-Entry Ledger via Mongoose Transactions, AD2: Upward-Only Transfer Topology, AD3: Escrow Pattern for Withdrawals, AD4: Idempotency Keys for Write Operations, AD5: Better Auth User Extension via `additionalFields`, AD6: Monorepo Alignment — Zero Structural Changes, API Endpoint Specification, Architectural Decisions (MVP Focus) (+33 more)
+Nodes (44): Badge, Button, Card, CardContent, CardFooter, CardHeader, CardTitle, Checkbox (+36 more)
 
-### Community 3 - "BMAD Customization Scripts"
-Cohesion: 0.05
-Nodes (39): Additional Requirements, Epic 1: Foundation, Identity & Security, Epic 1: Foundation, Identity & Security, Epic 2: Core Ledger & Admin Minting, Epic 2: Core Ledger & Admin Minting, Epic 3: Hierarchical Point Transfers, Epic 3: Hierarchical Point Transfers, Epic 4: Global Distribution & Daily Limits (+31 more)
+### Community 3 - "Avatar & Breadcrumbs"
+Cohesion: 0.11
+Nodes (31): Avatar(), AvatarBadge(), AvatarFallback(), AvatarGroup(), AvatarGroupCount(), AvatarImage(), Breadcrumb(), BreadcrumbEllipsis() (+23 more)
 
-### Community 4 - "Theme & Global Providers"
-Cohesion: 0.06
-Nodes (35): Authentication & User Management, Business Success, Compliance & Regulatory, Document Information, Executive Summary, Functional Requirements, Global Point Distribution, Integration & Reliability (Preparation for Phase 2) (+27 more)
+### Community 4 - "App Dashboard & Authentication UI"
+Cohesion: 0.1
+Nodes (13): Input(), Label(), SignUpFormProps, BottomNav(), NavItem, navItems, adminItems, commonItems (+5 more)
 
-### Community 5 - "Database Models (Auth)"
-Cohesion: 0.06
-Nodes (35): A — Adapt, Account Fraud, Action Planning, Bonus: Domain Pivot Ideas, Brainstorming Session: Srfmart Point System, Business/Monetization, C — Combine, Context Guidance (+27 more)
+### Community 5 - "Web Auth Components"
+Cohesion: 0.08
+Nodes (22): SignInForm, SignUpForm, User, UserMenu, apps/web/src/components/sign-in-form.tsx, apps/web/src/components/sign-up-form.tsx, apps/web/src/components/user-menu.tsx, apps/web/src/lib/auth-client.ts (+14 more)
 
-### Community 6 - "BMAD Config Scripts"
-Cohesion: 0.07
-Nodes (26): Additional Requirements & Constraints, Alignment Issues, Coverage Matrix, Coverage Statistics, Critical Issues Requiring Immediate Action, Document Inventory (Step 1), Epic Coverage Validation (Step 3), Epic Quality Review (Step 5) (+18 more)
+### Community 6 - "BMAD Agent Framework"
+Cohesion: 0.08
+Nodes (25): /home/yamin/Documents/smartechedge/srfmart/_bmad/config.toml, /home/yamin/Documents/smartechedge/srfmart/_bmad/core/config.yaml, Amelia, BMAD, BMM, Freya, John, Mary (+17 more)
 
-### Community 7 - "Core Application Architecture (Hono, Auth Client, Mongoose)"
+### Community 7 - "Command & Dialog Primitives"
 Cohesion: 0.12
-Nodes (16): Community members can now earn, track, and securely convert loyalty points into real MFS value with a referral-only concierge wallet., Customer FAQ, Getting Started, How It Works, Internal FAQ, Q: How do I know my points are safe from hackers?, Q: How do we handle the "Scale Bottleneck" of manual withdrawals?, Q: How do we mitigate regulatory risk in Bangladesh? (+8 more)
+Nodes (16): Command(), CommandDialog(), CommandEmpty(), CommandGroup(), CommandInput(), CommandItem(), CommandList(), CommandSeparator() (+8 more)
 
-### Community 8 - "BMAD Documentation & Config"
-Cohesion: 0.12
-Nodes (15): Add app-specific blocks, Add more shared components, Available Scripts, code:bash (pnpm install), code:bash (pnpm run dev), code:bash (npx shadcn@latest add accordion dialog popover sheet table -), code:tsx (import { Button } from "@srfmart/ui/components/button";), code:block5 (srfmart/) (+7 more)
+### Community 8 - "Advanced UI Decoration"
+Cohesion: 0.1
+Nodes (11): AspectRatio(), Badge(), badgeVariants, HoverCardContent(), Kbd(), KbdGroup(), RadioGroup(), RadioGroupItem() (+3 more)
 
-### Community 9 - "Server Entry Points"
-Cohesion: 0.12
-Nodes (15): Async & Promises, Code Organization, Core Principles, Error Handling & Debugging, Framework-Specific Guidance, graphify, Modern JavaScript/TypeScript, Performance (+7 more)
-
-### Community 10 - "Proxy Logic"
+### Community 9 - "Form Field & Button Groups"
 Cohesion: 0.13
-Nodes (14): Async & Promises, Code Organization, Core Principles, Error Handling & Debugging, Framework-Specific Guidance, Modern JavaScript/TypeScript, Performance, Quick Reference (+6 more)
+Nodes (16): ButtonGroup(), ButtonGroupSeparator(), ButtonGroupText(), buttonGroupVariants, Field(), FieldContent(), FieldDescription(), FieldError() (+8 more)
 
-### Community 11 - "Logging (Evlog)"
+### Community 10 - "Command Interface (Base)"
+Cohesion: 0.14
+Nodes (18): Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator (+10 more)
+
+### Community 11 - "Context Menu Primitives"
+Cohesion: 0.12
+Nodes (9): ContextMenuCheckboxItem(), ContextMenuContent(), ContextMenuItem(), ContextMenuLabel(), ContextMenuRadioItem(), ContextMenuSeparator(), ContextMenuShortcut(), ContextMenuSubTrigger() (+1 more)
+
+### Community 12 - "Context Menu (Base)"
+Cohesion: 0.12
+Nodes (16): ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuPortal, ContextMenuRadioGroup (+8 more)
+
+### Community 13 - "Menubar Components"
+Cohesion: 0.13
+Nodes (15): Menubar, MenubarCheckboxItem, MenubarContent, MenubarItem, MenubarLabel, MenubarMenu, MenubarRadioGroup, MenubarRadioItem (+7 more)
+
+### Community 14 - "Auth Logic & Referral Testing"
+Cohesion: 0.16
+Nodes (11): auth, createAuth(), ReferralUser, UserCreateData, auth, emailOtpPlugin, auth, data (+3 more)
+
+### Community 15 - "Carousel Interaction"
+Cohesion: 0.19
+Nodes (13): Carousel(), CarouselApi, CarouselContent(), CarouselContext, CarouselContextProps, CarouselItem(), CarouselNext(), CarouselOptions (+5 more)
+
+### Community 16 - "Popover Primitives"
+Cohesion: 0.14
+Nodes (11): Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger, PopoverContent(), PopoverDescription() (+3 more)
+
+### Community 17 - "Alert Dialog Primitives"
 Cohesion: 0.15
-Nodes (12): 1. The Active Participant (End-User), 2. The Group Manager (Moderator), 3. The Platform Controller (Admin), Adoption Drivers, Customer Insights & Behavior Analysis, Interaction Patterns: The "Agent" Mental Model, Market Landscape: Community-Driven Economies, Market Research Scope Confirmation (+4 more)
+Nodes (9): AlertDialogAction(), AlertDialogCancel(), AlertDialogContent(), AlertDialogDescription(), AlertDialogFooter(), AlertDialogHeader(), AlertDialogMedia(), AlertDialogOverlay() (+1 more)
 
-### Community 12 - "Auth Core (Packages)"
-Cohesion: 0.15
-Nodes (12): Concurrency & Idempotency, Data Validation for Bangladeshi MFS, Database: MongoDB & Mongoose, Double-Entry Ledger Implementation, Implementation Approaches & Ledger Integrity, Integration Patterns & Withdrawal Management, Maker-Checker Workflow (Security), Manual Withdrawal Processing Queue (+4 more)
+### Community 18 - "Charting & Tooltip Config"
+Cohesion: 0.18
+Nodes (10): ChartConfig, ChartContainer(), ChartContext, ChartContextProps, ChartLegendContent(), ChartTooltipContent(), INITIAL_DIMENSION, THEMES (+2 more)
 
-### Community 13 - "Next.js Config"
+### Community 19 - "List Item Primitives"
+Cohesion: 0.18
+Nodes (12): Item(), ItemActions(), ItemContent(), ItemDescription(), ItemFooter(), ItemGroup(), ItemHeader(), ItemMedia() (+4 more)
+
+### Community 20 - "Config Resolution Utilities"
 Cohesion: 0.27
 Nodes (11): deep_merge(), _detect_keyed_merge_field(), extract_key(), find_project_root(), load_toml(), main(), _merge_arrays(), _merge_by_key() (+3 more)
 
-### Community 14 - "PostCSS Config (Web)"
-Cohesion: 0.17
-Nodes (11): code:block1 (<workflow>/), Execution Rules (Summary), Modes, Notes, References, Standard Layout (per workflow), Step Naming Conventions, TEA Workflow Step Files (+3 more)
+### Community 21 - "Sidebar & Mobile Utilities"
+Cohesion: 0.2
+Nodes (12): sheet.tsx, sidebar.tsx, use-mobile.ts, Sheet, SheetContent, SheetTrigger, Sidebar, SidebarProvider (+4 more)
 
-### Community 15 - "Instrumentation"
-Cohesion: 0.17
-Nodes (11): Competitive Intelligence, High-Priority Brainstorming Ideas for PRD Consideration, Open Questions, Regulatory Considerations, Rejected/Deferred Ideas (with rationale), Requirements Hints (from user specification), Scope Signals from User, Security Requirements (from brainstorming + technical research) (+3 more)
-
-### Community 16 - "Home Page"
-Cohesion: 0.17
-Nodes (12): 1. User Model Extension (`packages/db/src/models/auth.model.ts`), 2. Transaction Model (`packages/db/src/models/transaction.model.ts`), 3. Withdrawal Request Model (`packages/db/src/models/withdrawal.model.ts`), 4. Idempotency Key Model (`packages/db/src/models/idempotency.model.ts`), AD7: Global Distribution Spillback Logic, API & Security Patterns, code:block2 (role: { type: String, enum: ['user', 'moderator', 'admin'], ), code:block3 (_id: String (auto)) (+4 more)
-
-### Community 17 - "DB Entry Points"
+### Community 22 - "Next.js Layout & Providers"
 Cohesion: 0.22
 Nodes (5): geistMono, geistSans, metadata, Toaster(), ThemeProvider()
 
-### Community 18 - "Global Layout & Logging"
+### Community 23 - "Tabs & List Primitives"
+Cohesion: 0.2
+Nodes (10): tabs.tsx, Tabs, TabsContent, TabsList, TabsTrigger, Tabs(), TabsContent(), TabsList() (+2 more)
+
+### Community 24 - "Drawer & Dialog Primitives"
 Cohesion: 0.18
-Nodes (11): Architectural Boundaries, Authentication & Authorization, code:text (srfmart/), code:block7 (apps/server/src/), code:block8 (apps/web/src/app/), Complete Project Directory Structure, Frontend Route Structure (`apps/web/src/app/`), Project Structure & Boundaries (+3 more)
+Nodes (6): DrawerContent(), DrawerDescription(), DrawerFooter(), DrawerHeader(), DrawerOverlay(), DrawerTitle()
 
-### Community 19 - "Guidelines & README"
+### Community 25 - "Input Group & Textarea"
+Cohesion: 0.24
+Nodes (9): InputGroup(), InputGroupAddon(), inputGroupAddonVariants, InputGroupButton(), inputGroupButtonVariants, InputGroupInput(), InputGroupText(), InputGroupTextarea() (+1 more)
+
+### Community 26 - "Alert Dialog (Base)"
+Cohesion: 0.18
+Nodes (11): AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogMedia (+3 more)
+
+### Community 27 - "Navigation Menu Primitives"
+Cohesion: 0.22
+Nodes (9): NavigationMenu(), NavigationMenuContent(), NavigationMenuIndicator(), NavigationMenuItem(), NavigationMenuLink(), NavigationMenuList(), NavigationMenuPositioner(), NavigationMenuTrigger() (+1 more)
+
+### Community 28 - "Accordion Primitives"
 Cohesion: 0.2
-Nodes (9): Executive Summary, Product Brief: Srfmart Point Wallet, Scope, Success Criteria, The Problem, The Solution, Vision, What Makes This Different (+1 more)
+Nodes (9): accordion.tsx, Accordion, AccordionContent, AccordionItem, AccordionTrigger, Accordion(), AccordionContent(), AccordionItem() (+1 more)
 
-### Community 20 - "Tsdown Config"
-Cohesion: 0.2
-Nodes (10): 1.1 Design System Choice, 2.1 Defining Experience, 2.2 User Mental Model, 2.3 Success Criteria, 2.4 Novel UX Patterns, 2.5 Experience Mechanics, Customization Strategy, Design System Foundation (+2 more)
-
-### Community 21 - "Next Env Types"
+### Community 29 - "Database Schemas (Auth)"
 Cohesion: 0.22
 Nodes (8): Account, accountSchema, Session, sessionSchema, User, userSchema, Verification, verificationSchema
 
-### Community 22 - "PostCSS Config (UI)"
+### Community 30 - "Pagination Controls"
 Cohesion: 0.22
-Nodes (9): 1. The "Tap-to-Reveal" Balance Card, 2. The Locked Recipient Card, 3. Secure Numeric Keypad, 4. Escrow Status Indicator, Component Implementation Strategy, Component Strategy, Custom Components, Design System Components (Shadcn UI) (+1 more)
+Nodes (7): Pagination(), PaginationContent(), PaginationEllipsis(), PaginationLink(), PaginationLinkProps, PaginationNext(), PaginationPrevious()
 
-### Community 23 - "Dashboard View"
-Cohesion: 0.22
-Nodes (8): Anti-Fraud & Security Standards, Domain Overview: Digital Wallets in Bangladesh, Domain Research Scope Confirmation, Industry Analysis: Referral & Reward Economics, Point Economy Mechanics, Referral-Based Security & Trust, Research Report: domain, The MFS Landscape
+### Community 31 - "Toggle & Toggle Group"
+Cohesion: 0.33
+Nodes (7): Toggle, ToggleGroup(), ToggleGroupContext, ToggleGroupItem(), Toggle(), toggleVariants, packages/ui/src/components/toggle.tsx
 
-### Community 24 - "UI Button Component"
+### Community 32 - "Empty State Primitives"
+Cohesion: 0.29
+Nodes (7): Empty(), EmptyContent(), EmptyDescription(), EmptyHeader(), EmptyMedia(), emptyMediaVariants, EmptyTitle()
+
+### Community 33 - "Card Primitives"
+Cohesion: 0.25
+Nodes (7): Card(), CardAction(), CardContent(), CardDescription(), CardFooter(), CardHeader(), CardTitle()
+
+### Community 34 - "Config Merge Logic"
 Cohesion: 0.46
 Nodes (7): deep_merge(), _detect_keyed_merge_field(), extract_key(), load_toml(), main(), _merge_arrays(), _merge_by_key()
 
-### Community 25 - "Community 25"
-Cohesion: 0.25
-Nodes (8): 1. The Gated Onboarding Flow, 2. The Upward Transfer Flow (Core Experience), 3. The Withdrawal & Escrow Flow, code:mermaid (graph TD), code:mermaid (graph TD), code:mermaid (graph TD), Journey Patterns, User Journey Flows
+### Community 35 - "Server Services & RBAC"
+Cohesion: 0.29
+Nodes (8): Dashboard Client Component, Express Request Auth Augmentation, Express App Entry Point, Dashboard Page, PointsService, PointsService Tests, RBAC Middleware Tests, RBAC Middleware
 
-### Community 26 - "Community 26"
+### Community 36 - "Collapsible Components"
 Cohesion: 0.25
-Nodes (8): Better Auth Server Config, Auth Data Models, Better Auth Client, Mongoose Connection, Hono Server Instance, Home Page, Sign In Form, Sign Up Form
+Nodes (4): Collapsible, CollapsibleContent, CollapsibleTrigger, packages/ui/src/components/collapsible.tsx
 
-### Community 27 - "Community 27"
+### Community 37 - "Avatar Components"
+Cohesion: 0.29
+Nodes (7): Avatar, AvatarBadge, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage, packages/ui/src/components/avatar.tsx
+
+### Community 38 - "Empty State (Base)"
+Cohesion: 0.29
+Nodes (7): Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle, packages/ui/src/components/empty.tsx
+
+### Community 39 - "Chart Components"
+Cohesion: 0.29
+Nodes (7): ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, packages/ui/src/components/chart.tsx
+
+### Community 40 - "Carousel (Base)"
+Cohesion: 0.29
+Nodes (7): Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, packages/ui/src/components/carousel.tsx, useCarousel
+
+### Community 41 - "Progress Components"
+Cohesion: 0.33
+Nodes (6): Progress, ProgressIndicator, ProgressLabel, ProgressTrack, ProgressValue, packages/ui/src/components/progress.tsx
+
+### Community 42 - "Alert (Base)"
+Cohesion: 0.4
+Nodes (5): Alert(), AlertAction(), AlertDescription(), AlertTitle(), alertVariants
+
+### Community 43 - "Progress (Base)"
+Cohesion: 0.33
+Nodes (5): Progress(), ProgressIndicator(), ProgressLabel(), ProgressTrack(), ProgressValue()
+
+### Community 44 - "Input Group Primitives"
+Cohesion: 0.33
+Nodes (6): input-group.tsx, InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupTextarea
+
+### Community 45 - "Select Primitives"
+Cohesion: 0.4
+Nodes (5): select.tsx, Select, SelectContent, SelectItem, SelectTrigger
+
+### Community 46 - "Input OTP Primitives"
+Cohesion: 0.4
+Nodes (3): InputOTP(), InputOTPGroup(), InputOTPSlot()
+
+### Community 47 - "Native Select Primitives"
+Cohesion: 0.4
+Nodes (4): NativeSelect(), NativeSelectOptGroup(), NativeSelectOption(), NativeSelectProps
+
+### Community 48 - "Alert Components"
+Cohesion: 0.4
+Nodes (5): Alert, AlertAction, AlertDescription, AlertTitle, packages/ui/src/components/alert.tsx
+
+### Community 49 - "Transaction Database Schema"
 Cohesion: 0.5
-Nodes (4): BMAD Manifest, TEA Module Config, TEA Workflow README, WDS Module Config
+Nodes (3): ITransaction, Transaction, transactionSchema
+
+### Community 50 - "Switch Component"
+Cohesion: 0.5
+Nodes (3): switch.tsx, Switch, Switch()
+
+### Community 52 - "Slider Component"
+Cohesion: 0.5
+Nodes (3): slider.tsx, Slider, Slider()
+
+### Community 53 - "App Root UI"
+Cohesion: 0.5
+Nodes (4): Header Component, Root Layout, Mode Toggle, Providers Component
+
+### Community 54 - "Core Packages (Auth/DB)"
+Cohesion: 0.5
+Nodes (4): @srfmart/auth, @srfmart/db, packages/auth/package.json, packages/db/package.json
+
+### Community 55 - "Button Group Primitives"
+Cohesion: 0.5
+Nodes (4): button-group.tsx, ButtonGroup, ButtonGroupSeparator, ButtonGroupText
+
+### Community 56 - "Input OTP (Base)"
+Cohesion: 0.5
+Nodes (4): input-otp.tsx, InputOTP, InputOTPGroup, InputOTPSlot
+
+### Community 57 - "Resizable (Base)"
+Cohesion: 0.5
+Nodes (4): resizable.tsx, ResizableHandle, ResizablePanel, ResizablePanelGroup
+
+### Community 58 - "Hover Card Primitives"
+Cohesion: 0.5
+Nodes (4): HoverCard, HoverCardContent, HoverCardTrigger, packages/ui/src/components/hover-card.tsx
+
+### Community 62 - "Calendar Primitives"
+Cohesion: 0.67
+Nodes (3): calendar.tsx, Calendar, CalendarDayButton
+
+### Community 63 - "Radio Group Primitives"
+Cohesion: 0.67
+Nodes (3): radio-group.tsx, RadioGroup, RadioGroupItem
+
+### Community 64 - "Breadcrumb Primitives"
+Cohesion: 0.67
+Nodes (3): breadcrumb.tsx, Breadcrumb, BreadcrumbList
+
+### Community 65 - "Navigation Menu (Base)"
+Cohesion: 0.67
+Nodes (3): navigation-menu.tsx, NavigationMenu, NavigationMenuTrigger
+
+### Community 66 - "Drawer (Base)"
+Cohesion: 0.67
+Nodes (3): drawer.tsx, Drawer, DrawerContent
+
+### Community 67 - "Kbd Components"
+Cohesion: 0.67
+Nodes (3): Kbd, KbdGroup, packages/ui/src/components/kbd.tsx
+
+### Community 68 - "Direction Providers"
+Cohesion: 0.67
+Nodes (3): DirectionProvider, packages/ui/src/components/direction.tsx, useDirection
+
+### Community 69 - "Toggle Group Components"
+Cohesion: 0.67
+Nodes (3): ToggleGroup, ToggleGroupItem, packages/ui/src/components/toggle-group.tsx
 
 ## Knowledge Gaps
-- **335 isolated node(s):** `identifyUser`, `app`, `nextConfig`, `config`, `{ register, onRequestError }` (+330 more)
+- **84 isolated node(s):** `identifyUser`, `app`, `Request`, `middleware`, `req` (+79 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **13 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **46 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `UX Design Specification srfmart` connect `Auth Forms & Dashboard Pages` to `Community 25`, `Tsdown Config`, `PostCSS Config (UI)`?**
-  _High betweenness centrality (0.015) - this node is a cross-community bridge._
-- **Why does `Architecture Decision Document (Codebase-Grounded Revision)` connect `UI Core Utilities (Card, Checkbox, Label, Utils)` to `Home Page`, `Global Layout & Logging`?**
-  _High betweenness centrality (0.012) - this node is a cross-community bridge._
-- **What connects `identifyUser`, `app`, `nextConfig` to the rest of the system?**
-  _335 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `UI Layout & Header Components` be split into smaller, more focused modules?**
-  _Cohesion score 0.08 - nodes in this community are weakly interconnected._
-- **Should `Auth Forms & Dashboard Pages` be split into smaller, more focused modules?**
-  _Cohesion score 0.04 - nodes in this community are weakly interconnected._
-- **Should `UI Core Utilities (Card, Checkbox, Label, Utils)` be split into smaller, more focused modules?**
+- **Why does `cn()` connect `Avatar & Breadcrumbs` to `Overlays & Tooltips`, `Navigation & Calendar`, `Shared UI Primitives`, `App Dashboard & Authentication UI`, `Command & Dialog Primitives`, `Advanced UI Decoration`, `Form Field & Button Groups`, `Context Menu Primitives`, `Carousel Interaction`, `Popover Primitives`, `Alert Dialog Primitives`, `Charting & Tooltip Config`, `List Item Primitives`, `Tabs & List Primitives`, `Drawer & Dialog Primitives`, `Input Group & Textarea`, `Navigation Menu Primitives`, `Accordion Primitives`, `Pagination Controls`, `Toggle & Toggle Group`, `Empty State Primitives`, `Card Primitives`, `Alert (Base)`, `Progress (Base)`, `Input OTP Primitives`, `Native Select Primitives`, `Switch Component`, `Resizable Layouts`, `Slider Component`?**
+  _High betweenness centrality (0.332) - this node is a cross-community bridge._
+- **Why does `Button()` connect `Navigation & Calendar` to `Overlays & Tooltips`, `Avatar & Breadcrumbs`, `App Dashboard & Authentication UI`, `Command & Dialog Primitives`, `Carousel Interaction`, `Alert Dialog Primitives`, `Input Group & Textarea`, `Pagination Controls`?**
+  _High betweenness centrality (0.017) - this node is a cross-community bridge._
+- **Why does `authClient` connect `App Dashboard & Authentication UI` to `Navigation & Calendar`?**
+  _High betweenness centrality (0.011) - this node is a cross-community bridge._
+- **What connects `identifyUser`, `app`, `Request` to the rest of the system?**
+  _84 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `Overlays & Tooltips` be split into smaller, more focused modules?**
   _Cohesion score 0.05 - nodes in this community are weakly interconnected._
-- **Should `BMAD Customization Scripts` be split into smaller, more focused modules?**
+- **Should `Navigation & Calendar` be split into smaller, more focused modules?**
+  _Cohesion score 0.08 - nodes in this community are weakly interconnected._
+- **Should `Shared UI Primitives` be split into smaller, more focused modules?**
   _Cohesion score 0.05 - nodes in this community are weakly interconnected._

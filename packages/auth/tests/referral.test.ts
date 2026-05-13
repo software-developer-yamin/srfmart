@@ -32,9 +32,10 @@ describe("Referral Gate Validation", () => {
 			name: "Test User",
 		};
 
-		await expect(beforeHook(userData as any, {} as any)).rejects.toThrow(
-			"Referral code is required"
-		);
+		// Cast to unknown first to safely simulate external input without 'any'
+		await expect(
+			beforeHook(userData as unknown as any, {} as any)
+		).rejects.toThrow("Referral code is required");
 	});
 
 	it("should fail with invalid referral code", async () => {
@@ -45,7 +46,10 @@ describe("Referral Gate Validation", () => {
 			throw new Error("before hook not defined");
 		}
 
-		(User.findOne as any).mockImplementation(() => ({
+		const mockFindOne = User.findOne as unknown as {
+			mockImplementation: (fn: () => { lean: () => Promise<unknown> }) => void;
+		};
+		mockFindOne.mockImplementation(() => ({
 			lean: vi.fn().mockResolvedValue(null),
 		}));
 
@@ -55,9 +59,9 @@ describe("Referral Gate Validation", () => {
 			referralCode: "INVALID",
 		};
 
-		await expect(beforeHook(userData as any, {} as any)).rejects.toThrow(
-			"Invalid referral code"
-		);
+		await expect(
+			beforeHook(userData as unknown as { email: string }, {} as any)
+		).rejects.toThrow("Invalid referral code");
 	});
 
 	it("should succeed with valid referral code", async () => {
@@ -69,7 +73,10 @@ describe("Referral Gate Validation", () => {
 		}
 
 		const referrer = { _id: "referrer-id", email: "ref@example.com" };
-		(User.findOne as any).mockImplementation(() => ({
+		const mockFindOne = User.findOne as unknown as {
+			mockImplementation: (fn: () => any) => void;
+		};
+		mockFindOne.mockImplementation(() => ({
 			lean: vi.fn().mockResolvedValue(referrer),
 		}));
 
@@ -79,10 +86,11 @@ describe("Referral Gate Validation", () => {
 			referralCode: "VALID123",
 		};
 
-		const result = await beforeHook(userData as any, {} as any);
+		const result = await beforeHook(userData as unknown as any, {} as any);
 		expect(result).toBeDefined();
 		if (result && typeof result === "object" && "data" in result) {
-			expect((result.data as any).referredBy).toBe("referrer-id");
+			const data = result.data as { referredBy: string };
+			expect(data.referredBy).toBe("referrer-id");
 		} else {
 			throw new Error("Result should contain data");
 		}
@@ -97,7 +105,10 @@ describe("Referral Gate Validation", () => {
 		}
 
 		const referrer = { _id: "referrer-id", email: "test@example.com" };
-		(User.findOne as any).mockImplementation(() => ({
+		const mockFindOne = User.findOne as unknown as {
+			mockImplementation: (fn: () => any) => void;
+		};
+		mockFindOne.mockImplementation(() => ({
 			lean: vi.fn().mockResolvedValue(referrer),
 		}));
 
@@ -107,8 +118,8 @@ describe("Referral Gate Validation", () => {
 			referralCode: "SELF",
 		};
 
-		await expect(beforeHook(userData as any, {} as any)).rejects.toThrow(
-			"Self-referral is not allowed"
-		);
+		await expect(
+			beforeHook(userData as unknown as any, {} as any)
+		).rejects.toThrow("Self-referral is not allowed");
 	});
 });
