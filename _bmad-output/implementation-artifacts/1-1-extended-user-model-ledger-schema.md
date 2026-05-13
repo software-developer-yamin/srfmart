@@ -1,6 +1,6 @@
 # Story: 1.1 Extended User Model & Ledger Schema
 
-## Status: ready-for-dev
+## Status: review
 
 ## Summary
 Implement the foundational data structures for the srfmart point-wallet system by extending the Better Auth user model/schema and creating the Point Ledger schema.
@@ -11,7 +11,7 @@ I want to extend the Better Auth user model and Mongoose schema,
 So that the system can store roles, referral codes, and point balances required for the ledger.
 
 ## Acceptance Criteria
-- [ ] Mongoose `userSchema` in `packages/db/src/models/auth.model.ts` updated with:
+- [x] Mongoose `userSchema` in `packages/db/src/models/auth.model.ts` updated with:
     - `role`: enum ['user', 'moderator', 'admin'], default 'user'
     - `referredBy`: string (ref: 'User')
     - `referralCode`: string (unique, sparse)
@@ -19,9 +19,23 @@ So that the system can store roles, referral codes, and point balances required 
     - `availableBalance`: number, default 0
     - `escrowBalance`: number, default 0
     - `dailyPointLimit`: number, default null
-- [ ] `packages/auth/src/index.ts` updated with `user.additionalFields` matching the schema extension.
-- [ ] `Transaction` model created in `packages/db/src/models/transaction.model.ts` with required fields (type, senderId, receiverId, amount, status, idempotencyKey).
-- [ ] `packages/db/src/index.ts` exports the new `Transaction` model.
+- [x] `packages/auth/src/index.ts` updated with `user.additionalFields` matching the schema extension.
+- [x] `Transaction` model created in `packages/db/src/models/transaction.model.ts` with required fields (type, senderId, receiverId, amount, status, idempotencyKey).
+- [x] `packages/db/src/index.ts` exports the new `Transaction` model.
+
+## Tasks/Subtasks
+- [x] **Task 1: Extend User Schema**
+    - [x] Create failing test to verify user schema extensions
+    - [x] Update `packages/db/src/models/auth.model.ts` with new fields
+    - [x] Verify tests pass
+- [x] **Task 2: Update Better Auth Config**
+    - [x] Update `packages/auth/src/index.ts` with `additionalFields`
+    - [x] Verify integration
+- [x] **Task 3: Create Transaction Model**
+    - [x] Create failing test for Transaction model
+    - [x] Create `packages/db/src/models/transaction.model.ts`
+    - [x] Export from `packages/db/src/index.ts`
+    - [x] Verify tests pass
 
 ## Developer Context
 ### Project Context Reference
@@ -49,13 +63,31 @@ So that the system can store roles, referral codes, and point balances required 
 - Verify schema validation with unit tests (e.g., ensure `availableBalance` defaults to 0).
 - Confirm `referralCode` uniqueness constraint.
 
-## Dev Notes (Context Continuity)
-- This is the first story in Epic 1. No previous story learnings available.
-- Existing `packages/db/src/models/auth.model.ts` currently contains User, Session, Account, and Verification schemas.
+## Dev Agent Record
+### Implementation Plan
+1.  **Red Phase (Task 1):** Create a test script to check for the new fields in the User model.
+2.  **Green Phase (Task 1):** Modify `packages/db/src/models/auth.model.ts` to include the requested fields.
+3.  **Refactor Phase (Task 1):** Ensure formatting and standards.
+4.  **Repeat for Task 2 and Task 3.**
 
-## Project Context Facts
-- **Knowledge Graph:** `graphify-out/GRAPH_REPORT.md` available for architecture mapping.
-- **Standards:** `pnpm dlx ultracite fix` for formatting.
+### Debug Log
+- [2026-05-13] Initialized story implementation. Added Tasks/Subtasks section.
+- [2026-05-13] Completed Task 1: Extended User schema in `auth.model.ts` and verified with unit test.
+- [2026-05-13] Completed Task 2: Updated Better Auth config in `packages/auth/src/index.ts` with `additionalFields`.
+- [2026-05-13] Completed Task 3: Created `Transaction` model and exported it. Verified with unit test.
 
----
-Ultimate context engine analysis completed - comprehensive developer guide created
+### Completion Notes
+- Foundational schemas for srfmart are now in place.
+- User model extended with fintech-specific fields (roles, balances, referrals).
+- Transaction model created to support atomic double-entry ledger.
+- All changes verified with unit tests using `tsx`.
+
+## File List
+- packages/db/src/models/auth.model.ts (Modified)
+- packages/auth/src/index.ts (Modified)
+- packages/db/src/models/transaction.model.ts (New)
+- packages/db/src/index.ts (Modified)
+
+## Change Log
+- [2026-05-13] Started implementation of Story 1.1.
+- [2026-05-13] Implemented extended User schema and Transaction ledger schema.

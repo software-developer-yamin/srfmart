@@ -7,6 +7,38 @@ export function createAuth() {
 	return betterAuth({
 		database: mongodbAdapter(client),
 		trustedOrigins: [env.CORS_ORIGIN],
+		user: {
+			additionalFields: {
+				role: {
+					type: "string",
+					defaultValue: "user",
+				},
+				referredBy: {
+					type: "string",
+					required: false,
+				},
+				referralCode: {
+					type: "string",
+					required: false,
+				},
+				phoneNumber: {
+					type: "string",
+					required: false,
+				},
+				availableBalance: {
+					type: "number",
+					defaultValue: 0,
+				},
+				escrowBalance: {
+					type: "number",
+					defaultValue: 0,
+				},
+				dailyPointLimit: {
+					type: "number",
+					required: false,
+				},
+			},
+		},
 		emailAndPassword: {
 			enabled: true,
 		},
