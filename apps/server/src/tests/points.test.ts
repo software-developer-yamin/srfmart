@@ -1,17 +1,24 @@
 import { User } from "@srfmart/db/models/auth.model";
 import { Transaction } from "@srfmart/db/models/transaction.model";
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
 import { PointsService } from "../services/points.service";
+import {
+	clearDatabase,
+	connectReplicaSet,
+	disconnectReplicaSet,
+} from "./setup/db";
+
+beforeAll(async () => {
+	await connectReplicaSet();
+});
+
+afterAll(async () => {
+	await disconnectReplicaSet();
+});
 
 describe("PointsService", () => {
-	beforeAll(async () => {
-		// Connection should be handled by the test environment or bts setup
-		// For this example, we assume mongoose is connected
-	});
-
-	afterAll(async () => {
-		await User.deleteMany({});
-		await Transaction.deleteMany({});
+	afterEach(async () => {
+		await clearDatabase();
 	});
 
 	it("should distribute points equally among users and return remainder to admin", async () => {

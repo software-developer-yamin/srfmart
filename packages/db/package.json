@@ -19,6 +19,7 @@
   "dependencies": {
     "@srfmart/env": "workspace:*",
     "dotenv": "catalog:",
+    "mongoose": "^8.24.0",
     "zod": "catalog:"
   },
   "devDependencies": {

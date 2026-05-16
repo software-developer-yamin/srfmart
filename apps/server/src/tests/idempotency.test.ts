@@ -1,7 +1,29 @@
 import { Idempotency } from "@srfmart/db/models/idempotency.model";
 import type { NextFunction, Request, Response } from "express";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import {
+	afterAll,
+	afterEach,
+	beforeAll,
+	beforeEach,
+	describe,
+	expect,
+	it,
+	vi,
+} from "vitest";
 import { idempotencyMiddleware } from "../middleware/idempotency";
+import {
+	clearDatabase,
+	connectReplicaSet,
+	disconnectReplicaSet,
+} from "./setup/db";
+
+beforeAll(async () => {
+	await connectReplicaSet();
+});
+
+afterAll(async () => {
+	await disconnectReplicaSet();
+});
 
 describe("Idempotency Middleware", () => {
 	let req: Partial<Request>;
@@ -18,6 +40,10 @@ describe("Idempotency Middleware", () => {
 			statusCode: 200,
 		};
 		next = vi.fn();
+	});
+
+	afterEach(async () => {
+		await clearDatabase();
 	});
 
 	it("should reject requests without Idempotency-Key header", async () => {
