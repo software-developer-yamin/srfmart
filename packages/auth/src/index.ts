@@ -6,14 +6,51 @@ import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { APIError } from "better-auth/api";
 import { admin, emailOTP } from "better-auth/plugins";
 
-interface ReferralUser {
-	_id: { toString: () => string };
-	email: string;
-}
-
 interface UserCreateData {
 	email: string;
 	referralCode?: string;
+}
+
+async function validateReferral(email: string, referralCode?: string) {
+	if (!referralCode || typeof referralCode !== "string") {
+		throw new APIError("UNPROCESSABLE_ENTITY", {
+			message: "Referral code is required.",
+		});
+	}
+
+	const cleanCode = referralCode.trim().toUpperCase();
+	if (cleanCode.length < 3 || cleanCode.length > 20) {
+		throw new APIError("UNPROCESSABLE_ENTITY", {
+			message: "Invalid referral code format.",
+		});
+	}
+
+	const referrerDoc = await UserModel.findOne({
+		referralCode: cleanCode,
+	}).lean();
+
+	if (!referrerDoc) {
+		throw new APIError("UNPROCESSABLE_ENTITY", {
+			message: "Invalid referral code.",
+		});
+	}
+
+	if (!referrerDoc._id || typeof referrerDoc.email !== "string") {
+		throw new APIError("INTERNAL_SERVER_ERROR", {
+			message: "Referrer data is corrupted.",
+		});
+	}
+
+	if (referrerDoc.email.toLowerCase() === email.toLowerCase()) {
+		throw new APIError("UNPROCESSABLE_ENTITY", {
+			message: "Self-referral is not allowed.",
+		});
+	}
+
+	return {
+		referredBy: referrerDoc._id.toString(),
+		referralCode: cleanCode,
+	};
 }
 
 export function createAuth() {
@@ -48,61 +85,22 @@ export function createAuth() {
 						}
 
 						const input = user as UserCreateData;
-						const referralCode = input.referralCode;
-
-						if (!referralCode || typeof referralCode !== "string") {
-							throw new APIError("UNPROCESSABLE_ENTITY", {
-								message: "Referral code is required.",
-							});
-						}
-
-						const cleanCode = referralCode?.trim().toUpperCase();
-						input.referralCode = cleanCode;
-
-						if (!cleanCode || cleanCode.length < 3 || cleanCode.length > 20) {
-							throw new APIError("UNPROCESSABLE_ENTITY", {
-								message: "Invalid referral code format.",
-							});
-						}
-
 						if (!input.email) {
 							throw new APIError("UNPROCESSABLE_ENTITY", {
 								message: "Email is required for sign up.",
 							});
 						}
 
-						const referrerDoc = await UserModel.findOne({
-							referralCode: cleanCode,
-						}).lean();
-
-						if (!referrerDoc) {
-							throw new APIError("UNPROCESSABLE_ENTITY", {
-								message: "Invalid referral code.",
-							});
-						}
-
-						// Type guard to ensure referrerDoc matches ReferralUser
-						if (!referrerDoc._id || typeof referrerDoc.email !== "string") {
-							throw new APIError("INTERNAL_SERVER_ERROR", {
-								message: "Referrer data is corrupted.",
-							});
-						}
-
-						const referrer: ReferralUser = {
-							_id: referrerDoc._id,
-							email: referrerDoc.email,
-						};
-
-						if (referrer.email.toLowerCase() === input.email.toLowerCase()) {
-							throw new APIError("UNPROCESSABLE_ENTITY", {
-								message: "Self-referral is not allowed.",
-							});
-						}
+						const { referredBy, referralCode } = await validateReferral(
+							input.email,
+							input.referralCode
+						);
 
 						return {
 							data: {
 								...user,
-								referredBy: referrer._id.toString(),
+								referredBy,
+								referralCode,
 							},
 						};
 					},

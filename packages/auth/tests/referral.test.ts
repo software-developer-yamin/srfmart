@@ -1,5 +1,15 @@
 import { describe, expect, it, vi } from "vitest";
 
+// Mocking environment and dependencies before importing anything that uses them
+vi.mock("@srfmart/env/server", () => ({
+	env: {
+		DATABASE_URL: "mongodb://localhost:27017/test",
+		BETTER_AUTH_SECRET: "secret-at-least-32-chars-long-for-test",
+		BETTER_AUTH_URL: "http://localhost:3000",
+		CORS_ORIGIN: "http://localhost:3000",
+	},
+}));
+
 vi.mock("@srfmart/db", () => ({
 	client: {
 		collection: vi.fn(),
@@ -33,9 +43,9 @@ describe("Referral Gate Validation", () => {
 		};
 
 		// Cast to unknown first to safely simulate external input without 'any'
-		await expect(
-			beforeHook(userData as unknown as any, {} as any)
-		).rejects.toThrow("Referral code is required");
+		await expect(beforeHook(userData as unknown as any)).rejects.toThrow(
+			"Referral code is required"
+		);
 	});
 
 	it("should fail with invalid referral code", async () => {
@@ -59,9 +69,9 @@ describe("Referral Gate Validation", () => {
 			referralCode: "INVALID",
 		};
 
-		await expect(
-			beforeHook(userData as unknown as { email: string }, {} as any)
-		).rejects.toThrow("Invalid referral code");
+		await expect(beforeHook(userData as unknown as any)).rejects.toThrow(
+			"Invalid referral code"
+		);
 	});
 
 	it("should fail with long referral code", async () => {
@@ -78,9 +88,9 @@ describe("Referral Gate Validation", () => {
 			referralCode: "A_VERY_LONG_CODE_THAT_EXCEEDS_TWENTY_CHARACTERS",
 		};
 
-		await expect(
-			beforeHook(userData as unknown as any, {} as any)
-		).rejects.toThrow("Invalid referral code format.");
+		await expect(beforeHook(userData as unknown as any)).rejects.toThrow(
+			"Invalid referral code format."
+		);
 	});
 
 	it("should fail with short referral code", async () => {
@@ -97,9 +107,9 @@ describe("Referral Gate Validation", () => {
 			referralCode: "XY",
 		};
 
-		await expect(
-			beforeHook(userData as unknown as any, {} as any)
-		).rejects.toThrow("Invalid referral code format.");
+		await expect(beforeHook(userData as unknown as any)).rejects.toThrow(
+			"Invalid referral code format."
+		);
 	});
 
 	it("should succeed with valid referral code", async () => {
@@ -124,7 +134,7 @@ describe("Referral Gate Validation", () => {
 			referralCode: "VALID123",
 		};
 
-		const result = await beforeHook(userData as unknown as any, {} as any);
+		const result = await beforeHook(userData as unknown as any);
 		expect(result).toBeDefined();
 		if (result && typeof result === "object" && "data" in result) {
 			const data = result.data as { referredBy: string };
@@ -156,8 +166,8 @@ describe("Referral Gate Validation", () => {
 			referralCode: "SELF",
 		};
 
-		await expect(
-			beforeHook(userData as unknown as any, {} as any)
-		).rejects.toThrow("Self-referral is not allowed");
+		await expect(beforeHook(userData as unknown as any)).rejects.toThrow(
+			"Self-referral is not allowed"
+		);
 	});
 });
