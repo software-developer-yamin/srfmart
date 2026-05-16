@@ -56,13 +56,13 @@ export function createAuth() {
 							});
 						}
 
-						if (referralCode.length > 20) {
+						const cleanCode = referralCode.trim().toUpperCase();
+
+						if (cleanCode.length < 3 || cleanCode.length > 20) {
 							throw new APIError("UNPROCESSABLE_ENTITY", {
 								message: "Invalid referral code format.",
 							});
 						}
-
-						const cleanCode = referralCode.trim().toUpperCase();
 
 						if (!input.email) {
 							throw new APIError("UNPROCESSABLE_ENTITY", {

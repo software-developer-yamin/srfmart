@@ -1,6 +1,6 @@
 # Story 1.2: Referral-Gated User Registration
 
-Status: ready-for-dev
+Status: review
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -21,15 +21,15 @@ so that I can join the community and start earning points securely.
 
 ## Tasks / Subtasks
 
-- [ ] Analyze existing `SignUpForm` in `apps/web/src/components/sign-up-form.tsx` (AC: 1, 3)
-  - [ ] Ensure `referralCode` field is present and has Zod validation
-  - [ ] Verify that validation errors are displayed correctly in the UI
-- [ ] Review and refine `databaseHooks.user.create.before` in `packages/auth/src/index.ts` (AC: 4, 5, 6)
-  - [ ] Verify existing code lookup logic
-  - [ ] Ensure strict blocking (throwing `APIError`) for missing, invalid, or self-referral codes
-  - [ ] Ensure `referredBy` field is correctly populated on the new user object
-- [ ] Verify end-to-end registration flow using a test referral code
-- [ ] Ensure "Success" feedback is displayed upon successful registration (UX-DR7)
+- [x] Analyze existing `SignUpForm` in `apps/web/src/components/sign-up-form.tsx` (AC: 1, 3)
+  - [x] Ensure `referralCode` field is present and has Zod validation
+  - [x] Verify that validation errors are displayed correctly in the UI
+- [x] Review and refine `databaseHooks.user.create.before` in `packages/auth/src/index.ts` (AC: 4, 5, 6)
+  - [x] Verify existing code lookup logic
+  - [x] Ensure strict blocking (throwing `APIError`) for missing, invalid, or self-referral codes
+  - [x] Ensure `referredBy` field is correctly populated on the new user object
+- [x] Verify end-to-end registration flow using a test referral code
+- [x] Ensure "Success" feedback is displayed upon successful registration (UX-DR7)
 
 ## Dev Notes
 
@@ -60,6 +60,22 @@ antigravity-gemini-3-flash
 
 ### Debug Log References
 
+- Verified `SignUpForm.tsx` Zod validation (min: 3, max: 20) matches backend.
+- Refined `packages/auth/src/index.ts` to trim and uppercase referral code before length check.
+- Added unit tests in `packages/auth/tests/referral.test.ts` for short (<3) and long (>20) referral codes.
+- Confirmed all tests pass (6 tests total).
+
 ### Completion Notes List
 
+- ✅ Refined referral validation in `packages/auth/src/index.ts`.
+- ✅ Verified `SignUpForm` UX compliance.
+- ✅ Added and passed comprehensive unit tests for referral gate logic.
+- ✅ All acceptance criteria for Story 1.2 satisfied.
+
 ### File List
+
+- `apps/web/src/components/sign-up-form.tsx`
+- `packages/auth/src/index.ts`
+- `packages/auth/tests/referral.test.ts`
+- `_bmad-output/implementation-artifacts/sprint-status.yaml`
+- `_bmad-output/implementation-artifacts/1-2-referral-gated-user-registration.md`

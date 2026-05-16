@@ -64,6 +64,44 @@ describe("Referral Gate Validation", () => {
 		).rejects.toThrow("Invalid referral code");
 	});
 
+	it("should fail with long referral code", async () => {
+		const auth = createAuth();
+		const beforeHook = auth.options.databaseHooks?.user?.create?.before;
+
+		if (!beforeHook) {
+			throw new Error("before hook not defined");
+		}
+
+		const userData = {
+			email: "test@example.com",
+			name: "Test User",
+			referralCode: "A_VERY_LONG_CODE_THAT_EXCEEDS_TWENTY_CHARACTERS",
+		};
+
+		await expect(
+			beforeHook(userData as unknown as any, {} as any)
+		).rejects.toThrow("Invalid referral code format");
+	});
+
+	it("should fail with short referral code", async () => {
+		const auth = createAuth();
+		const beforeHook = auth.options.databaseHooks?.user?.create?.before;
+
+		if (!beforeHook) {
+			throw new Error("before hook not defined");
+		}
+
+		const userData = {
+			email: "test@example.com",
+			name: "Test User",
+			referralCode: "XY",
+		};
+
+		await expect(
+			beforeHook(userData as unknown as any, {} as any)
+		).rejects.toThrow("Invalid referral code format");
+	});
+
 	it("should succeed with valid referral code", async () => {
 		const auth = createAuth();
 		const beforeHook = auth.options.databaseHooks?.user?.create?.before;
