@@ -46,7 +46,6 @@ development_status:
   1-2-referral-gated-user-registration: done
   1-3-secure-email-otp-device-fingerprinting: done
   1-4-role-based-navigation-api-access-control: done
-
   1-5-admin-user-search-role-management: done
   epic-1-retrospective: optional
 
