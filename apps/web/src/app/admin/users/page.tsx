@@ -1,6 +1,6 @@
 "use client";
 
-import { UserRole } from "@srfmart/auth";
+import { UserRole } from "@srfmart/auth/client";
 import {
 	AlertDialog,
 	AlertDialogAction,

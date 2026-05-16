@@ -5,6 +5,9 @@
     ".": {
       "default": "./src/index.ts"
     },
+    "./client": {
+      "default": "./src/client.ts"
+    },
     "./*": {
       "default": "./src/*.ts"
     }
@@ -17,7 +20,9 @@
     "@types/react": "catalog:",
     "better-auth": "catalog:",
     "dotenv": "catalog:",
+    "mongodb": "7.2.0",
     "react": "catalog:",
+    "server-only": "^0.0.1",
     "zod": "catalog:"
   },
   "devDependencies": {
