@@ -7,5 +7,7 @@ await mongoose.connect(env.DATABASE_URL).catch((error) => {
 
 const client = mongoose.connection.getClient().db();
 
+export { executeLedgerOperation } from "./ledger";
 export { Account, Session, User, Verification } from "./models/auth.model";
+export { Transaction } from "./models/transaction.model";
 export { client };

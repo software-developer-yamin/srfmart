@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const { Schema, model } = mongoose;
 
-interface ITransaction {
+export interface ITransaction {
 	amount: number; // Stored as integer (cents/units)
 	idempotencyKey: string;
 	metadata?: Record<string, string | number | boolean | null | object>;
