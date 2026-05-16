@@ -50,8 +50,8 @@ development_status:
   epic-1-retrospective: done
 
   epic-2: in-progress
-  2-1-transaction-model-ledger-logic: review
-  2-2-idempotency-middleware-for-point-operations: backlog
+  2-1-transaction-model-ledger-logic: done
+  2-2-idempotency-middleware-for-point-operations: ready-for-dev
   2-3-administrative-point-minting-api: backlog
   2-4-privacy-first-user-wallet-dashboard: backlog
   epic-2-retrospective: optional

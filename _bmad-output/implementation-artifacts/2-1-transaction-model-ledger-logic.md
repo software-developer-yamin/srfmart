@@ -1,6 +1,6 @@
 # Story 2.1: Transaction Model & Ledger Logic
 
-Status: in-progress
+Status: done
 
 ## Story
 

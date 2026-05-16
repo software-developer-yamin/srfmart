@@ -2,14 +2,20 @@ import mongoose from "mongoose";
 
 const { Schema, model } = mongoose;
 
-export interface ITransaction {
+export interface ITransaction extends mongoose.Document {
 	amount: number; // Stored as integer (cents/units)
 	idempotencyKey: string;
 	metadata?: Record<string, string | number | boolean | null | object>;
 	receiverId?: string;
 	senderId?: string;
-	status: string;
-	type: string;
+	status: "PENDING" | "COMPLETED" | "FAILED";
+	type:
+		| "MINT"
+		| "TRANSFER"
+		| "WITHDRAW_ESCROW"
+		| "REFUND"
+		| "DISTRIBUTE"
+		| "BURN";
 }
 
 const transactionSchema = new Schema<ITransaction>(
