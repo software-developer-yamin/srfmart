@@ -29,5 +29,13 @@
     "tsdown": "^0.21.9",
     "tsx": "^4.19.2",
     "typescript": "catalog:"
-  }
+  },
+  "version": "1.0.0",
+  "description": "",
+  "directories": {
+    "test": "tests"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

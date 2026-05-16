@@ -13,7 +13,8 @@
     "db:start": "docker compose up -d",
     "db:watch": "docker compose up",
     "db:stop": "docker compose stop",
-    "db:down": "docker compose down"
+    "db:down": "docker compose down",
+    "test": "vitest run"
   },
   "dependencies": {
     "@srfmart/env": "workspace:*",
@@ -23,6 +24,8 @@
   },
   "devDependencies": {
     "@srfmart/config": "workspace:*",
-    "typescript": "catalog:"
+    "@vitest/coverage-v8": "^4.1.6",
+    "typescript": "catalog:",
+    "vitest": "^4.1.6"
   }
 }
