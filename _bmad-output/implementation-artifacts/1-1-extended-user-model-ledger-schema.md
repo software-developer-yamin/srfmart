@@ -1,6 +1,6 @@
 # Story 1.1: Extended User Model & Ledger Schema
 
-Status: review
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -34,6 +34,18 @@ so that the system can store roles, referral codes, and point balances required 
 - [x] Update `@srfmart/db` index in `packages/db/src/index.ts` (AC: 5)
   - [x] Export `User`, `Session`, `Account`, and `Verification` from the package root
 - [x] Run basic connectivity and type checks to ensure no regressions in auth flow
+
+### Review Findings
+
+- [ ] [Review][Decision] Self-Referral Logic Gap — Current check only prevents same-email self-referral. Does business logic require blocking self-referral across different emails?
+- [ ] [Review][Decision] Role Management Path — `role.input: false` blocks self-assignment, but no admin override path is implemented.
+- [x] [Review][Patch] Missing Referral Index [packages/db/src/models/auth.model.ts]
+- [x] [Review][Patch] Phone Format Normalization [packages/db/src/models/auth.model.ts]
+- [x] [Review][Patch] Enum Type Mapping [packages/auth/src/index.ts]
+- [x] [Review][Patch] Test Coverage Hardening [packages/db/src/models/auth.model.test.ts]
+- [x] [Review][Defer] Balance Race Conditions — deferred, pre-existing (Logic belongs in Ledger service)
+- [x] [Review][Defer] Index Collision Pre-flight — deferred, pre-existing (Requires production migration check)
+- [x] [Review][Defer] Hardcoded Role Enums — deferred, pre-existing (Shared constants refactor needed)
 
 ## Dev Notes
 

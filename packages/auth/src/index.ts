@@ -111,7 +111,7 @@ export function createAuth() {
 		user: {
 			additionalFields: {
 				role: {
-					type: ["user", "moderator", "admin"],
+					type: "string",
 					defaultValue: "user",
 					input: false,
 				},
