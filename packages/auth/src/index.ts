@@ -1,10 +1,12 @@
 import { client } from "@srfmart/db";
 import { User as UserModel } from "@srfmart/db/models/auth.model";
 import { env } from "@srfmart/env/server";
+import { sendEmail, VerificationEmail } from "@srfmart/mail";
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { APIError } from "better-auth/api";
 import { admin, emailOTP } from "better-auth/plugins";
+import React from "react";
 
 interface UserCreateData {
 	email: string;
@@ -62,15 +64,17 @@ export function createAuth() {
 			emailOTP({
 				expiresIn: 300,
 				allowedAttempts: 3,
-				// Better Auth handles the attempt limit natively,
-				// but for 15-minute block we would need a custom rate limiter
-				// or plugin if not using better-auth rateLimit plugin.
-				sendVerificationOTP: async ({ email: _email, type: _type }) => {
-					await Promise.resolve();
-					if (process.env.NODE_ENV === "development") {
-						// Log only first 3 chars for security even in dev
-						// console.log(`[AUTH] OTP requested for ${email} (${type})`);
-					}
+				sendVerificationOTP: async ({ email, otp, type }) => {
+					await sendEmail({
+						from: env.MAIL_FROM,
+						to: email,
+						subject:
+							type === "email-verification"
+								? "Verify your email"
+								: "Your verification code",
+						react: React.createElement(VerificationEmail, { otp }),
+						html: "",
+					});
 				},
 			}),
 		],

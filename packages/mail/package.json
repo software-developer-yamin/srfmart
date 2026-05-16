@@ -1,0 +1,25 @@
+{
+  "name": "@srfmart/mail",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./templates/*": "./src/templates/*.tsx"
+  },
+  "scripts": {
+    "dev": "react-email dev -d src/templates"
+  },
+  "dependencies": {
+    "@react-email/components": "^0.0.33",
+    "@srfmart/env": "workspace:*",
+    "@types/react": "catalog:",
+    "react": "catalog:",
+    "resend": "^4.1.2"
+  },
+  "devDependencies": {
+    "@srfmart/config": "workspace:*",
+    "react-email": "3.0.7",
+    "typescript": "catalog:"
+  }
+}

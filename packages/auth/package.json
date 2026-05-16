@@ -13,8 +13,11 @@
   "dependencies": {
     "@srfmart/db": "workspace:*",
     "@srfmart/env": "workspace:*",
+    "@srfmart/mail": "workspace:*",
+    "@types/react": "catalog:",
     "better-auth": "catalog:",
     "dotenv": "catalog:",
+    "react": "catalog:",
     "zod": "catalog:"
   },
   "devDependencies": {
