@@ -7,7 +7,14 @@ vi.mock("@srfmart/env/server", () => ({
 		BETTER_AUTH_SECRET: "secret-at-least-32-chars-long-for-test",
 		BETTER_AUTH_URL: "http://localhost:3000",
 		CORS_ORIGIN: "http://localhost:3000",
+		RESEND_API_KEY: "re_test_key",
+		MAIL_FROM: "test@example.com",
 	},
+}));
+
+vi.mock("@srfmart/mail", () => ({
+	sendEmail: vi.fn(),
+	VerificationEmail: () => null,
 }));
 
 vi.mock("@srfmart/db", () => ({
