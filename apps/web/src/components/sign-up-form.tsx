@@ -25,24 +25,6 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 	const [isVerifying, setIsVerifying] = useState(false);
 	const [resendCooldown, setResendCooldown] = useState(0);
 
-	useEffect(() => {
-		const pendingEmail = localStorage.getItem("pending_verification_email");
-		if (pendingEmail) {
-			setEmail(pendingEmail);
-			setStep("otp");
-		}
-	}, []);
-
-	useEffect(() => {
-		if (resendCooldown > 0) {
-			const timer = setTimeout(
-				() => setResendCooldown(resendCooldown - 1),
-				1000
-			);
-			return () => clearTimeout(timer);
-		}
-	}, [resendCooldown]);
-
 	const form = useForm({
 		defaultValues: {
 			name: "",
@@ -73,10 +55,42 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 			} else {
 				setStep("otp");
 				localStorage.setItem("pending_verification_email", value.email);
+				if (value.referralCode) {
+					localStorage.setItem(
+						"pending_verification_referral",
+						value.referralCode
+					);
+				}
 				toast.success("Verification code sent to your email");
 			}
 		},
 	});
+
+	useEffect(() => {
+		const pendingEmail = localStorage.getItem("pending_verification_email");
+		const pendingReferral = localStorage.getItem(
+			"pending_verification_referral"
+		);
+		if (pendingEmail) {
+			setEmail(pendingEmail);
+			if (pendingReferral) {
+				form.setFieldValue("referralCode", pendingReferral);
+			}
+			setStep("otp");
+		} else {
+			localStorage.removeItem("pending_verification_referral");
+		}
+	}, [form.setFieldValue]);
+
+	useEffect(() => {
+		if (resendCooldown > 0) {
+			const timer = setTimeout(
+				() => setResendCooldown(resendCooldown - 1),
+				1000
+			);
+			return () => clearTimeout(timer);
+		}
+	}, [resendCooldown]);
 
 	const handleVerifyOtp = async (e: React.SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -99,6 +113,7 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 			setIsVerifying(false);
 		} else {
 			localStorage.removeItem("pending_verification_email");
+			localStorage.removeItem("pending_verification_referral");
 			toast.success("Account created successfully");
 			router.push("/dashboard");
 		}

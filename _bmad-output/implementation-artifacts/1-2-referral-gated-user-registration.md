@@ -1,6 +1,6 @@
 # Story 1.2: Referral-Gated User Registration
 
-Status: review
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -31,51 +31,10 @@ so that I can join the community and start earning points securely.
 - [x] Verify end-to-end registration flow using a test referral code
 - [x] Ensure "Success" feedback is displayed upon successful registration (UX-DR7)
 
-## Dev Notes
+### Review Findings
 
-### Architecture Compliance
-- **AD2: Upward-Only Transfer Topology**: While this story is about registration, it sets up the `referredBy` link which is the foundation for the upward-only constraint.
-- **Referral Gate**: The `databaseHooks.user.create.before` hook is the primary enforcement point as per AD5.
-
-### Source Tree Components to Touch
-- `apps/web/src/components/sign-up-form.tsx`: UI for registration and early validation.
-- `packages/auth/src/index.ts`: Backend hook for strict referral validation.
-
-### Current State Analysis
-- `sign-up-form.tsx` already has a `referralCode` field with Zod validation.
-- `packages/auth/src/index.ts` already implements a `before` hook with referral validation and `referredBy` population.
-- This story ensures these implementations are robust, handle edge cases (like self-referral), and provide clear user feedback.
-
-### References
-- [Architecture: _bmad-output/planning-artifacts/architecture.md#AD2]
-- [Epics: _bmad-output/planning-artifacts/epics.md#Story 1.2]
-- [Sign-up Form: apps/web/src/components/sign-up-form.tsx]
-- [Auth Hooks: packages/auth/src/index.ts]
-
-## Dev Agent Record
-
-### Agent Model Used
-
-antigravity-gemini-3-flash
-
-### Debug Log References
-
-- Verified `SignUpForm.tsx` Zod validation (min: 3, max: 20) matches backend.
-- Refined `packages/auth/src/index.ts` to trim and uppercase referral code before length check.
-- Added unit tests in `packages/auth/tests/referral.test.ts` for short (<3) and long (>20) referral codes.
-- Confirmed all tests pass (6 tests total).
-
-### Completion Notes List
-
-- ✅ Refined referral validation in `packages/auth/src/index.ts`.
-- ✅ Verified `SignUpForm` UX compliance.
-- ✅ Added and passed comprehensive unit tests for referral gate logic.
-- ✅ All acceptance criteria for Story 1.2 satisfied.
-
-### File List
-
-- `apps/web/src/components/sign-up-form.tsx`
-- `packages/auth/src/index.ts`
-- `packages/auth/tests/referral.test.ts`
-- `_bmad-output/implementation-artifacts/sprint-status.yaml`
-- `_bmad-output/implementation-artifacts/1-2-referral-gated-user-registration.md`
+- [x] [Review][Decision] OTP Persistence & State Loss — Referral code is currently lost if user reloads during OTP step. Should it be stored in `localStorage`? (Implemented)
+- [x] [Review][Patch] Normalization & Persistence Gap [packages/auth/src/index.ts:101]
+- [x] [Review][Patch] Runtime Fragility (Null Guard) [packages/auth/src/index.ts:59]
+- [x] [Review][Patch] Test Assertion Mismatch [packages/auth/tests/referral.test.ts:79]
+- [x] [Review][Defer] Registration Race Condition [packages/auth/src/index.ts:73] — deferred, pre-existing

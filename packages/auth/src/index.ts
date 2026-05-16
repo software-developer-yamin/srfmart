@@ -56,9 +56,10 @@ export function createAuth() {
 							});
 						}
 
-						const cleanCode = referralCode.trim().toUpperCase();
+						const cleanCode = referralCode?.trim().toUpperCase();
+						input.referralCode = cleanCode;
 
-						if (cleanCode.length < 3 || cleanCode.length > 20) {
+						if (!cleanCode || cleanCode.length < 3 || cleanCode.length > 20) {
 							throw new APIError("UNPROCESSABLE_ENTITY", {
 								message: "Invalid referral code format.",
 							});

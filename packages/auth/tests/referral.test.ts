@@ -80,7 +80,7 @@ describe("Referral Gate Validation", () => {
 
 		await expect(
 			beforeHook(userData as unknown as any, {} as any)
-		).rejects.toThrow("Invalid referral code format");
+		).rejects.toThrow("Invalid referral code format.");
 	});
 
 	it("should fail with short referral code", async () => {
@@ -99,7 +99,7 @@ describe("Referral Gate Validation", () => {
 
 		await expect(
 			beforeHook(userData as unknown as any, {} as any)
-		).rejects.toThrow("Invalid referral code format");
+		).rejects.toThrow("Invalid referral code format.");
 	});
 
 	it("should succeed with valid referral code", async () => {
