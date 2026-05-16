@@ -177,4 +177,5 @@ export function createAuth() {
 	return authInstance;
 }
 
+export * from "./roles";
 export const auth = createAuth();

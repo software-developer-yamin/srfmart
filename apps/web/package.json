@@ -12,6 +12,8 @@
     "@srfmart/env": "workspace:*",
     "@srfmart/ui": "workspace:*",
     "@tanstack/react-form": "^1.28.0",
+    "@tanstack/react-table": "^8.21.3",
+    "@uidotdev/usehooks": "^2.4.1",
     "babel-plugin-react-compiler": "^1.0.0",
     "better-auth": "catalog:",
     "dotenv": "catalog:",

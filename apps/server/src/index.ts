@@ -7,6 +7,7 @@ import { createAuthMiddleware } from "evlog/better-auth";
 import { evlog } from "evlog/express";
 import express from "express";
 import { requireRole } from "./lib/require-role";
+import { userRoutes } from "./routes/users";
 
 initLogger({
 	env: { service: "srfmart-server" },
@@ -48,6 +49,8 @@ app.use(
 app.all("/api/auth{/*path}", toNodeHandler(auth));
 
 app.use(express.json());
+
+app.use("/api/users", userRoutes);
 
 // Placeholder for protected routes to test RBAC
 app.get("/api/admin/test", requireRole(["admin"]), (_req, res) => {
