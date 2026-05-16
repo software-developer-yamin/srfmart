@@ -13,7 +13,18 @@ interface UserCreateData {
 	referralCode?: string;
 }
 
-async function validateReferral(email: string, referralCode?: string) {
+async function validateReferral(
+	email: string,
+	referralCode?: string,
+	isAdminAction?: boolean
+) {
+	if (isAdminAction) {
+		return {
+			referredBy: undefined,
+			referralCode: undefined,
+		};
+	}
+
 	if (!referralCode || typeof referralCode !== "string") {
 		throw new APIError("UNPROCESSABLE_ENTITY", {
 			message: "Referral code is required.",
@@ -88,7 +99,7 @@ export function createAuth() {
 							});
 						}
 
-						const input = user as UserCreateData;
+						const input = user as UserCreateData & { isAdminAction?: boolean };
 						if (!input.email) {
 							throw new APIError("UNPROCESSABLE_ENTITY", {
 								message: "Email is required for sign up.",
@@ -97,7 +108,8 @@ export function createAuth() {
 
 						const { referredBy, referralCode } = await validateReferral(
 							input.email,
-							input.referralCode
+							input.referralCode,
+							input.isAdminAction
 						);
 
 						return {

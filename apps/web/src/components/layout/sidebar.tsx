@@ -51,7 +51,14 @@ export function Sidebar({ role }: SidebarProps) {
 	const items: NavItem[] = [
 		...commonItems,
 		...(role === "moderator" ? moderatorItems : []),
-		...(role === "admin" ? [...moderatorItems, ...adminItems] : []),
+		...(role === "admin"
+			? [
+					...moderatorItems.filter(
+						(mi) => !adminItems.some((ai) => ai.href === mi.href)
+					),
+					...adminItems,
+				]
+			: []),
 	];
 
 	return (

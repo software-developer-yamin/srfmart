@@ -14,12 +14,10 @@ export default function Dashboard({
 		<div className="flex min-h-screen">
 			{/* Desktop Sidebar - only for Mod/Admin */}
 			{(user.role === "admin" || user.role === "moderator") && (
-				<Sidebar role={user.role} />
+				<Sidebar role={user.role as "admin" | "moderator"} />
 			)}
 
-			<main
-				className={`flex-1 p-4 md:pb-4 ${user.role === "user" ? "pb-20" : ""}`}
-			>
+			<main className="flex-1 p-4 pb-20 md:pb-4">
 				<div className="mx-auto max-w-4xl space-y-6">
 					<div className="flex flex-col gap-1">
 						<h1 className="font-bold text-2xl tracking-tight">Dashboard</h1>

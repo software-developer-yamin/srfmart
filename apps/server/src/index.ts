@@ -21,15 +21,19 @@ const app = express();
 
 app.use(evlog());
 app.use(async (req, _res, next) => {
-	const session = await auth.api.getSession({
-		headers: fromNodeHeaders(req.headers),
-	});
+	try {
+		const session = await auth.api.getSession({
+			headers: fromNodeHeaders(req.headers),
+		});
 
-	req.auth = {
-		getSession: async () => session,
-	};
-	await identifyUser(req.log, req.headers, req.path);
-	next();
+		req.auth = {
+			getSession: async () => session,
+		};
+		await identifyUser(req.log, req.headers, req.path);
+		next();
+	} catch (error) {
+		next(error);
+	}
 });
 
 app.use(

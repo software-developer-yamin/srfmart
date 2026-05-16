@@ -6,11 +6,11 @@ export const requireRole =
 		try {
 			const session = await req.auth?.getSession();
 
-			if (!session?.user) {
+			if (!session?.user?.role) {
 				return res.status(401).json({
 					success: false,
 					error: {
-						message: "Unauthorized: No active session found.",
+						message: "Unauthorized: No active session or role found.",
 						code: "UNAUTHORIZED",
 					},
 				});

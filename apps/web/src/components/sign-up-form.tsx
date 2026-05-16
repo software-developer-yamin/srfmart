@@ -96,7 +96,8 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 		e.preventDefault();
 		setIsVerifying(true);
 
-		const referralCode = form.getFieldValue("referralCode") || "";
+		const referralCode =
+			form.getFieldValue("referralCode")?.trim().toUpperCase() || "";
 		const name = form.getFieldValue("name");
 		const password = form.getFieldValue("password");
 

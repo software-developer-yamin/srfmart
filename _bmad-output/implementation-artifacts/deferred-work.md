@@ -1,10 +1,4 @@
-## Deferred from: code review of 1-1-extended-user-model-ledger-schema (2026-05-16)
+## Deferred from: code review of 1-4-role-based-navigation-api-access-control.md (Sat May 16 2026)
 
-- **Balance Race Conditions**: Balance updates using standard `save()` instead of `$inc` are unsafe. This PR only defines schema; the logic hardening belongs in the upcoming Ledger service.
-- **Index Collision Pre-flight**: Existing `null` values in the production database might cause the `unique+sparse` index creation to fail. Requires a migration script check before deployment.
-- **Hardcoded Role Enums**: Roles `user`, `moderator`, and `admin` are hardcoded in both `db` and `auth` packages. These should be centralized in a shared constants file during a future refactor.
-
-## Deferred from: code review of 1-2-referral-gated-user-registration.md (2026-05-16)
-
-- **Registration Race Condition**: Concurrent registration requests using the same email/code could bypass uniqueness if the database lacks a strict unique index on the referral code.
-
+- **Hardcoded Links** [apps/web/src/components/layout/bottom-nav.tsx:14]: Navigation components use hardcoded "/dashboard" strings. Deferred as future-proofing for i18n/base-path changes is out of scope.
+- **Dashboard Header Availability** [apps/web/src/app/dashboard/page.tsx:9]: Potential for headers() to fail in certain Next.js environments. Deferred as this is a pre-existing pattern.

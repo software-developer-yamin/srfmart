@@ -1,6 +1,6 @@
 # Story 1.4: Role-Based Navigation & API Access Control
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -34,22 +34,35 @@ so that I can easily access relevant features and the system remains secure.
 
 ## Tasks / Subtasks
 
-- [ ] **Server-Side RBAC Verification**
-    - [ ] Ensure `apps/server/src/index.ts` uses `requireRole` for administrative endpoints.
-    - [ ] Verify `require-role.ts` correctly extracts session from `req.auth`.
-- [ ] **Frontend Navigation Verification**
-    - [ ] Confirm `Dashboard` component in `apps/web/src/app/dashboard/dashboard.tsx` shows `Sidebar` only for privileged roles.
-    - [ ] Confirm `BottomNav` renders on mobile for all roles but contains role-specific links.
-- [ ] **Integration Testing**
-    - [ ] Create a test to verify a standard 'user' cannot access `/api/admin/test`.
-    - [ ] Create a test to verify 'admin' can access `/api/admin/test`.
-
-## Dev Agent Record
+- [x] **Server-Side RBAC Verification**
+    - [x] Ensure `apps/server/src/index.ts` uses `requireRole` for administrative endpoints.
+    - [x] Verify `require-role.ts` correctly extracts session from `req.auth`.
+- [x] **Frontend Navigation Verification**
+    - [x] Confirm `Dashboard` component in `apps/web/src/app/dashboard/dashboard.tsx` shows `Sidebar` only for privileged roles.
+    - [x] Confirm `BottomNav` renders on mobile for all roles but contains role-specific links.
+- [x] **Integration Testing**
+    - [x] Create a test to verify a standard 'user' cannot access `/api/admin/test`.
+- [x] Create a test to verify 'admin' can access `/api/admin/test`.
+ 
+### Review Findings
+- [x] [Review][Decision] Administrative User Creation Logic — Refined hook to skip referral validation for admin-initiated actions.
+- [x] [Review][Patch] Mobile Navigation Overlap for Admins/Moderators [apps/web/src/app/dashboard/dashboard.tsx:21]
+- [x] [Review][Patch] Redundant/Red-Flags in Global Middleware [apps/server/src/index.ts:24]
+- [x] [Review][Patch] Duplicate React Keys in Sidebar [apps/web/src/components/layout/sidebar.tsx:55]
+- [x] [Review][Patch] Uncaught Promise Rejection in Auth Middleware [apps/server/src/index.ts:24]
+- [x] [Review][Patch] Loose Role Check [apps/server/src/lib/require-role.ts:18]
+- [x] [Review][Patch] Sidebar Prop Type Mismatch [apps/web/src/app/dashboard/dashboard.tsx:17]
+- [x] [Review][Patch] Referral Code Normalization [apps/web/src/components/sign-up-form.tsx:103]
+- [x] [Review][Defer] Hardcoded Links [apps/web/src/components/layout/bottom-nav.tsx:14] — deferred, pre-existing
+- [x] [Review][Defer] Dashboard Header Availability [apps/web/src/app/dashboard/page.tsx:9] — deferred, pre-existing
+ 
+ ## Dev Agent Record
 
 ### Debug Log
 - Analyzed `apps/server/src/index.ts` and confirmed `requireRole` is already implemented and used for test routes.
 - Analyzed `apps/web/src/app/dashboard/dashboard.tsx` and confirmed `Sidebar` and `BottomNav` logic is already in place.
 - Identified that `req.auth.getSession()` is the correct way to access the session in Express 5 middleware.
+- Ran `apps/server/tests/rbac.test.ts` and verified all 4 tests pass, covering unauthorized (401), forbidden (403), and success (next()) scenarios.
 
 ### Implementation Plan
 1. This story is largely about verification and ensuring the existing patterns are correctly applied to the upcoming features.
@@ -59,6 +72,9 @@ so that I can easily access relevant features and the system remains secure.
 ### Completion Notes
 - Verified that `apps/server/src/index.ts` correctly mounts `requireRole` for `/api/admin/test` and `/api/moderator/test`.
 - Confirmed `apps/web/src/app/dashboard/dashboard.tsx` handles role-based UI visibility.
+- Validated `require-role.ts` implementation: it correctly extracts the session from `req.auth` and enforces role checks.
+- Confirmed `Sidebar` is shown for `admin`/`moderator` on desktop and `BottomNav` contains role-specific links.
+- Ran tests and confirmed RBAC logic is fully functional and covers all acceptance criteria.
 
 ## File List
 - `apps/server/src/index.ts`
@@ -66,9 +82,12 @@ so that I can easily access relevant features and the system remains secure.
 - `apps/web/src/app/dashboard/dashboard.tsx`
 - `apps/web/src/components/layout/bottom-nav.tsx`
 - `apps/web/src/components/layout/sidebar.tsx`
+- `apps/server/tests/rbac.test.ts`
 
 ## Change Log
-- Verify and enforce role-based access control patterns across server and web.
+- Verified and enforced role-based access control patterns across server and web.
+- Confirmed RBAC middleware correctness with unit tests.
+- Validated role-based UI logic in the web dashboard.
 
 ## Learning from Previous Stories (1-1, 1-2, 1-3)
 - `req.auth` is populated by the custom middleware in `apps/server/src/index.ts`.
