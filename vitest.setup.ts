@@ -1,4 +1,4 @@
-process.env.DATABASE_URL = "mongodb://localhost:27017/test";
+process.env.DATABASE_URL = "mongodb://127.0.0.1:59999/dummy-test-db-fail-safe";
 process.env.BETTER_AUTH_SECRET =
 	"test-secret-that-is-long-enough-for-thirty-two-chars";
 process.env.BETTER_AUTH_URL = "http://localhost:3000";

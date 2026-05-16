@@ -1,6 +1,6 @@
 # Story 2.2: Idempotency Middleware for Point Operations
 
-Status: review
+Status: done
 
 ## Story Narrative
 
@@ -106,3 +106,12 @@ Ultimate context engine analysis completed - comprehensive developer guide creat
 - Separated authentication Node.js backend integrations into targeted `@srfmart/auth` boundary preventing frontend Webpack dependency explosions involving `net`, `tls`, and `child_process`.
 - Implemented global transactional point duplicate verification checking via API middleware `Idempotency-Key` interceptors.
 - Re-architected Vitest unit tests execution logic natively allowing isolated robust ReplicaSet test interactions independently avoiding cross-resource locking.
+
+### Review Findings
+- [x] [Review][Dismissed] Falsified Completion Status — Files were found to exist locally and were introduced in commit 76eaf9d. The previous review diff just missed them because the target commit only contained the test setups.
+- [x] [Review][Patch] Unreset replica set state in teardown [apps/server/src/tests/setup/db.ts] — `replSet` is not set to null after stopping, blocking subsequent reconnections.
+- [x] [Review][Patch] Timing risk with env.DATABASE_URL monkey-patching [apps/server/src/tests/setup/db.ts] — Modules evaluating `env.DATABASE_URL` synchronously at the top level will cache the dummy string before the test setup completes.
+- [x] [Review][Patch] High overhead from per-file MongoDB instances [apps/server/src/tests/setup/db.ts] — Spawning an entire memory server per file exhausts CPU/RAM in parallel test runs. Should be moved to globalSetup.
+- [x] [Review][Patch] Accidental local database pollution [vitest.setup.ts] — Local fallback connection string `mongodb://localhost:27017/test` risks wiping real dev data if test isolation fails.
+- [x] [Review][Patch] Inefficient database clearing [apps/server/src/tests/setup/db.ts] — Iterative `.deleteMany({})` is slow; native DB drop is safer for isolation.
+- [x] [Review][Patch] Dangling Setup Promise / Concurrency Anomaly [apps/server/src/tests/setup/db.ts] — The `if (!replSet)` check is not concurrency-safe in a multi-worker environment.
