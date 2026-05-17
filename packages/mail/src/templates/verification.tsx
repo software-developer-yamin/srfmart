@@ -1,3 +1,6 @@
+// @ts-expect-error
+// biome-ignore lint/correctness/noUnusedImports: React must be in scope for email templates
+
 import {
 	Body,
 	Container,
