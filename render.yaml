@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: srfmart-server
+    env: node
+    plan: free
+    buildCommand: pnpm install --frozen-lockfile && pnpm --filter server build
+    startCommand: pnpm --filter server start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false
