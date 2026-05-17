@@ -1,4 +1,3 @@
-import "server-only";
 import { client } from "@srfmart/db";
 import { User as UserModel } from "@srfmart/db/models/auth.model";
 import { env } from "@srfmart/env/server";
