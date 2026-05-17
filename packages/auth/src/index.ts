@@ -72,9 +72,12 @@ export function createAuth() {
 		plugins: [
 			admin(),
 			emailOTP({
+				overrideDefaultEmailVerification: true,
+				sendVerificationOnSignUp: true,
 				expiresIn: 300,
 				allowedAttempts: 3,
 				sendVerificationOTP: async ({ email, otp, type }) => {
+					console.log("otp", otp, "type", type, "email", email);
 					await sendEmail({
 						from: env.MAIL_FROM,
 						to: env.ENABLE_TESTING_EMAIL
@@ -134,6 +137,7 @@ export function createAuth() {
 				referredBy: {
 					type: "string",
 					required: false,
+					input: false,
 				},
 				referralCode: {
 					type: "string",
@@ -146,19 +150,26 @@ export function createAuth() {
 				availableBalance: {
 					type: "number",
 					defaultValue: 0,
+					input: false,
 				},
 				escrowBalance: {
 					type: "number",
 					defaultValue: 0,
+					input: false,
 				},
 				dailyPointLimit: {
 					type: "number",
 					required: false,
+					input: false,
 				},
 			},
 		},
 		emailAndPassword: {
 			enabled: true,
+		},
+		emailVerification: {
+			enabled: true,
+			autoSignInAfterVerification: true,
 		},
 		secret: env.BETTER_AUTH_SECRET,
 		baseURL: env.BETTER_AUTH_URL,
