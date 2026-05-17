@@ -21,7 +21,19 @@ const identifyUser = createAuthMiddleware(auth, {
 
 const app = express();
 
+app.use(
+	cors({
+		origin: env.CORS_ORIGIN,
+		methods: ["GET", "POST", "OPTIONS"],
+		allowedHeaders: ["Content-Type", "Authorization"],
+		credentials: true,
+	})
+);
+
 app.use(evlog());
+
+app.all("/api/auth{/*path}", toNodeHandler(auth));
+
 app.use(async (req, _res, next) => {
 	try {
 		const session = await auth.api.getSession({
@@ -37,17 +49,6 @@ app.use(async (req, _res, next) => {
 		next(error);
 	}
 });
-
-app.use(
-	cors({
-		origin: env.CORS_ORIGIN,
-		methods: ["GET", "POST", "OPTIONS"],
-		allowedHeaders: ["Content-Type", "Authorization"],
-		credentials: true,
-	})
-);
-
-app.all("/api/auth{/*path}", toNodeHandler(auth));
 
 app.use(express.json());
 

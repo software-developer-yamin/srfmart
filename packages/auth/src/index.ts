@@ -137,6 +137,7 @@ export function createAuth() {
 				referredBy: {
 					type: "string",
 					required: false,
+					input: false,
 				},
 				referralCode: {
 					type: "string",
@@ -149,14 +150,17 @@ export function createAuth() {
 				availableBalance: {
 					type: "number",
 					defaultValue: 0,
+					input: false,
 				},
 				escrowBalance: {
 					type: "number",
 					defaultValue: 0,
+					input: false,
 				},
 				dailyPointLimit: {
 					type: "number",
 					required: false,
+					input: false,
 				},
 			},
 		},

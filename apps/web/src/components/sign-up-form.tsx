@@ -45,22 +45,18 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 		},
 		onSubmit: async ({ value }) => {
 			setEmail(value.email);
-			const { error } = await authClient.emailOtp.sendVerificationOtp({
+			const { error } = await authClient.signUp.email({
+				name: value.name,
 				email: value.email,
-				type: "email-verification",
+				password: value.password,
+				referralCode: value.referralCode.trim().toUpperCase(),
 			});
 
 			if (error) {
-				toast.error(error.message || "Failed to send verification code");
+				toast.error(error.message || "Failed to create account");
 			} else {
 				setStep("otp");
 				localStorage.setItem("pending_verification_email", value.email);
-				if (value.referralCode) {
-					localStorage.setItem(
-						"pending_verification_referral",
-						value.referralCode
-					);
-				}
 				toast.success("Verification code sent to your email");
 			}
 		},
@@ -68,19 +64,11 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 
 	useEffect(() => {
 		const pendingEmail = localStorage.getItem("pending_verification_email");
-		const pendingReferral = localStorage.getItem(
-			"pending_verification_referral"
-		);
 		if (pendingEmail) {
 			setEmail(pendingEmail);
-			if (pendingReferral) {
-				form.setFieldValue("referralCode", pendingReferral);
-			}
 			setStep("otp");
-		} else {
-			localStorage.removeItem("pending_verification_referral");
 		}
-	}, [form.setFieldValue]);
+	}, []);
 
 	useEffect(() => {
 		if (resendCooldown > 0) {
@@ -96,17 +84,9 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 		e.preventDefault();
 		setIsVerifying(true);
 
-		const referralCode =
-			form.getFieldValue("referralCode")?.trim().toUpperCase() || "";
-		const name = form.getFieldValue("name");
-		const password = form.getFieldValue("password");
-
-		const { error } = await authClient.signIn.emailOtp({
+		const { error } = await authClient.emailOtp.verifyEmail({
 			email,
 			otp,
-			name,
-			password,
-			referralCode,
 		});
 
 		if (error) {
@@ -114,8 +94,7 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 			setIsVerifying(false);
 		} else {
 			localStorage.removeItem("pending_verification_email");
-			localStorage.removeItem("pending_verification_referral");
-			toast.success("Account created successfully");
+			toast.success("Email verified successfully!");
 			router.push("/dashboard");
 		}
 	};
@@ -184,7 +163,7 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 							onClick={async () => {
 								await authClient.emailOtp.sendVerificationOtp({
 									email,
-									type: "sign-in",
+									type: "email-verification",
 								});
 								setResendCooldown(60);
 								toast.success("Code resent");
@@ -200,7 +179,6 @@ export default function SignUpForm({ onSwitchToSignIn }: SignUpFormProps) {
 							className="text-muted-foreground/60 text-xs transition-colors hover:text-muted-foreground"
 							onClick={() => {
 								localStorage.removeItem("pending_verification_email");
-								localStorage.removeItem("pending_verification_referral");
 								setStep("details");
 							}}
 							type="button"
