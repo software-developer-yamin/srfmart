@@ -78,7 +78,9 @@ export function createAuth() {
 				sendVerificationOTP: async ({ email, otp, type }) => {
 					await sendEmail({
 						from: env.MAIL_FROM,
-						to: email,
+						to: env.ENABLE_TESTING_EMAIL
+							? "software.developer.yamin@gmail.com"
+							: email,
 						subject:
 							type === "email-verification"
 								? "Verify your email"

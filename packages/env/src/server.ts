@@ -13,6 +13,7 @@ export const env = createEnv({
 		NODE_ENV: z
 			.enum(["development", "production", "test"])
 			.default("development"),
+		ENABLE_TESTING_EMAIL: z.boolean().default(true),
 	},
 	runtimeEnv: process.env,
 	emptyStringAsUndefined: true,
