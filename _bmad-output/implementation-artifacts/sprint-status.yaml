@@ -1,5 +1,5 @@
 # generated: 2026-05-12T18:36:12Z
-last_updated: 2026-05-16T11:20:00Z
+last_updated: $(date -u +\"%Y-%m-%dT%H:%M:%SZ\")
 # project: srfmart
 # project_key: NOKEY
 # tracking_system: file-system
@@ -52,7 +52,7 @@ development_status:
   epic-2: in-progress
   2-1-transaction-model-ledger-logic: done
   2-2-idempotency-middleware-for-point-operations: in-progress
-  2-3-administrative-point-minting-api: ready-for-dev
+  2-3-administrative-point-minting-api: done
   2-4-privacy-first-user-wallet-dashboard: backlog
   epic-2-retrospective: optional
 
