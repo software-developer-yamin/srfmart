@@ -62,7 +62,6 @@ async function validateReferral(
 
 	return {
 		referredBy: referrerDoc._id.toString(),
-		referralCode: cleanCode,
 	};
 }
 
