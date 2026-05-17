@@ -23,7 +23,7 @@
   "dependencies": {
     "@srfmart/env": "workspace:*",
     "dotenv": "catalog:",
-    "mongodb": "7.2.0",
+    "mongodb": "catalog:",
     "react-day-picker": "8.10.1",
     "zod": "catalog:"
   },
@@ -40,5 +40,10 @@
     "ultracite": "7.7.0",
     "vitest": "^4.1.6"
   },
-  "packageManager": "pnpm@10.9.0"
+  "packageManager": "pnpm@10.9.0",
+  "pnpm": {
+    "overrides": {
+      "mongodb": "$mongodb"
+    }
+  }
 }
