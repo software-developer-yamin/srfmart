@@ -1,6 +1,3 @@
-// @ts-expect-error
-// biome-ignore lint/correctness/noUnusedImports: React must be in scope for email templates
-
 import {
 	Body,
 	Container,
@@ -11,6 +8,11 @@ import {
 	Section,
 	Text,
 } from "@react-email/components";
+import React from "react";
+
+// Prevent IDE/TypeScript/Biome from removing the "unused" React import
+// which is required for the email template runtime/tests
+const _keepReact = React.createElement;
 
 interface VerificationEmailProps {
 	otp: string;
