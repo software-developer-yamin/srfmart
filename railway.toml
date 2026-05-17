@@ -1,0 +1,7 @@
+[build]
+builder = "nixpacks"
+buildCommand = "pnpm install && pnpm --filter server build"
+
+[deploy]
+startCommand = "pnpm --filter server start"
+restartPolicyType = "ON_FAILURE"
